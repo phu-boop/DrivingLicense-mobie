@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layout_item_action"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <ImageView
+        android:id="@+id/image_thumb"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/border_item"
+        android:scaleType="fitCenter"
+        tools:src="@drawable/stop2" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:fontFamily="@font/ptsansnarrowbold"
+        android:gravity="center"
+        tools:text="@string/text_road_signs"
+        android:textAllCaps="true"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+</LinearLayout>
