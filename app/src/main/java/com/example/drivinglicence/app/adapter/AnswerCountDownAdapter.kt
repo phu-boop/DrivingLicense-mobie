@@ -11,16 +11,7 @@ import com.example.drivinglicence.databinding.ItemAnswerBinding
 class AnswerCountDownAdapter : BaseRecyclerViewAdapter<Answer, ItemAnswerBinding>() {
 
     @SuppressLint("SetTextI18n")
-    override fun bindData(binding: ItemAnswerBinding, item: Answer, position: Int) {
-        binding.textAnswerCount.text = "${position + 1}"
-        binding.textAnswerContent.text = item.answerContent
-        binding.textAnswerContent.setTextColor(Color.rgb(0, 0, 0))
-        binding.textAnswerCount.setTextColor(Color.rgb(0, 0, 0))
-        binding.textAnswerCount.setBackgroundResource(R.drawable.bg_round_count)
-        binding.imageStatus.visibility = View.GONE
-        /** flag
-         * 1: black
-         * 2: green
+  
          * 3: red
          * */
         when (item.flag) {
