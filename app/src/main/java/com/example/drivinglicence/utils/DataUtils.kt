@@ -977,7 +977,7 @@ fun initListRoadSign(context: Context) {
 }
 
 fun initListSatFigure(context: Context) {
-    /**Biển báo đường bộ 141 -> 160*/ //20
+    /**Biển báo đường bộ 141 -> 165*/ //25
     val listSatFigure1 = mutableListOf(
         Answer(1, context.getString(R.string.answer_sat_figure_1_1), false, 141),
         Answer(
@@ -1140,22 +1140,98 @@ fun initListSatFigure(context: Context) {
             context.getString(R.string.text_explain_sat_figure_20)
         )
     )
+    val listSatFigure21 = mutableListOf(
+        Answer(60, context.getString(R.string.answer_sat_figure_21_1), false, 161),
+        Answer(61, context.getString(R.string.answer_sat_figure_21_2), false, 161),
+        Answer(
+            62, context.getString(R.string.answer_sat_figure_21_3), true, 161,
+            context.getString(R.string.text_explain_sat_figure_21)
+        ),
+        Answer(63, context.getString(R.string.answer_sat_figure_21_4), false, 161)
+    )
+    val listSatFigure22 = mutableListOf(
+        Answer(64, context.getString(R.string.answer_sat_figure_22_1), false, 162),
+        Answer(
+            65, context.getString(R.string.answer_sat_figure_22_2), true, 162,
+            context.getString(R.string.text_explain_sat_figure_22)
+        ),
+        Answer(66, context.getString(R.string.answer_sat_figure_22_3), false, 162)
+    )
+    val listSatFigure23 = mutableListOf(
+        Answer(
+            67, context.getString(R.string.answer_sat_figure_23_2), true, 162,
+            context.getString(R.string.text_explain_sat_figure_23)
+        ),
+        Answer(68, context.getString(R.string.answer_sat_figure_23_2), false, 163),
+        Answer(69, context.getString(R.string.answer_sat_figure_23_3), false, 163),
+        Answer(70, context.getString(R.string.answer_sat_figure_23_4), false, 163),
+    )
+    val listSatFigure24 = mutableListOf(
+        Answer(71, context.getString(R.string.answer_sat_figure_24_1), false, 164),
+        Answer(72, context.getString(R.string.answer_sat_figure_24_2), false, 164),
+        Answer(73, context.getString(R.string.answer_sat_figure_24_3), false, 164),
+        Answer(
+            74, context.getString(R.string.answer_sat_figure_24_4), true, 164,
+            context.getString(R.string.text_explain_sat_figure_24)
+        ),
+        )
+    val listSatFigure25 = mutableListOf(
+        Answer(75, context.getString(R.string.answer_sat_figure_25_1), false, 165),
+        Answer(
+            76, context.getString(R.string.answer_sat_figure_25_2), true, 165,
+            context.getString(R.string.text_explain_sat_figure_25)
+        ),
+        Answer(77, context.getString(R.string.answer_sat_figure_25_3), false, 165)
+    )
+
     listAnswerSatFigure = mutableListOf(
         listSatFigure1, listSatFigure2, listSatFigure3, listSatFigure4, listSatFigure5,
         listSatFigure6, listSatFigure7, listSatFigure8, listSatFigure9, listSatFigure10,
         listSatFigure11, listSatFigure12, listSatFigure13, listSatFigure14, listSatFigure15,
-        listSatFigure16, listSatFigure17, listSatFigure18, listSatFigure19, listSatFigure20
+        listSatFigure16, listSatFigure17, listSatFigure18, listSatFigure19, listSatFigure20 ,
+        listSatFigure21 ,listSatFigure22,listSatFigure23,listSatFigure24,listSatFigure25
     )
 }
+var listAllTheoryQuestions: MutableList<Question> = mutableListOf()
 
-fun initAllList(context: Context) {
+suspend fun initAllList(context: Context) {
+    // Gọi tất cả các hàm init... như hiện tại
     initListImportant(context)
     initListConceptAndRule(context)
     initListCultureAndEthic(context)
     initListDrivingUnique(context)
     initListRoadSign(context)
     initListSatFigure(context)
+
+    // Sau khi các danh sách câu hỏi đã được tải, gộp chúng vào một danh sách duy nhất
+    // **Quan trọng:** Kiểm tra xem `listQuestionImportant` và các list tương tự có tồn tại không.
+    // Dựa vào cấu trúc hiện tại, có vẻ bạn có các biến `listQuestion...` tương ứng.
+    // Nếu chưa có, bạn cần tạo chúng. Giả sử bạn đã có các biến đó:
+    if (listAllTheoryQuestions.isEmpty()) { // Chỉ thêm nếu danh sách rỗng để tránh trùng lặp
+        // listAllTheoryQuestions.addAll(listQuestionImportant) // Thay thế bằng tên biến chính xác
+        // listAllTheoryQuestions.addAll(listQuestionConceptAndRule)
+        // listAllTheoryQuestions.addAll(listQuestionCultureAndEthic)
+        // listAllTheoryQuestions.addAll(listQuestionDrivingUnique)
+        // listAllTheoryQuestions.addAll(listQuestionRoadSign)
+        // listAllTheoryQuestions.addAll(listQuestionSatFigure)
+        // Chú ý: Đây là ví dụ, bạn cần đảm bảo các biến `listQuestion...` chứa Question object tồn tại và được thêm vào đây.
+    }
 }
+fun getTotalTheoryQuestionCount(): Int {
+    // Nếu `listAllTheoryQuestions` rỗng, có thể là do `initAllList` chưa chạy xong
+    // hoặc có lỗi trong việc gộp danh sách.
+    // Để đơn giản, ta sẽ tính tổng trực tiếp từ các list con chứa Answer.
+    // Đây là cách tính tạm thời dựa trên cấu trúc hiện tại của bạn.
+
+    val total = listAnswerImportant.size +
+            listAnswerConceptAndRule.size +
+            listAnswerCultureAndEthic.size +
+            listAnswerDrivingUnique.size +
+            listAnswerRoadSign.size +
+            listAnswerSatFigure.size
+    return total
+}
+
 
 /**Câu hỏi điểm liệt 1->35*/ //35
 var listAnswerImportant = mutableListOf<MutableList<Answer>>()
@@ -1172,5 +1248,5 @@ var listAnswerDrivingUnique = mutableListOf<MutableList<Answer>>()
 /**Biển báo đường bộ 111 -> 130*/ //20
 var listAnswerRoadSign = mutableListOf<MutableList<Answer>>()
 
-/**Sa hình 141->160*/ //20
+/**Sa hình 141->170*/ //30
 var listAnswerSatFigure = mutableListOf<MutableList<Answer>>()

@@ -21,6 +21,7 @@
     <string name="text_culture_and_ethic">Văn hóa và đạo đức lái xe</string>
     <string name="text_about_5">Gồm 5 câu hỏi</string>
     <string name="text_about_20">Gồm 20 câu hỏi</string>
+    <string name="text_about_25">Gồm 25 câu hỏi</string>
     <string name="text_about_35">Gồm 35 câu hỏi</string>
     <string name="text_driving_technique">Kỹ thuật lái xe</string>
     <string name="text_about_12">Gồm 12 câu hỏi (2 câu điểm liệt)</string>
@@ -174,6 +175,12 @@
     <string name="text_explain_sat_figure_18">Đáp án: 1.</string>
     <string name="text_explain_sat_figure_19">Đáp án: 3.\nGiải thích: Xe con vượt qua vạch liền nên vi phạm.</string>
     <string name="text_explain_sat_figure_20">Đáp án: 3.\nGiải thích: Người điều khiển giao thông giơ tay thẳng đứng thì tất cả các xe phải dừng lại, trừ xe đã vào giao lộ.</string>
+    <string name="text_explain_sat_figure_21">Đáp án: 3.\nGiải thích: Xe mô tô được phép đi theo hướng 1 và 3 dựa trên biển báo.</string>
+    <string name="text_explain_sat_figure_22">Đáp án: 2.\nGiải thích: Thứ tự ưu tiên: Xe ưu tiên - Đường ưu tiên - Bên phải trống - Rẽ phải - Đi thẳng - Rẽ trái.</string>
+    <string name="text_explain_sat_figure_23">Đáp án: 1.\nGiải thích: Xe mô tô C chạy vào làn dành riêng xe ô tô: Vi phạm; Xe con E chạy vào làn dành riêng xe máy: Vi phạm.</string>
+    <string name="text_explain_sat_figure_24">Đáp án: 4.\nGiải thích: Biển số R.301a chỉ cho phép các phương tiện đi thẳng trong khi cả hai xe đều có tín hiệu xi nhan rẽ sang hướng khác nên cả 2 xe đều vi phạm quy tắc giao thông.</string>
+    <string name="text_explain_sat_figure_25">Đáp án: 2.\nGiải thích: : Thứ tự ưu tiên: Xe ưu tiên - Đường ưu tiên - Đường cùng cấp: Bên phải trống, rẽ phải, đi thẳng, rẽ trái. \n1. Xe con: Rẽ phải; 2. Xe của bạn: Đi thẳng; 3. Mô tô: Rẽ trái.</string>
+
     <!--======================================== End giải thích đáp án ========================================-->
 
     <!-- ========================================Câu hỏi điểm liệt (35) ========================================-->
@@ -561,6 +568,11 @@
     <string name="question_sat_figure_18">Xe nào được quyền đi trước trong trường hợp này?</string>
     <string name="question_sat_figure_19">Xe nào vi phạm quy tắc giao thông?</string>
     <string name="question_sat_figure_20">Các xe đi như thế nào là đúng quy tắc giao thông?</string>
+    <string name="question_sat_figure_21">Theo hướng mũi tên, những hướng nào xe tải được phép đi?</string>
+    <string name="question_sat_figure_22">Trong trường hợp này, thứ tự xe đi như thế nào là đúng quy tắc giao thông?</string>
+    <string name="question_sat_figure_23">Trong hình dưới, những xe nào vi phạm quy tắc giao thông?</string>
+    <string name="question_sat_figure_24">Theo tín hiệu đèn của xe cơ giới, xe nào vi phạm quy tắc giao thông?</string>
+    <string name="question_sat_figure_25">Các xe đi theo thứ tự nào là đúng quy tắc giao thông đường bộ?</string>
     <!-- ========================================Câu trả lời sa hình========================================-->
     <string name="answer_sat_figure_1_1">Xe tải, xe lam, xe con, mô tô.</string>
     <string name="answer_sat_figure_1_2">Xe tải, mô tô, xe lam, xe con.</string>
@@ -624,6 +636,24 @@
     <string name="answer_sat_figure_20_1">Các xe ở phía tay phải và tay trái của người điều khiển được phép đi thẳng.</string>
     <string name="answer_sat_figure_20_2">Cho phép các xe ở mọi hướng được rẽ phải.</string>
     <string name="answer_sat_figure_20_3">Tất cả các xe phải dừng lại trước ngã tư, trừ những xe đã ở trong ngã tư được phép tiếp tục đi.</string>
+    <string name="answer_sat_figure_21_1">Cả 3 hướng.</string>
+    <string name="answer_sat_figure_21_2">Hướng 1 và 2.</string>
+    <string name="answer_sat_figure_21_3">Hướng 1 và 3.</string>
+    <string name="answer_sat_figure_21_4">Hướng 2 và 3.</string>
+    <string name="answer_sat_figure_22_1">Xe công an, xe quân sự, xe con + mô tô.</string>
+    <string name="answer_sat_figure_22_2">Xe quân sự, xe công an, xe con + mô tô</string>
+    <string name="answer_sat_figure_22_3">Xe mô tô + xe con, xe quân sự, xe công an.</string>
+    <string name="answer_sat_figure_23_1">Xe con (E), mô tô (C).</string>
+    <string name="answer_sat_figure_23_2">Xe tải (A), mô tô (D).</string>
+    <string name="answer_sat_figure_23_3">Xe khách (B), mô tô (C).</string>
+    <string name="answer_sat_figure_23_4"> Xe khách (B), mô tô (D).</string>
+    <string name="answer_sat_figure_24_1">Xe mô tô.</string>
+    <string name="answer_sat_figure_24_2">Xe ô tô con.</string>
+    <string name="answer_sat_figure_24_3">Không xe nào vi phạm.</string>
+    <string name="answer_sat_figure_24_4">Cả hai xe.</string>
+    <string name="answer_sat_figure_25_1">Xe của bạn, xe mô tô, xe con.</string>
+    <string name="answer_sat_figure_25_2">Xe con, xe của bạn, xe mô tô.</string>
+    <string name="answer_sat_figure_25_3">Xe mô tô, xe con, xe của bạn.</string>
     <!-- ========================================Mẹo thi lý thuyết ========================================-->
     <string name="text_tip_1">Cấp phép</string>
     <string name="text_tip_2">Nồng độ cồn</string>
@@ -668,4 +698,5 @@
     <string name="text_tip_content_21">- Xe mô tô xuống dốc dài cần sử dụng cả phanh trước và phanh sau để giảm tốc độ.\n- Thực hiện quay đầu xe với tốc độ thấp.</string>
     <string name="text_tip_content_20">- Không lái xe liên tục quá 4 giờ.\n- Không làm việc 1 ngày của lái xe quá 10 giờ.\n- Người kinh doanh vận tải không được tự ý thay đổi vị trí đón trả khách.\n- Vận chuyển hàng nguy hiểm phải có giáy phép.</string>
     <string name="text_tip_content_22">- Thứ tự ưu tiên không vòng xuyến: Xe vào ngã ba, ngã tư trước - xe ưu tiên - đường ưu tiên - đường cùng cấp theo thứ tự bên phải trống - rẽ phải - đi thẳng - rẽ trái.\n- Giao nhau cùng cấp có vòng xuyến: Chưa vào vòng xuyến thì ưu tiên xe bên phải; đã vào vòng xuyến ưu tiên xe từ bên trái tới.\n- Xe xuống dốc phải nhường đường cho xe đang lên dốc</string>
+
 </resources>

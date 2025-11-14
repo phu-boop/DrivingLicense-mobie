@@ -96,11 +96,13 @@ class LearningTheoryActivity : BaseCoreActivity<ActivityLearningTheoryBinding>()
                 getString(R.string.text_about_20),
                 R.drawable.forbidden
             ),
+
             ItemLearning(
                 getString(R.string.text_sat_figure),
-                getString(R.string.text_about_20),
+                getString(R.string.text_about_25),
                 R.drawable.conversation
             )
+
         )
         learningAdapter.addData(list)
     }

@@ -13,6 +13,7 @@ import com.example.drivinglicence.component.widgets.recyclerview.RecyclerUtils
 import com.example.drivinglicence.databinding.FragmentLessonBinding
 import com.example.drivinglicence.utils.ANSWERS
 import com.example.drivinglicence.utils.QUESTION
+import com.tencent.mmkv.MMKV
 
 class LessonFragment :
     BaseFragment<FragmentLessonBinding, DataViewModel>() {
@@ -42,8 +43,39 @@ class LessonFragment :
                 answerAdapter.dataList.map { it.flag = 1 }
                 answer.flag = 3
             }
+
+            // ==============================================================
+            // == LƯU KẾT QUẢ TRẢ LỜI (ĐÚNG/SAI) VÀO MMKV NGAY TẠI ĐÂY ==
+            // ==============================================================
+            saveAnswerResult(answer)
+            // ==============================================================
+
             answerAdapter.notifyDataSetChanged()
         }
+    }
+
+    /**
+     * Hàm này lưu kết quả trả lời của người dùng vào MMKV.
+     * - Nếu trả lời đúng, ID câu hỏi sẽ được thêm vào 'CORRECT_ANSWERS_SET'.
+     * - Nếu trả lời sai, ID câu hỏi sẽ bị xóa khỏi 'CORRECT_ANSWERS_SET'.
+     */
+    private fun saveAnswerResult(selectedAnswer: Answer) {
+        val mmkv = MMKV.defaultMMKV()
+        val questionId = selectedAnswer.questionId.toString()
+
+        // Lấy danh sách (Set) các câu trả lời đúng hiện tại
+        val correctAnswersSet = mmkv.decodeStringSet("CORRECT_ANSWERS_SET", mutableSetOf()) ?: mutableSetOf()
+
+        if (selectedAnswer.isCorrect) {
+            // Nếu câu trả lời là ĐÚNG, thêm ID câu hỏi vào Set
+            correctAnswersSet.add(questionId)
+        } else {
+            // Nếu câu trả lời là SAI, xóa ID câu hỏi khỏi Set (nếu nó đã tồn tại)
+            correctAnswersSet.remove(questionId)
+        }
+
+        // Lưu lại Set đã cập nhật vào MMKV
+        mmkv.encode("CORRECT_ANSWERS_SET", correctAnswersSet)
     }
 
     @Suppress("DEPRECATION")
