@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.Intent
 import android.media.RingtoneManager
 import android.os.Build
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.example.drivinglicence.R
 import com.example.drivinglicence.app.activites.HomeActivity
@@ -36,18 +37,38 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
-        val type = remoteMessage.data["type"] ?: TYPE_DAILY_REMINDER
+        Log.d("FCM_DEBUG", "Message received: ${remoteMessage.data}")
         val title = remoteMessage.data["title"] ?: getString(R.string.app_name)
         val message = remoteMessage.data["message"] ?: ""
-        val target = remoteMessage.data["target"] ?: "home"
+        val intent = Intent(this, HomeActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-        when (type) {
-            TYPE_DAILY_REMINDER -> handleDailyReminder(title, message, target)
-            TYPE_STUDY_PROGRESS -> handleStudyProgress(title, message)
-            TYPE_EXAM_REMINDER -> handleExamReminder(title, message)
-            else -> handleGeneralNotification(title, message)
+        val pendingIntent = PendingIntent.getActivity(
+            this, System.currentTimeMillis().toInt(), intent,
+            PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val channelId = "driving_license_reminder"
+        val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(channelId, "Nhắc nhở học tập lái xe", NotificationManager.IMPORTANCE_HIGH)
+            channel.enableVibration(true)
+            channel.vibrationPattern = longArrayOf(1000, 1000, 1000, 1000)
+            notificationManager.createNotificationChannel(channel)
         }
+
+        val notificationBuilder = NotificationCompat.Builder(this, channelId)
+            .setSmallIcon(R.drawable.ic_study_reminder)
+            .setContentTitle(title)
+            .setContentText(message)
+            .setAutoCancel(true)
+            .setContentIntent(pendingIntent)
+            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+
+        notificationManager.notify(System.currentTimeMillis().toInt(), notificationBuilder.build())
     }
+
 
     private fun handleDailyReminder(title: String, message: String, target: String) {
         val intent = when (target) {

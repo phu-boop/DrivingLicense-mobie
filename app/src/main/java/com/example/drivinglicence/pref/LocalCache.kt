@@ -143,4 +143,9 @@ class LocalCache private constructor() {
     fun getTotalSize(): Long {
         return cache.totalSize()
     }
+
+    fun removeValueForKey(key: String) {
+        cache.removeValueForKey(key)
+    }
+
 }

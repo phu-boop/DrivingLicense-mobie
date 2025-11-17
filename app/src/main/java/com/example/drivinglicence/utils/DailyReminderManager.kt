@@ -5,153 +5,99 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import com.example.drivinglicence.pref.LocalCache
 import com.example.drivinglicence.receiver.DailyReminderReceiver
+import java.util.Calendar
 import java.util.Date
 
 object DailyReminderManager {
 
-    private const val REMINDER_REQUEST_CODE = 1001
-    private const val DEMO_REQUEST_CODE = 1002 // Code riêng cho demo
+    private const val DAILY_REMINDER_REQUEST_CODE = 1001
     private const val PREF_DAILY_REMINDER_ENABLED = "daily_reminder_enabled"
-    private const val PREF_DEMO_REMINDER_ENABLED = "demo_reminder_enabled" // Pref riêng cho demo
     private const val PREF_REMINDER_HOUR = "reminder_hour"
     private const val PREF_REMINDER_MINUTE = "reminder_minute"
 
     /**
-     * ⭐ Nhắc nhở demo liên tục mỗi 15 giây - CHỈ DÙNG ĐỂ TEST
+     * ⭐ KÍCH HOẠT NHẮC NHỞ HÀNG NGÀY THEO GIỜ NGƯỜI DÙNG CHỌN
      */
-    fun enableDemoReminder(context: Context, intervalSec: Int = 15) {
+    fun enableDailyReminder(context: Context, hour: Int, minute: Int) {
         try {
-            println("🟡 Starting enableDemoReminder...")
+            Log.d("ReminderManager", "🟡 Bật nhắc nhở hàng ngày lúc $hour:$minute")
 
             val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            // Kiểm tra quyền exact alarm cho Android 12+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (!alarmManager.canScheduleExactAlarms()) {
+                    Log.w("ReminderManager", "❌ Không có quyền exact alarm")
+                    // Có thể thông báo cho user ở đây
+                    return
+                }
+            }
 
             val intent = Intent(context, DailyReminderReceiver::class.java).apply {
-                putExtra("IS_DEMO", true)
-                action = "DEMO_REMINDER_ACTION_${System.currentTimeMillis()}" // Thêm action unique
+                action = "DAILY_REMINDER_ACTION"
             }
 
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                DEMO_REQUEST_CODE,
+                DAILY_REMINDER_REQUEST_CODE,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
-            // Đặt alarm 15 giây sau từ bây giờ
-            val triggerTime = System.currentTimeMillis() + (intervalSec * 1000)
+            // Thiết lập thời gian
+            val calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minute)
+                set(Calendar.SECOND, 0)
 
-            println("🟡 Setting alarm for: ${Date(triggerTime)}")
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                alarmManager.setExactAndAllowWhileIdle(
-                    AlarmManager.RTC_WAKEUP,
-                    triggerTime,
-                    pendingIntent
-                )
-            } else {
-                alarmManager.setExact(
-                    AlarmManager.RTC_WAKEUP,
-                    triggerTime,
-                    pendingIntent
-                )
+                // Nếu thời gian đã qua trong ngày hôm nay, đặt cho ngày mai
+                if (timeInMillis <= System.currentTimeMillis()) {
+                    add(Calendar.DAY_OF_YEAR, 1)
+                }
             }
 
-            // Lưu trạng thái demo
-            saveDemoSettings(true)
-            println("✅ Demo reminder enabled - next in $intervalSec seconds")
+            Log.d("ReminderManager", "🟡 Đặt lịch nhắc nhở cho: ${Date(calendar.timeInMillis)}")
 
-        } catch (e: Exception) {
-            e.printStackTrace()
-            println("❌ Error enabling demo reminder: ${e.message}")
-        }
-    }
+            try {
+                // Sử dụng setExactAndAllowWhileIdle để đảm bảo hoạt động trên Android 6+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        pendingIntent
+                    )
+                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    alarmManager.setExact(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        pendingIntent
+                    )
+                } else {
+                    alarmManager.set(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        pendingIntent
+                    )
+                }
 
-    /**
-     * Tắt demo reminder
-     */
-    fun disableDemoReminder(context: Context) {
-        try {
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val intent = Intent(context, DailyReminderReceiver::class.java)
-            val pendingIntent = PendingIntent.getBroadcast(
-                context,
-                DEMO_REQUEST_CODE,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
+                saveReminderSettings(true, hour, minute)
+                Log.d("ReminderManager", "✅ Đã bật nhắc nhở hàng ngày lúc $hour:$minute")
 
-            alarmManager.cancel(pendingIntent)
-            pendingIntent.cancel()
-
-            saveDemoSettings(false)
-            println("✅ Demo reminder disabled")
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-    }
-
-    /**
-     * Kích hoạt nhắc nhở hàng ngày lúc 8h sáng - ĐÃ COMMENT LẠI
-     */
-    fun enableDailyReminder(context: Context, hour: Int = 8, minute: Int = 0) {
-        // COMMENT LẠI PHẦN NÀY ĐỂ TEST DEMO
-        println("📅 Daily reminder at $hour:$minute - TEMPORARILY DISABLED FOR DEMO")
-        return
-
-        /* CODE GỐC - COMMENT LẠI
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val alarmManagerCheck = context.getSystemService(AlarmManager::class.java)
-            if (!alarmManagerCheck.canScheduleExactAlarms()) {
-                val intent = Intent(android.provider.Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM)
-                intent.data = android.net.Uri.parse("package:${context.packageName}")
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                context.startActivity(intent)
-                return
+            } catch (securityException: SecurityException) {
+                Log.e("ReminderManager", "❌ Lỗi bảo mật khi đặt alarm", securityException)
             }
+
+        } catch (e: Exception) {
+            Log.e("ReminderManager", "❌ Lỗi khi bật nhắc nhở", e)
         }
-
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        val intent = Intent(context, DailyReminderReceiver::class.java)
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            REMINDER_REQUEST_CODE,
-            intent,
-            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        val calendar = Calendar.getInstance().apply {
-            timeInMillis = System.currentTimeMillis()
-            set(Calendar.HOUR_OF_DAY, hour)
-            set(Calendar.MINUTE, minute)
-            set(Calendar.SECOND, 0)
-            if (timeInMillis <= System.currentTimeMillis()) add(Calendar.DAY_OF_YEAR, 1)
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            alarmManager.setExactAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                pendingIntent
-            )
-        } else {
-            alarmManager.setExact(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                pendingIntent
-            )
-        }
-
-        saveReminderSettings(true, hour, minute)
-        subscribeToDailyReminderTopic()
-        */
     }
 
     /**
-     * Vô hiệu hóa nhắc nhở hàng ngày
+     * TẮT NHẮC NHỞ HÀNG NGÀY
      */
     fun disableDailyReminder(context: Context) {
         try {
@@ -159,43 +105,46 @@ object DailyReminderManager {
             val intent = Intent(context, DailyReminderReceiver::class.java)
             val pendingIntent = PendingIntent.getBroadcast(
                 context,
-                REMINDER_REQUEST_CODE,
+                DAILY_REMINDER_REQUEST_CODE,
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
 
             alarmManager.cancel(pendingIntent)
-            pendingIntent.cancel()
-
-            saveReminderSettings(false, 8, 0)
-            unsubscribeFromDailyReminderTopic()
+            saveReminderSettings(false, getReminderTime().first, getReminderTime().second)
+            Log.d("ReminderManager", "✅ Đã tắt nhắc nhở hàng ngày")
 
         } catch (e: Exception) {
-            e.printStackTrace()
+            Log.e("ReminderManager", "❌ Lỗi khi tắt nhắc nhở", e)
         }
     }
 
     /**
-     * Kiểm tra xem nhắc nhở có đang được kích hoạt không
+     * KIỂM TRA XEM NHẮC NHỞ CÓ ĐANG BẬT KHÔNG
      */
     fun isDailyReminderEnabled(): Boolean {
         return LocalCache.getInstance().getBoolean(PREF_DAILY_REMINDER_ENABLED) ?: false
     }
 
     /**
-     * Kiểm tra xem demo có đang chạy không
-     */
-    fun isDemoReminderEnabled(): Boolean {
-        return LocalCache.getInstance().getBoolean(PREF_DEMO_REMINDER_ENABLED) ?: false
-    }
-
-    /**
-     * Lấy thời gian nhắc nhở
+     * LẤY THỜI GIAN NHẮC NHỞ ĐÃ ĐẶT
      */
     fun getReminderTime(): Pair<Int, Int> {
         val hour = LocalCache.getInstance().getInt(PREF_REMINDER_HOUR) ?: 8
         val minute = LocalCache.getInstance().getInt(PREF_REMINDER_MINUTE) ?: 0
         return Pair(hour, minute)
+    }
+
+    /**
+     * KIỂM TRA QUYỀN EXACT ALARM (Android 12+)
+     */
+    fun canScheduleExactAlarms(context: Context): Boolean {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.canScheduleExactAlarms()
+        } else {
+            true
+        }
     }
 
     private fun saveReminderSettings(enabled: Boolean, hour: Int, minute: Int) {
@@ -206,40 +155,8 @@ object DailyReminderManager {
         }
     }
 
-    private fun saveDemoSettings(enabled: Boolean) {
-        LocalCache.getInstance().put(PREF_DEMO_REMINDER_ENABLED, enabled)
-    }
-
-    private fun subscribeToDailyReminderTopic() {
-        // Tạm thời comment để test demo
-        println("📢 Daily reminder topic subscription - TEMPORARILY DISABLED")
-        /*
-        com.google.firebase.messaging.FirebaseMessaging.getInstance()
-            .subscribeToTopic("daily_study_reminder_a1")
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    println("Đã đăng ký topic nhắc nhở hàng ngày")
-                }
-            }
-        */
-    }
-
-    private fun unsubscribeFromDailyReminderTopic() {
-        // Tạm thời comment để test demo
-        println("📢 Daily reminder topic unsubscription - TEMPORARILY DISABLED")
-        /*
-        com.google.firebase.messaging.FirebaseMessaging.getInstance()
-            .unsubscribeFromTopic("daily_study_reminder_a1")
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    println("Đã hủy đăng ký topic nhắc nhở hàng ngày")
-                }
-            }
-        */
-    }
-
     /**
-     * Tạo nội dung thông báo nhắc nhở ngẫu nhiên
+     * TẠO NỘI DUNG THÔNG BÁO NHẮC NHỞ NGẪU NHIÊN
      */
     fun getRandomReminderMessage(): String {
         val messages = listOf(
@@ -250,8 +167,17 @@ object DailyReminderManager {
             "Chỉ còn vài câu nữa là hoàn thành lý thuyết! 🎯",
             "Thử sức với đề thi mới nào! 🚀",
             "Đừng để đến phút cuối mới ôn thi nhé! ⏰",
-            "Mỗi ngày một ít, kết quả sẽ bất ngờ! ✨"
+            "Mỗi ngày một ít, kết quả sẽ bất ngờ! ✨",
+            "Cùng ôn tập để thi đậu nào! 🎓",
+            "Kiến thức lý thuyết là nền tảng quan trọng! 📚"
         )
         return messages.random()
+    }
+
+    /**
+     * ĐỊNH DẠNG THỜI GIAN ĐẸP ĐỂ HIỂN THỊ
+     */
+    fun formatTime(hour: Int, minute: Int): String {
+        return String.format("%02d:%02d", hour, minute)
     }
 }
