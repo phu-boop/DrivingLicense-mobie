@@ -2,7 +2,8 @@ package com.example.drivinglicence.app.activites
 
 import android.graphics.Typeface
 import android.graphics.drawable.ColorDrawable
-import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.AbsoluteSizeSpan
@@ -23,7 +24,6 @@ import com.example.drivinglicence.component.activity.BaseCoreActivity
 import com.example.drivinglicence.component.navigator.openActivity
 import com.example.drivinglicence.component.widgets.recyclerview.RecyclerUtils
 import com.example.drivinglicence.databinding.ActivityMainBinding
-import com.example.drivinglicence.app.activites.LearningTheoryActivity
 import com.example.drivinglicence.pref.LocalCache
 import com.example.drivinglicence.pref.showMessage
 import com.example.drivinglicence.utils.*
@@ -34,10 +34,8 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
     private var isChatVisible = false
     private val actionAdapter by lazy { ActionAdapter() }
     private lateinit var listAction: MutableList<ItemAction>
-
     private var customFont: Typeface? = null
 
-    // GỌI HÀM CẬP NHẬT TIẾN ĐỘ KHI NGƯỜI DÙNG QUAY LẠI MÀN HÌNH
     override fun onResume() {
         super.onResume()
         updateLearningProgress()
@@ -53,12 +51,10 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
         supportActionBar?.elevation = 0f
 
         setCustomActionBarTitle(getString(R.string.app_name) + " A1")
-
         initSlide()
+
         val rcvItem = binding.rcvItem
-
         val spacingInPixels = resources.getDimensionPixelSize(R.dimen.recycler_view_item_spacing)
-
         rcvItem.addItemDecoration(SpacingItemDecoration(spacingInPixels))
 
         val webView = binding.chatbotWebView
@@ -72,11 +68,8 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
         val drawable = ContextCompat.getDrawable(this, R.drawable.driving) ?: return
         drawable.setBounds(0, 0, 90, 90)
 
-
         val fullTitle = " $title"
         val spannableString = SpannableString("   $title")
-
-
         val imageSpan = ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM)
         spannableString.setSpan(imageSpan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
 
@@ -88,6 +81,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                 Spannable.SPAN_INCLUSIVE_EXCLUSIVE
             )
         }
+
         val textSizeInSp = 24
         val textSizeInPx = (textSizeInSp * resources.displayMetrics.scaledDensity).toInt()
         spannableString.setSpan(
@@ -100,12 +94,8 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
     }
 
     private fun initSlide() {
-
         val listImageSlide =
-            arrayListOf(
-                R.drawable.slide1, R.drawable.slide2, R.drawable.slide4,
-                R.drawable.slide5, R.drawable.slide6
-            )
+            arrayListOf(R.drawable.slide1, R.drawable.slide2, R.drawable.slide4, R.drawable.slide5, R.drawable.slide6)
         for (item in listImageSlide) {
             val imageView = ImageView(this)
             imageView.scaleType = ImageView.ScaleType.FIT_XY
@@ -123,26 +113,31 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
     override fun initData() {
         RecyclerUtils.setGridManager(this, binding.rcvItem, 2, actionAdapter)
         listAction = ArrayList()
+
         val item1 = ItemAction(getString(R.string.text_exam), R.drawable.exam, R.drawable.border_item_1)
         val item2 = ItemAction(getString(R.string.text_learning_theory), R.drawable.book, R.drawable.border_item_2)
         val item3 = ItemAction(getString(R.string.text_road_signs), R.drawable.stop2, R.drawable.border_item_3)
         val item4 = ItemAction(getString(R.string.text_tips), R.drawable.star, R.drawable.border_item_4)
         val item5 = ItemAction(getString(R.string.text_search_law), R.drawable.law, R.drawable.border_item_5)
         val item6 = ItemAction(getString(R.string.text_sometime_error), R.drawable.computer, R.drawable.border_item_6)
+
         listAction = arrayListOf(item1, item2, item3, item4, item5, item6)
         actionAdapter.addData(listAction)
 
         lifecycleScope.launch {
             initAllList(this@HomeActivity)
-            // CẬP NHẬT UI SAU KHI DỮ LIỆU ĐÃ ĐƯỢC TẢI
             updateLearningProgress()
         }
     }
 
     override fun initListener() {
-        actionAdapter.onCLickItem = {
-            when (listAction[it].title) {
-                getString(R.string.text_exam) -> openActivity(TestLicenseActivity::class.java, false)
+        actionAdapter.onCLickItem = { position ->
+            when (listAction[position].title) {
+                getString(R.string.text_exam) -> {
+                    // Quick loading trước khi mở TestLicenseActivity
+                    showQuickLoading()
+                    openActivity(TestLicenseActivity::class.java, false)
+                }
                 getString(R.string.text_learning_theory) -> openActivity(LearningTheoryActivity::class.java, false)
                 getString(R.string.text_road_signs) -> openActivity(RoadTrafficSignsActivity::class.java, false)
                 getString(R.string.text_tips) -> openActivity(TipsActivity::class.java, false)
@@ -151,28 +146,23 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                 else -> showDialogDevelopment(this)
             }
         }
+
         binding.btnEdit.setOnClickListener {
             isChatVisible = !isChatVisible
             binding.chatbotWebView.visibility = if (isChatVisible) View.VISIBLE else View.GONE
         }
     }
 
+    private fun showQuickLoading() {
+        loadingDialog.show(this, "")
+        Handler(Looper.getMainLooper()).postDelayed({
+            loadingDialog.dismiss()
+        }, 300) // Hiển thị nhanh 0.3s
+    }
 
     private fun updateLearningProgress() {
         val totalQuestions = getTotalTheoryQuestionCount()
-
-        if (totalQuestions == 0) {
-
-            binding.layoutProgress.visibility = View.VISIBLE
-            binding.tvQuestionsDoneValue.text = "0/$totalQuestions câu"
-            binding.progressCircular.progress = 0
-            binding.tvProgressPercentage.text = "0%"
-            binding.progressBarQuestions.progress = 0
-            binding.tvCorrectRateValue.text = "0%"
-            binding.progressBarCorrectRate.progress = 0
-            return
-        }
-
+        binding.layoutProgress.visibility = View.VISIBLE
 
         val mmkv = MMKV.defaultMMKV()
         val viewedQuestionsSet = mmkv.decodeStringSet("VIEWED_QUESTIONS_SET", emptySet()) ?: emptySet()
@@ -181,34 +171,17 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
         val questionsDone = viewedQuestionsSet.size
         val correctAnswersCount = correctAnswersMap.size
 
-        // --- BẮT ĐẦU TÍNH TOÁN VÀ CẬP NHẬT UI ---
-        binding.layoutProgress.visibility = View.VISIBLE // Luôn cho hiển thị
+        val progressPercentage = if (totalQuestions > 0) (questionsDone * 100) / totalQuestions else 0
+        val correctRate = if (questionsDone > 0) (correctAnswersCount * 100) / questionsDone else 0
 
-        // 1. Tính phần trăm hoàn thành
-        val progressPercentage = (questionsDone * 100) / totalQuestions
-
-        // 2. Tính tỉ lệ đúng chính xác
-        val correctRate = if (questionsDone > 0) {
-            (correctAnswersCount * 100) / questionsDone
-        } else {
-            0 // Tránh lỗi chia cho 0
-        }
-
-
-        // Biểu đồ tròn
         binding.progressCircular.progress = progressPercentage
         binding.tvProgressPercentage.text = "$progressPercentage%"
-
-        // Thanh tiến trình số câu đã làm
         binding.tvQuestionsDoneValue.text = "$questionsDone/$totalQuestions câu"
-        binding.progressBarQuestions.max = 100 // Đảm bảo max là 100
+        binding.progressBarQuestions.max = 100
         binding.progressBarQuestions.progress = progressPercentage
-
-        // Thanh tiến trình tỉ lệ đúng
         binding.tvCorrectRateValue.text = "$correctRate%"
         binding.progressBarCorrectRate.progress = correctRate
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_setting, menu)

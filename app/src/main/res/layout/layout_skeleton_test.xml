@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F8F8F8"> <!-- Nền trắng hơi xám nhẹ -->
+
+    <!-- HEADER SKELETON (Màu tím nhạt: #D0A8F8) -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#D0A8F8"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
+
+        <!-- Placeholder cho mũi tên quay lại và icon info (Màu trắng) -->
+        <View
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:background="#FFFFFF"/>
+
+        <!-- Placeholder cho tiêu đề "Thi sát hạch" (Màu trắng) -->
+        <View
+            android:layout_width="100dp"
+            android:layout_height="20dp"
+            android:layout_centerInParent="true"
+            android:background="#FFFFFF"/>
+
+        <View
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:background="#FFFFFF"/>
+    </RelativeLayout>
+
+    <!-- Khu vực cuộn chính cho danh sách đề thi -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingTop="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <!-- Skeleton 6 item (Đã thêm margin bottom 12dp) -->
+            <include layout="@layout/item_skeleton_exam" android:layout_marginBottom="12dp" />
+            <include layout="@layout/item_skeleton_exam" android:layout_marginBottom="12dp" />
+            <include layout="@layout/item_skeleton_exam" android:layout_marginBottom="12dp" />
+            <include layout="@layout/item_skeleton_exam" android:layout_marginBottom="12dp" />
+            <include layout="@layout/item_skeleton_exam" android:layout_marginBottom="12dp" />
+            <include layout="@layout/item_skeleton_exam" android:layout_marginBottom="12dp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Nút "Tạo đề thi ngẫu nhiên" Placeholder (Màu tím nhạt #E1BEE7) -->
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="40dp"
+        android:minWidth="220dp"
+        android:background="#E1BEE7" />
+
+</LinearLayout>

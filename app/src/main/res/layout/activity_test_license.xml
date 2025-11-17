@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,43 +8,84 @@
     android:background="@color/grey_light"
     tools:context=".app.activites.TestLicenseActivity">
 
-    <com.example.drivinglicence.component.viewmodel.toolbar.ToolBarApp
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:drawable_start="@drawable/icon_back_left"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcv_exams"
-        android:layout_width="match_parent"
+    <!-- Container skeleton (overlay) -->
+    <FrameLayout
+        android:id="@+id/skeleton_container"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toTopOf="@id/btn_create_exam"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:listitem="@layout/item_exam" />
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_create_exam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginVertical="20dp"
-        android:background="@drawable/round_button_primary"
-        android:fontFamily="@font/ptsansnarrowbold"
-        android:paddingHorizontal="20dp"
-        android:paddingVertical="5dp"
-        android:text="@string/text_create_random_exam"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="16sp"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rcv_exams" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- Item skeleton 1~6 -->
+                <include layout="@layout/item_skeleton_exam" />
+                <include layout="@layout/item_skeleton_exam" />
+                <include layout="@layout/item_skeleton_exam" />
+                <include layout="@layout/item_skeleton_exam" />
+                <include layout="@layout/item_skeleton_exam" />
+                <include layout="@layout/item_skeleton_exam" />
+
+            </LinearLayout>
+        </ScrollView>
+
+    </FrameLayout>
+
+    <!-- Nội dung thực của activity -->
+    <LinearLayout
+        android:id="@+id/content_root"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Toolbar -->
+        <com.example.drivinglicence.component.viewmodel.toolbar.ToolBarApp
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:drawable_start="@drawable/icon_back_left" />
+
+        <!-- RecyclerView hiển thị list đề thi -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_exams"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="1"
+            tools:listitem="@layout/item_exam" />
+
+        <!-- Nút tạo đề thi mới -->
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_create_exam"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="20dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/round_button_primary"
+            android:fontFamily="@font/ptsansnarrowbold"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="5dp"
+            android:text="@string/text_create_random_exam"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
