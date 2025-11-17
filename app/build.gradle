@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -77,11 +78,21 @@ dependencies {
 
     // Images
     implementation 'com.github.bumptech.glide:glide:4.12.0'
+    implementation 'com.google.firebase:protolite-well-known-types:18.0.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Animations
     implementation 'com.airbnb.android:lottie:3.7.2'
+
+    // Firebase BoM
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+
+    // FCM
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
+    // Firebase Analytics (tùy chọn)
+    implementation 'com.google.firebase:firebase-analytics-ktx'
 
     // Test
     testImplementation 'junit:junit:4.13.2'

@@ -2,9 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.drivinglicence">
 
+    <!-- Quyền truy cập Internet và nhận FCM -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
 
     <application
         android:name=".app.adapter.MyApplication"
@@ -16,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DrivingLicense">
 
-        <activity
+    <activity
             android:name=".app.activites.CommonMistakesActivity"
             android:exported="false" />
         <activity
@@ -42,9 +45,7 @@
             android:exported="false" />
         <activity
             android:name=".app.activites.HomeActivity"
-            android:exported="true">
-
-        </activity>
+            android:exported="true" />
         <activity
             android:name=".app.activites.SplashActivity"
             android:exported="true">
@@ -53,6 +54,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Daily Reminder Receiver -->
+        <receiver
+            android:name=".receiver.DailyReminderReceiver"
+            android:enabled="true"
+            android:exported="true" />
+
+        <!-- FCM Service -->
+        <service
+            android:name=".fcm.MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- Metadata cho notification icon/color -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/ic_notification" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/colorAccent" />
+
     </application>
 
 </manifest>
+
