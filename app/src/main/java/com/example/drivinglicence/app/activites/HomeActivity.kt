@@ -19,8 +19,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
-import android.webkit.WebView
-import android.webkit.WebViewClient
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
@@ -45,10 +43,9 @@ import java.io.File
 import java.util.Calendar
 
 class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
-    private var isChatVisible = false
     private val actionAdapter by lazy { ActionAdapter() }
     private lateinit var listAction: MutableList<ItemAction>
-    private var customFont: Typeface? = null // Sửa: Cho phép null
+    private lateinit var customFont: Typeface
     private val mainHandler = Handler(Looper.getMainLooper())
 
     override fun onResume() {
@@ -67,10 +64,6 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
             lifecycleScope.launch(Dispatchers.IO) {
                 loadFontAndSetupActionBar()
             }
-
-            mainHandler.postDelayed({
-                initWebViewSafely()
-            }, 1000)
 
             initSlideWithDelay()
             setupRecyclerView()
@@ -108,7 +101,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
 
     private suspend fun loadFontAndSetupActionBar() {
         try {
-            customFont = ResourcesCompat.getFont(this@HomeActivity, R.font.ptsansnarrowbold)
+            customFont = ResourcesCompat.getFont(this@HomeActivity, R.font.ptsansnarrowbold)!!
 
             withContext(Dispatchers.Main) {
                 supportActionBar?.setBackgroundDrawable(
@@ -120,74 +113,6 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
         } catch (e: Exception) {
             Log.e("HomeActivity", "❌ Lỗi tải font", e)
         }
-    }
-
-    private fun initWebViewSafely() {
-        try {
-            if (isRunningOnEmulator()) {
-                Log.d("HomeActivity", "🔄 Tắt WebView trên máy ảo")
-                binding.chatbotWebView.visibility = View.GONE
-                binding.btnEdit.visibility = View.GONE
-                return
-            }
-
-            val webView = binding.chatbotWebView
-            webView.settings.javaScriptEnabled = true
-            webView.settings.domStorageEnabled = true
-            webView.settings.loadWithOverviewMode = true
-            webView.settings.useWideViewPort = true
-
-            webView.webViewClient = object : WebViewClient() {
-                override fun onReceivedError(
-                    view: WebView?,
-                    errorCode: Int,
-                    description: String?,
-                    failingUrl: String?
-                ) {
-                    Log.e("WebView", "❌ Lỗi WebView: $errorCode - $description")
-                    runOnUiThread {
-                        binding.chatbotWebView.visibility = View.GONE
-                        binding.btnEdit.visibility = View.GONE
-                    }
-                }
-
-                override fun onPageFinished(view: WebView?, url: String?) {
-                    mainHandler.postDelayed({
-                        if (view?.progress ?: 100 < 50) {
-                            binding.chatbotWebView.visibility = View.GONE
-                            binding.btnEdit.visibility = View.GONE
-                            Log.w("WebView", "⚠️ WebView tải quá lâu - ẩn đi")
-                        }
-                    }, 5000)
-                }
-            }
-
-            try {
-                webView.loadUrl("http://10.0.2.2:8080")
-                webView.setBackgroundColor(android.graphics.Color.TRANSPARENT)
-                Log.d("WebView", "✅ WebView đã tải thành công")
-            } catch (e: Exception) {
-                Log.e("WebView", "❌ Lỗi tải WebView", e)
-                binding.chatbotWebView.visibility = View.GONE
-                binding.btnEdit.visibility = View.GONE
-            }
-
-        } catch (e: Exception) {
-            Log.e("HomeActivity", "❌ Lỗi khởi tạo WebView", e)
-            binding.chatbotWebView.visibility = View.GONE
-            binding.btnEdit.visibility = View.GONE
-        }
-    }
-
-    private fun isRunningOnEmulator(): Boolean {
-        return (Build.FINGERPRINT.startsWith("generic") ||
-                Build.FINGERPRINT.startsWith("unknown") ||
-                Build.MODEL.contains("google_sdk") ||
-                Build.MODEL.contains("Emulator") ||
-                Build.MODEL.contains("Android SDK built for x86") ||
-                Build.MANUFACTURER.contains("Genymotion") ||
-                (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||
-                "google_sdk" == Build.PRODUCT)
     }
 
     private fun initSlideWithDelay() {
@@ -234,7 +159,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
 
     private fun setCustomActionBarTitle(title: String) {
         try {
-            val drawable = ContextCompat.getDrawable(this, R.drawable.driving) ?: return
+            val drawable = ContextCompat.getDrawable(this, R.drawable.driving)!!
             drawable.setBounds(0, 0, 90, 90)
 
             val fullTitle = " $title"
@@ -242,15 +167,12 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
             val imageSpan = ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM)
             spannableString.setSpan(imageSpan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
 
-            // Sửa: Sử dụng safe call với let
-            customFont?.let { font ->
-                spannableString.setSpan(
-                    CustomTypefaceSpan(font),
-                    1,
-                    fullTitle.length,
-                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
-                )
-            }
+            spannableString.setSpan(
+                CustomTypefaceSpan(customFont),
+                1,
+                fullTitle.length,
+                Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+            )
 
             val textSizeInSp = 24
             val textSizeInPx = (textSizeInSp * resources.displayMetrics.scaledDensity).toInt()
@@ -260,7 +182,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                 fullTitle.length,
                 Spannable.SPAN_INCLUSIVE_EXCLUSIVE
             )
-            supportActionBar?.title = spannableString
+            supportActionBar!!.title = spannableString
 
         } catch (e: Exception) {
             Log.e("HomeActivity", "❌ Lỗi thiết lập tiêu đề action bar", e)
@@ -314,15 +236,11 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                 }
             }
 
-            // ⭐ THAY THẾ NÚT TEST BẰNG NÚT QUẢN LÝ NHẮC NHỞ
+            // ⭐ GIỮ LẠI NÚT QUẢN LÝ NHẮC NHỞ
             binding.btnEdit.setOnClickListener {
                 showReminderManagementDialog()
             }
 
-            binding.btnEdit.setOnClickListener {
-                isChatVisible = !isChatVisible
-                binding.chatbotWebView.visibility = if (isChatVisible) View.VISIBLE else View.GONE
-            }
         } catch (e: Exception) {
             Log.e("HomeActivity", "❌ Lỗi trong initListener", e)
         }
@@ -336,7 +254,6 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
             val isEnabled = DailyReminderManager.isDailyReminderEnabled()
             val (hour, minute) = DailyReminderManager.getReminderTime()
 
-            // Sửa: Đơn giản hóa - chỉ log trạng thái
             Log.d("ReminderStatus", "🔄 Trạng thái nhắc nhở: ${if (isEnabled) "BẬT" else "TẮT"} - ${DailyReminderManager.formatTime(hour, minute)}")
 
         } catch (e: Exception) {
