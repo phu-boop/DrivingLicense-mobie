@@ -286,102 +286,131 @@ class MapDataViewModel : BaseViewModel() {
 
     private fun getQuestionExam1(): MutableList<Question> {
         return mutableListOf(
-            //6 câu điểm liệt
+            // 6 câu điểm liệt
             listImportant[0], listImportant[2], listImportant[4], listImportant[6],
             listImportant[8], listImportant[10],
-            // 8 câu khái niệm và quy tắc
+
+            // 7 câu khái niệm và quy tắc
             listConceptAndRule[0], listConceptAndRule[1], listConceptAndRule[2],
-            listConceptAndRule[3], listConceptAndRule[5],
-            listConceptAndRule[8], listConceptAndRule[10], listConceptAndRule[12],
-            // 3 câu văn hóa và đạo đức
-            listCulturesAndEthic[0], listCulturesAndEthic[1], listCulturesAndEthic[2],
-            // 3 câu kỹ thuật lái xe
-            listDrivingUnique[0], listDrivingUnique[1], listDrivingUnique[2],
-            // 5 câu biển báo
-            listRoadSign[0], listRoadSign[2], listRoadSign[4], listRoadSign[6], listRoadSign[8],
-            // 5 câu sa hình
-            listSatFigure[0], listSatFigure[2], listSatFigure[4], listSatFigure[6] ,listSatFigure[18]
-        ).shuffled() as MutableList<Question> // Xáo trộn đề thi
+            listConceptAndRule[3], listConceptAndRule[5], listConceptAndRule[8],
+            listConceptAndRule[10],
+
+            // 2 câu văn hóa và đạo đức
+            listCulturesAndEthic[0], listCulturesAndEthic[1],
+
+            // 2 câu kỹ thuật lái xe
+            listDrivingUnique[0], listDrivingUnique[1],
+
+            // 4 câu biển báo
+            listRoadSign[0], listRoadSign[2], listRoadSign[4], listRoadSign[6],
+
+            // 4 câu sa hình
+            listSatFigure[0], listSatFigure[2], listSatFigure[4], listSatFigure[6]
+        )
     }
+
 
     private fun getQuestionExam2(): MutableList<Question> {
         return mutableListOf(
             // 6 câu điểm liệt
             listImportant[1], listImportant[3], listImportant[5], listImportant[7],
             listImportant[9], listImportant[11],
-            // 8 câu khái niệm và quy tắc
+
+            // 7 câu khái niệm và quy tắc
             listConceptAndRule[1], listConceptAndRule[3], listConceptAndRule[4],
             listConceptAndRule[7], listConceptAndRule[9], listConceptAndRule[11],
-            listConceptAndRule[13], listConceptAndRule[0],
-            // 3 câu văn hóa và đạo đức
-            listCulturesAndEthic[1], listCulturesAndEthic[2], listCulturesAndEthic[3],
-            // 3 câu kỹ thuật lái xe
-            listDrivingUnique[1], listDrivingUnique[2], listDrivingUnique[3],
-            // 5 câu biển báo
-            listRoadSign[1], listRoadSign[3], listRoadSign[5], listRoadSign[7], listRoadSign[9],
-            // 5 câu sa hình
-            listSatFigure[1], listSatFigure[3], listSatFigure[5], listSatFigure[7] ,listSatFigure[9]
-        ).shuffled() as MutableList<Question> // Xáo trộn đề thi
+            listConceptAndRule[13],
+
+            // 2 câu văn hóa và đạo đức
+            listCulturesAndEthic[1], listCulturesAndEthic[2],
+
+            // 2 câu kỹ thuật lái xe
+            listDrivingUnique[1], listDrivingUnique[2],
+
+            // 4 câu biển báo
+            listRoadSign[1], listRoadSign[3], listRoadSign[5], listRoadSign[7],
+
+            // 4 câu sa hình
+            listSatFigure[1], listSatFigure[3], listSatFigure[5], listSatFigure[7]
+        )
     }
+
 
     private fun getQuestionExam3(): MutableList<Question> {
         return mutableListOf(
             // 6 câu điểm liệt
             listImportant[12], listImportant[13], listImportant[14], listImportant[15],
             listImportant[16], listImportant[17],
-            // 8 câu khái niệm và quy tắc
+
+            // 7 câu khái niệm và quy tắc
             listConceptAndRule[2], listConceptAndRule[4], listConceptAndRule[6],
             listConceptAndRule[8], listConceptAndRule[10], listConceptAndRule[12],
-            listConceptAndRule[1], listConceptAndRule[7],
-            // 3 câu văn hóa và đạo đức
-            listCulturesAndEthic[2], listCulturesAndEthic[3], listCulturesAndEthic[4],
-            // 3 câu kỹ thuật lái xe
-            listDrivingUnique[2], listDrivingUnique[3], listDrivingUnique[4],
-            // 5 câu biển báo
-            listRoadSign[10], listRoadSign[12], listRoadSign[14], listRoadSign[16], listRoadSign[18],
-            // 5 câu sa hình
-            listSatFigure[8], listSatFigure[9], listSatFigure[10], listSatFigure[11], listSatFigure[13]
-        ).shuffled() as MutableList<Question> // Xáo trộn đề thi
+            listConceptAndRule[1],
+
+            // 2 câu văn hóa và đạo đức
+            listCulturesAndEthic[2], listCulturesAndEthic[3],
+
+            // 2 câu kỹ thuật lái xe
+            listDrivingUnique[2], listDrivingUnique[3],
+
+            // 4 câu biển báo
+            listRoadSign[10], listRoadSign[12], listRoadSign[14], listRoadSign[16],
+
+            // 4 câu sa hình
+            listSatFigure[8], listSatFigure[9], listSatFigure[10], listSatFigure[11]
+        )
     }
+
 
     private fun getQuestionExam4(): MutableList<Question> {
         return mutableListOf(
             // 6 câu điểm liệt
             listImportant[18], listImportant[19], listImportant[20], listImportant[21],
             listImportant[22], listImportant[23],
-            // 8 câu khái niệm và quy tắc
+
+            // 7 câu khái niệm và quy tắc
             listConceptAndRule[3], listConceptAndRule[5], listConceptAndRule[7],
             listConceptAndRule[9], listConceptAndRule[11], listConceptAndRule[13],
-             listConceptAndRule[2], listConceptAndRule[4],
-            // 3 câu văn hóa và đạo đức
-            listCulturesAndEthic[3], listCulturesAndEthic[4], listCulturesAndEthic[0],
-            // 3 câu kỹ thuật lái xe
-            listDrivingUnique[3], listDrivingUnique[4], listDrivingUnique[5],
-            // 5 câu biển báo
-            listRoadSign[11], listRoadSign[13], listRoadSign[15], listRoadSign[17], listRoadSign[19],
-            // 5 câu sa hình
-            listSatFigure[12], listSatFigure[13], listSatFigure[14], listSatFigure[20] ,listSatFigure[22]
-        ).shuffled() as MutableList<Question> // Xáo trộn đề thi
+            listConceptAndRule[2],
+
+            // 2 câu văn hóa và đạo đức
+            listCulturesAndEthic[3], listCulturesAndEthic[4],
+
+            // 2 câu kỹ thuật lái xe
+            listDrivingUnique[3], listDrivingUnique[4],
+
+            // 4 câu biển báo
+            listRoadSign[11], listRoadSign[13], listRoadSign[15], listRoadSign[17],
+
+            // 4 câu sa hình
+            listSatFigure[12], listSatFigure[13], listSatFigure[14], listSatFigure[15]
+        )
     }
+
 
     private fun getQuestionExam5(): MutableList<Question> {
         return mutableListOf(
             // 6 câu điểm liệt
             listImportant[24], listImportant[25], listImportant[26], listImportant[27],
             listImportant[1], listImportant[3],
-            // 8 câu khái niệm và quy tắc
+
+            // 7 câu khái niệm và quy tắc
             listConceptAndRule[4], listConceptAndRule[6], listConceptAndRule[8],
             listConceptAndRule[10], listConceptAndRule[12], listConceptAndRule[1],
-            listConceptAndRule[3], listConceptAndRule[9],
-            // 3 câu văn hóa và đạo đức
-            listCulturesAndEthic[0], listCulturesAndEthic[4], listCulturesAndEthic[2],
-            // 3 câu kỹ thuật lái xe
-            listDrivingUnique[4], listDrivingUnique[5], listDrivingUnique[6],
-            // 5 câu biển báo
-            listRoadSign[1], listRoadSign[4], listRoadSign[7], listRoadSign[10], listRoadSign[13],
-            // 5 câu sa hình
-            listSatFigure[15], listSatFigure[16], listSatFigure[17], listSatFigure[21]
-        ).shuffled() as MutableList<Question> // Xáo trộn đề thi
+            listConceptAndRule[3],
+
+            // 2 câu văn hóa và đạo đức
+            listCulturesAndEthic[0], listCulturesAndEthic[4],
+
+            // 2 câu kỹ thuật lái xe
+            listDrivingUnique[4], listDrivingUnique[5],
+
+            // 4 câu biển báo
+            listRoadSign[1], listRoadSign[4], listRoadSign[7], listRoadSign[10],
+
+            // 4 câu sa hình
+            listSatFigure[15], listSatFigure[16], listSatFigure[17], listSatFigure[18]
+        )
     }
 
     private fun getQuestionExam6(): MutableList<Question> {
@@ -389,91 +418,76 @@ class MapDataViewModel : BaseViewModel() {
             // 6 câu điểm liệt
             listImportant[5], listImportant[7], listImportant[9], listImportant[12],
             listImportant[14], listImportant[16],
-            // 8 câu khái niệm và quy tắc
+
+            // 7 câu khái niệm và quy tắc
             listConceptAndRule[1], listConceptAndRule[3], listConceptAndRule[7],
             listConceptAndRule[9], listConceptAndRule[11], listConceptAndRule[12],
-            listConceptAndRule[2], listConceptAndRule[6],
-            // 3 câu văn hóa và đạo đức
-            listCulturesAndEthic[1], listCulturesAndEthic[3], listCulturesAndEthic[0],
-            // 3 câu kỹ thuật lái xe
-            listDrivingUnique[6], listDrivingUnique[7], listDrivingUnique[8],
-            // 5 câu biển báo
-            listRoadSign[2], listRoadSign[5], listRoadSign[8], listRoadSign[12], listRoadSign[15],
-            // 5 câu sa hình (bắt đầu dùng các câu mới bạn thêm vào)
-            listSatFigure[18], listSatFigure[19], listSatFigure[22], listSatFigure[24] ,listSatFigure[23]
-        ).shuffled() as MutableList<Question> // Xáo trộn đề thi
+            listConceptAndRule[2],
+
+            // 2 câu văn hóa và đạo đức
+            listCulturesAndEthic[1], listCulturesAndEthic[3],
+
+            // 2 câu kỹ thuật lái xe
+            listDrivingUnique[5], listDrivingUnique[6],
+
+            // 4 câu biển báo
+            listRoadSign[9], listRoadSign[11], listRoadSign[13], listRoadSign[15],
+
+            // 4 câu sa hình
+            listSatFigure[18], listSatFigure[19], listSatFigure[20], listSatFigure[21]
+        )
     }
 
 
-    private fun getRandomQuestionExam(position: Int): MutableList<Question> {
-        /**30 question in 1 exam
-         * 6 question important [0;34]
-         * 7 question concept and rule (not important) (not important [0;13])
-         * 2 question cultures and ethic [0;4]
-         * 2 question driving unique (not important) [0;9]
-         * 4 question road sign [0;19]
-         * 4 question sat figure [0;19]
-         * */
-        var list = mutableListOf<Question>()
-        for (i in 1..6) {
-            var random = Random.nextInt(0, 35)
-            while (list.contains(listImportant[random])) {
-                random = Random.nextInt(0, 35)
+    private fun getRandomQuestionExam(position: Int) {
+        val list = (listImportant + listConceptAndRule + listCulturesAndEthic +
+                listDrivingUnique + listRoadSign + listSatFigure)
+            .shuffled().take(25)
+        mapQuestion[position] = list as MutableList<Question>
+    }
+
+    fun getAnswerWithQuestion(listQuestion: List<Question>) {
+        for ((index, question) in listQuestion.withIndex()) {
+            when (question.questionId) {
+                in 1..35 -> {
+                    mapping[index] = mapAnswerImportant[question.questionId]!!
+                }
+                in 41..70 -> {
+                    mapping[index] = mapAnswerConceptsAndRules[question.questionId]!!
+                }
+                in 81..85 -> {
+                    mapping[index] = mapAnswerCulturesAndEthics[question.questionId]!!
+                }
+                in 91..102 -> {
+                    mapping[index] = mapAnswerDrivingUnique[question.questionId]!!
+                }
+                in 111..130 -> {
+                    mapping[index] = mapAnswerRoadSign[question.questionId]!!
+                }
+                in 141..165 -> {
+                    mapping[index] = mapAnswerSatFigure[question.questionId]!!
+                }
             }
-            list.add(listImportant[random])
         }
-        for (i in 1..7) {
-            var random = Random.nextInt(0, 14)
-            while (list.contains(listConceptAndRule[random])) {
-                random = Random.nextInt(0, 14)
+    }
+
+    fun getAnswerTest(listQuestion: MutableList<Question>): MutableList<MutableList<Answer>> {
+        val list = mutableListOf<MutableList<Answer>>()
+        for (item in listQuestion) {
+            val answers = when {
+                mapAnswerImportant.containsKey(item.questionId) -> mapAnswerImportant[item.questionId]
+                mapAnswerConceptsAndRules.containsKey(item.questionId) -> mapAnswerConceptsAndRules[item.questionId]
+                mapAnswerCulturesAndEthics.containsKey(item.questionId) -> mapAnswerCulturesAndEthics[item.questionId]
+                mapAnswerDrivingUnique.containsKey(item.questionId) -> mapAnswerDrivingUnique[item.questionId]
+                mapAnswerRoadSign.containsKey(item.questionId) -> mapAnswerRoadSign[item.questionId]
+                mapAnswerSatFigure.containsKey(item.questionId) -> mapAnswerSatFigure[item.questionId]
+                else -> mutableListOf()
             }
-            list.add(listConceptAndRule[random])
+            list.add(answers ?: mutableListOf())
         }
-        for (i in 1..2) {
-            var random = Random.nextInt(0, 5)
-            while (list.contains(listCulturesAndEthic[random])) {
-                random = Random.nextInt(0, 5)
-            }
-            list.add(listCulturesAndEthic[random])
-        }
-        for (i in 1..2) {
-            var random = Random.nextInt(0, 10)
-            while (list.contains(listDrivingUnique[random])) {
-                random = Random.nextInt(0, 10)
-            }
-            list.add(listDrivingUnique[random])
-        }
-        for (i in 1..4) {
-            var random = Random.nextInt(0, 20)
-            while (list.contains(listRoadSign[random])) {
-                random = Random.nextInt(0, 20)
-            }
-            list.add(listRoadSign[random])
-        }
-        for (i in 1..4) {
-            var random = Random.nextInt(0, 25)
-            while (list.contains(listSatFigure[random])) {
-                random = Random.nextInt(0, 25)
-            }
-            list.add(listSatFigure[random])
-        }
-        for (i in 1..5) {
-            list = list.shuffled() as MutableList<Question>
-        }
-        list.addAll(mutableListOf(
-            listSatFigure[0], listSatFigure[2], listSatFigure[4], listSatFigure[6],listSatFigure[6]
-        ))
-        mapQuestion[position] = list
         return list
     }
 
-    fun getAnswerTest(questions: MutableList<Question>): MutableList<MutableList<Answer>> {
-        val listAnswer = mutableListOf<MutableList<Answer>>()
-        for (item in questions) {
-            mapping[item.questionId]?.let { listAnswer.add(it) }
-        }
-        return listAnswer
-    }
 
     fun getAnswer(question: Question): MutableList<Answer> {
         return mapping[question.questionId] as MutableList<Answer>

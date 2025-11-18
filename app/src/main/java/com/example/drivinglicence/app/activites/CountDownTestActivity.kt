@@ -156,77 +156,81 @@ class CountDownTestActivity : BaseVMActivity<ActivityLessonViewPagerBinding, Map
 
     private fun handlerFinish() {
         /**Thống kê câu sai và đúng, kiểm tra trượt hay đỗ*/
-        val listQuestionCorrect = mutableListOf<Int>()
-        val listQuestionWrong = mutableListOf<Int>()
-        var isPass = true
-        var count = 0
-        viewModel.mapResult.map { entry ->
-            if (entry.value) {
-                count++
-                for (i in 0 until listQuestion.size) {
-                    if (listQuestion[i].questionId == entry.key) {
-                        listQuestionCorrect.add(i + 1)
-                        break
-                    }
-                }
+        var correctAnswersCount = 0
+        var isFailedCritical = false // Biến để kiểm tra có sai câu điểm liệt không
+
+        // --- Bắt đầu logic chấm điểm mới ---
+        // Duyệt qua tất cả các câu hỏi trong đề thi
+        for (question in listQuestion) {
+            val isAnsweredCorrectly = viewModel.mapResult[question.questionId] ?: false
+
+            if (isAnsweredCorrectly) {
+                correctAnswersCount++ // Nếu trả lời đúng, tăng số câu đúng
             } else {
-                if (entry.key <= 35) {
-                    isPass = false
+                // Nếu trả lời sai, kiểm tra xem đó có phải câu điểm liệt không
+                if (question.isImportant) {
+                    isFailedCritical = true // Đánh dấu là đã trượt vì sai câu điểm liệt
                 }
             }
         }
-        var msgCorrect = "$count"
-        for (i in 1..listQuestion.size) {
-            if (!listQuestionCorrect.contains(i)) {
-                listQuestionWrong.add(i)
-            }
-        }
-        var msgInCorrect = ""
-        for (item in 0 until listQuestionWrong.size) {
-            msgInCorrect += if (item != listQuestionWrong.size - 1) {
-                "${listQuestionWrong[item]}, "
-            } else {
-                "${listQuestionWrong[item]}"
-            }
-        }
-        //count < 21
-        if (count < 27) {
-            isPass = false
-        }
-        if ((intent.extras?.getInt("number_test")?:0) == 6){
-            isPass = true
-        }
+
+        // --- Xác định kết quả Đậu/Trượt ---
+        var isPass: Boolean
+        // Điều kiện đậu:
+        // 1. KHÔNG sai câu điểm liệt (isFailedCritical == false)
+        // 2. Trả lời đúng từ 21/25 câu trở lên
+        isPass = !isFailedCritical && correctAnswersCount >= 21
+
+        // --- Hiển thị dialog kết quả ---
+
+        // Lấy danh sách các câu trả lời sai để hiển thị
+        val wrongAnswerNumbers = listQuestion.filter {
+            !(viewModel.mapResult[it.questionId] ?: false)
+        }.map { listQuestion.indexOf(it) + 1 }
+        val msgInCorrect = wrongAnswerNumbers.joinToString(", ")
+
+
         AlertMessageDialog(this).also { alert ->
             val buttonText = getString(R.string.text_confirm)
             val title: String
             when (isPass) {
-                true -> { // pass
+                true -> { // Đậu
                     title = getString(R.string.text_pass_exam)
                     alert.setColorTitle(ContextCompat.getColor(this, R.color.green))
                     alert.setIconImageAlert(R.drawable.success)
                 }
-                else -> { // failed
+                else -> { // Trượt
                     title = getString(R.string.text_failed_exam)
                     alert.setColorTitle(ContextCompat.getColor(this, R.color.red))
                     alert.setIconImageAlert(R.drawable.failed)
                 }
             }
 
+            // Tạo thông báo chi tiết
+            var message = getString(R.string.text_quantity_answer_correct) + ": $correctAnswersCount/25\n"
+            if (wrongAnswerNumbers.isNotEmpty()){
+                message += getString(R.string.text_quantity_answer_incorrect) + ": $msgInCorrect"
+            }
+
+            // Nếu trượt do câu điểm liệt, thêm thông báo
+            if (isFailedCritical) {
+                message += "\n(TRƯỢT do sai câu hỏi điểm liệt)"
+            }
+
             alert.show(title,
-                getString(R.string.text_quantity_answer_correct) + ": $msgCorrect\n"
-                        + getString(R.string.text_quantity_answer_incorrect) + ": $msgInCorrect",
+                message,
                 buttonText,
                 cancelAble = false,
                 onClickSubmit = {
                     alert.hide()
                     /**Update Result to view pager*/
                     showResult()
-//                    onBackPressed()
                 }
             )
             alert.hideCancelButton()
         }
     }
+
 
     private fun showResult() {
         viewModel.listQuestion

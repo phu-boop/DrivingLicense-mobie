@@ -31,7 +31,7 @@
     <string name="text_init_data">Đang tạo đề thi</string>
     <string name="text_creating_random_exam">Đang tạo đề thi ngẫu nhiên.</string>
     <string name="text_tutorial_exam">Hướng dẫn làm bài</string>
-    <string name="text_quantity_time">30 câu/26 phút</string>
+    <string name="text_quantity_time">25 câu/19 phút</string>
     <string name="text_information_exam">Mỗi đề thi đều có câu hỏi điểm liệt, nếu thí sinh chỉ cần trả lời sai câu hỏi điểm liệt coi như bị rớt. Đề thi bằng lái hạng B1 gồm 30 câu hỏi làm bài trong 20 phút.\n\nĐể vượt qua bài thi, thí sinh cần trả lời đúng 27/30 câu hỏi và không sai câu điểm liệt nào.</string>
     <string name="text_confirm_exit">Bạn có chắc muốn thoát khỏi đề đang làm?</string>
     <string name="text_time_remaining">Thời gian còn lại</string>
