@@ -19,6 +19,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.NotificationCompat
@@ -43,9 +47,10 @@ import java.io.File
 import java.util.Calendar
 
 class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
+    private var isChatVisible = false
     private val actionAdapter by lazy { ActionAdapter() }
     private lateinit var listAction: MutableList<ItemAction>
-    private lateinit var customFont: Typeface
+    private var customFont: Typeface? = null // Sửa: Cho phép null
     private val mainHandler = Handler(Looper.getMainLooper())
 
     override fun onResume() {
@@ -64,6 +69,10 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
             lifecycleScope.launch(Dispatchers.IO) {
                 loadFontAndSetupActionBar()
             }
+
+            mainHandler.postDelayed({
+                initWebViewSafely()
+            }, 1000)
 
             initSlideWithDelay()
             setupRecyclerView()
@@ -90,7 +99,8 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                     lockscreenVisibility = NotificationCompat.VISIBILITY_PUBLIC
                 }
 
-                val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                val notificationManager =
+                    getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
                 notificationManager.createNotificationChannel(channel)
                 Log.d("HomeActivity", "✅ Kênh thông báo đã được tạo")
             }
@@ -101,7 +111,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
 
     private suspend fun loadFontAndSetupActionBar() {
         try {
-            customFont = ResourcesCompat.getFont(this@HomeActivity, R.font.ptsansnarrowbold)!!
+            customFont = ResourcesCompat.getFont(this@HomeActivity, R.font.ptsansnarrowbold)
 
             withContext(Dispatchers.Main) {
                 supportActionBar?.setBackgroundDrawable(
@@ -113,6 +123,70 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
         } catch (e: Exception) {
             Log.e("HomeActivity", "❌ Lỗi tải font", e)
         }
+    }
+
+    private fun initWebViewSafely() {
+        try {
+            if (isRunningOnEmulator()) {
+                Log.d("HomeActivity", "Máy ảo → tắt chatbot")
+                binding.chatbotWebView.visibility = View.GONE
+                binding.btnEdit.visibility = View.GONE
+                return
+            }
+
+            val webView = binding.chatbotWebView
+            webView.settings.javaScriptEnabled = true
+            webView.settings.domStorageEnabled = true
+            webView.settings.loadWithOverviewMode = true
+            webView.settings.useWideViewPort = true
+            //webView.settings.cacheMode = WebSettings.LOAD_DEFAULT
+
+            webView.webViewClient = object : WebViewClient() {
+                override fun onPageFinished(view: WebView?, url: String?) {
+                    Log.d("WebView", "✅ Đã tải HTML thành công: $url")
+                    binding.chatbotWebView.visibility = View.VISIBLE
+                    binding.btnEdit.visibility = View.VISIBLE
+                }
+
+                override fun onReceivedError(
+                    view: WebView?,
+                    request: WebResourceRequest?,
+                    error: WebResourceError?
+                ) {
+                    Log.e("WebView", "⚠️ Lỗi: ${error}")
+                    // Không ẩn, chỉ log
+                }
+            }
+
+            // LOAD TỪ ASSETS - KHÔNG BAO GIỜ "NOT AVAILABLE"
+            webView.loadUrl("file:///android_asset/chat.html")
+            webView.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+            Log.d("WebView", "🔄 Đang tải chat từ assets...")
+
+        } catch (e: Exception) {
+            Log.e("HomeActivity", "Lỗi khởi tạo WebView", e)
+            binding.chatbotWebView.visibility = View.VISIBLE
+            binding.btnEdit.visibility = View.VISIBLE
+        }
+    }
+
+    // Thêm hàm retry nếu connect chậm (tùy chọn, gọi từ onReceivedError)
+    private fun retryLoadWebView(webView: WebView) {
+        mainHandler.postDelayed({
+            Log.d("WebView", "🔄 Retry load...")
+            webView.loadUrl("https://gemini-vn-chat.pages.dev/v2")
+        }, 2000)  // Retry sau 2 giây
+    }
+
+    private fun isRunningOnEmulator(): Boolean {
+        return (Build.FINGERPRINT.startsWith("generic") ||
+                Build.FINGERPRINT.startsWith("unknown") ||
+                Build.MODEL.contains("google_sdk") ||
+                Build.MODEL.contains("Emulator") ||
+                Build.MODEL.contains("Android SDK built for x86") ||
+                Build.MANUFACTURER.contains("Genymotion") ||
+                (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic")) ||
+                "google_sdk" == Build.PRODUCT)
     }
 
     private fun initSlideWithDelay() {
@@ -149,7 +223,8 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
     private fun setupRecyclerView() {
         try {
             val rcvItem = binding.rcvItem
-            val spacingInPixels = resources.getDimensionPixelSize(R.dimen.recycler_view_item_spacing)
+            val spacingInPixels =
+                resources.getDimensionPixelSize(R.dimen.recycler_view_item_spacing)
             rcvItem.addItemDecoration(SpacingItemDecoration(spacingInPixels))
             RecyclerUtils.setGridManager(this, rcvItem, 2, actionAdapter)
         } catch (e: Exception) {
@@ -159,7 +234,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
 
     private fun setCustomActionBarTitle(title: String) {
         try {
-            val drawable = ContextCompat.getDrawable(this, R.drawable.driving)!!
+            val drawable = ContextCompat.getDrawable(this, R.drawable.driving) ?: return
             drawable.setBounds(0, 0, 90, 90)
 
             val fullTitle = " $title"
@@ -167,12 +242,15 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
             val imageSpan = ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM)
             spannableString.setSpan(imageSpan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
 
-            spannableString.setSpan(
-                CustomTypefaceSpan(customFont),
-                1,
-                fullTitle.length,
-                Spannable.SPAN_INCLUSIVE_EXCLUSIVE
-            )
+            // Sửa: Sử dụng safe call với let
+            customFont?.let { font ->
+                spannableString.setSpan(
+                    CustomTypefaceSpan(font),
+                    1,
+                    fullTitle.length,
+                    Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+                )
+            }
 
             val textSizeInSp = 24
             val textSizeInPx = (textSizeInSp * resources.displayMetrics.scaledDensity).toInt()
@@ -182,7 +260,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                 fullTitle.length,
                 Spannable.SPAN_INCLUSIVE_EXCLUSIVE
             )
-            supportActionBar!!.title = spannableString
+            supportActionBar?.title = spannableString
 
         } catch (e: Exception) {
             Log.e("HomeActivity", "❌ Lỗi thiết lập tiêu đề action bar", e)
@@ -194,12 +272,36 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
             try {
                 listAction = ArrayList()
 
-                val item1 = ItemAction(getString(R.string.text_exam), R.drawable.exam, R.drawable.border_item_1)
-                val item2 = ItemAction(getString(R.string.text_learning_theory), R.drawable.book, R.drawable.border_item_2)
-                val item3 = ItemAction(getString(R.string.text_road_signs), R.drawable.stop2, R.drawable.border_item_3)
-                val item4 = ItemAction(getString(R.string.text_tips), R.drawable.star, R.drawable.border_item_4)
-                val item5 = ItemAction(getString(R.string.text_search_law), R.drawable.law, R.drawable.border_item_5)
-                val item6 = ItemAction(getString(R.string.text_sometime_error), R.drawable.computer, R.drawable.border_item_6)
+                val item1 = ItemAction(
+                    getString(R.string.text_exam),
+                    R.drawable.exam,
+                    R.drawable.border_item_1
+                )
+                val item2 = ItemAction(
+                    getString(R.string.text_learning_theory),
+                    R.drawable.book,
+                    R.drawable.border_item_2
+                )
+                val item3 = ItemAction(
+                    getString(R.string.text_road_signs),
+                    R.drawable.stop2,
+                    R.drawable.border_item_3
+                )
+                val item4 = ItemAction(
+                    getString(R.string.text_tips),
+                    R.drawable.star,
+                    R.drawable.border_item_4
+                )
+                val item5 = ItemAction(
+                    getString(R.string.text_search_law),
+                    R.drawable.law,
+                    R.drawable.border_item_5
+                )
+                val item6 = ItemAction(
+                    getString(R.string.text_sometime_error),
+                    R.drawable.computer,
+                    R.drawable.border_item_6
+                )
 
                 listAction = arrayListOf(item1, item2, item3, item4, item5, item6)
 
@@ -227,20 +329,41 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                         showQuickLoading()
                         openActivity(TestLicenseActivity::class.java, false)
                     }
-                    getString(R.string.text_learning_theory) -> openActivity(LearningTheoryActivity::class.java, false)
-                    getString(R.string.text_road_signs) -> openActivity(RoadTrafficSignsActivity::class.java, false)
+
+                    getString(R.string.text_learning_theory) -> openActivity(
+                        LearningTheoryActivity::class.java,
+                        false
+                    )
+
+                    getString(R.string.text_road_signs) -> openActivity(
+                        RoadTrafficSignsActivity::class.java,
+                        false
+                    )
+
                     getString(R.string.text_tips) -> openActivity(TipsActivity::class.java, false)
-                    getString(R.string.text_search_law) -> openActivity(SearchLawActivity::class.java, false)
-                    getString(R.string.text_sometime_error) -> openActivity(CommonMistakesActivity::class.java, false)
+                    getString(R.string.text_search_law) -> openActivity(
+                        SearchLawActivity::class.java,
+                        false
+                    )
+
+                    getString(R.string.text_sometime_error) -> openActivity(
+                        CommonMistakesActivity::class.java,
+                        false
+                    )
+
                     else -> showDialogDevelopment(this)
                 }
             }
 
-            // ⭐ GIỮ LẠI NÚT QUẢN LÝ NHẮC NHỞ
+            // ⭐ THAY THẾ NÚT TEST BẰNG NÚT QUẢN LÝ NHẮC NHỞ
             binding.btnEdit.setOnClickListener {
                 showReminderManagementDialog()
             }
 
+            binding.btnEdit.setOnClickListener {
+                isChatVisible = !isChatVisible
+                binding.chatbotWebView.visibility = if (isChatVisible) View.VISIBLE else View.GONE
+            }
         } catch (e: Exception) {
             Log.e("HomeActivity", "❌ Lỗi trong initListener", e)
         }
@@ -254,7 +377,16 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
             val isEnabled = DailyReminderManager.isDailyReminderEnabled()
             val (hour, minute) = DailyReminderManager.getReminderTime()
 
-            Log.d("ReminderStatus", "🔄 Trạng thái nhắc nhở: ${if (isEnabled) "BẬT" else "TẮT"} - ${DailyReminderManager.formatTime(hour, minute)}")
+            // Sửa: Đơn giản hóa - chỉ log trạng thái
+            Log.d(
+                "ReminderStatus",
+                "🔄 Trạng thái nhắc nhở: ${if (isEnabled) "BẬT" else "TẮT"} - ${
+                    DailyReminderManager.formatTime(
+                        hour,
+                        minute
+                    )
+                }"
+            )
 
         } catch (e: Exception) {
             Log.e("HomeActivity", "❌ Lỗi cập nhật trạng thái", e)
@@ -299,7 +431,15 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                 // Lưu thời gian mới
                 if (DailyReminderManager.canScheduleExactAlarms(this)) {
                     DailyReminderManager.enableDailyReminder(this, hourOfDay, minute)
-                    showMessage(this, "✅ Đã đặt nhắc nhở lúc ${DailyReminderManager.formatTime(hourOfDay, minute)} hàng ngày")
+                    showMessage(
+                        this,
+                        "✅ Đã đặt nhắc nhở lúc ${
+                            DailyReminderManager.formatTime(
+                                hourOfDay,
+                                minute
+                            )
+                        } hàng ngày"
+                    )
                     updateReminderStatus()
 
                     // Hiển thị thông báo xác nhận
@@ -323,8 +463,15 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
     private fun showReminderSetConfirmation(hour: Int, minute: Int) {
         AlertDialog.Builder(this)
             .setTitle("✅ Đã đặt nhắc nhở")
-            .setMessage("Bạn sẽ nhận được thông báo ôn tập mỗi ngày lúc ${DailyReminderManager.formatTime(hour, minute)}\n\n" +
-                    "Thông báo sẽ hiển thị ngay cả khi app đang chạy nền hoặc đã đóng.")
+            .setMessage(
+                "Bạn sẽ nhận được thông báo ôn tập mỗi ngày lúc ${
+                    DailyReminderManager.formatTime(
+                        hour,
+                        minute
+                    )
+                }\n\n" +
+                        "Thông báo sẽ hiển thị ngay cả khi app đang chạy nền hoặc đã đóng."
+            )
             .setPositiveButton("OK", null)
             .show()
     }
@@ -370,7 +517,15 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                 val (hour, minute) = DailyReminderManager.getReminderTime()
                 if (DailyReminderManager.canScheduleExactAlarms(this)) {
                     DailyReminderManager.enableDailyReminder(this, hour, minute)
-                    showMessage(this, "✅ Đã bật nhắc nhở lúc ${DailyReminderManager.formatTime(hour, minute)} hàng ngày")
+                    showMessage(
+                        this,
+                        "✅ Đã bật nhắc nhở lúc ${
+                            DailyReminderManager.formatTime(
+                                hour,
+                                minute
+                            )
+                        } hàng ngày"
+                    )
                 } else {
                     showMessage(this, "❌ Cần cấp quyền exact alarm cho nhắc nhở chính xác")
                 }
@@ -405,14 +560,18 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
             binding.layoutProgress.visibility = View.VISIBLE
 
             val mmkv = MMKV.defaultMMKV()
-            val viewedQuestionsSet = mmkv.decodeStringSet("VIEWED_QUESTIONS_SET", emptySet()) ?: emptySet()
-            val correctAnswersMap = mmkv.decodeStringSet("CORRECT_ANSWERS_SET", emptySet()) ?: emptySet()
+            val viewedQuestionsSet =
+                mmkv.decodeStringSet("VIEWED_QUESTIONS_SET", emptySet()) ?: emptySet()
+            val correctAnswersMap =
+                mmkv.decodeStringSet("CORRECT_ANSWERS_SET", emptySet()) ?: emptySet()
 
             val questionsDone = viewedQuestionsSet.size
             val correctAnswersCount = correctAnswersMap.size
 
-            val progressPercentage = if (totalQuestions > 0) (questionsDone * 100) / totalQuestions else 0
-            val correctRate = if (questionsDone > 0) (correctAnswersCount * 100) / questionsDone else 0
+            val progressPercentage =
+                if (totalQuestions > 0) (questionsDone * 100) / totalQuestions else 0
+            val correctRate =
+                if (questionsDone > 0) (correctAnswersCount * 100) / questionsDone else 0
 
             if (binding.progressCircular.progress != progressPercentage) {
                 binding.progressCircular.progress = progressPercentage
@@ -454,10 +613,12 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                     setCustomActionBarTitle(getString(R.string.app_name) + " A1")
                     showMessage(this, getString(R.string.text_chose_license_A1))
                 }
+
                 R.id.item_license_A2 -> {
                     setCustomActionBarTitle(getString(R.string.app_name) + " A2")
                     showMessage(this, getString(R.string.text_chose_license_A2))
                 }
+
                 R.id.item_daily_reminder -> {
                     showReminderManagementDialog()
                 }
