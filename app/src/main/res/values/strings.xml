@@ -698,5 +698,17 @@
     <string name="text_tip_content_21">- Xe mô tô xuống dốc dài cần sử dụng cả phanh trước và phanh sau để giảm tốc độ.\n- Thực hiện quay đầu xe với tốc độ thấp.</string>
     <string name="text_tip_content_20">- Không lái xe liên tục quá 4 giờ.\n- Không làm việc 1 ngày của lái xe quá 10 giờ.\n- Người kinh doanh vận tải không được tự ý thay đổi vị trí đón trả khách.\n- Vận chuyển hàng nguy hiểm phải có giáy phép.</string>
     <string name="text_tip_content_22">- Thứ tự ưu tiên không vòng xuyến: Xe vào ngã ba, ngã tư trước - xe ưu tiên - đường ưu tiên - đường cùng cấp theo thứ tự bên phải trống - rẽ phải - đi thẳng - rẽ trái.\n- Giao nhau cùng cấp có vòng xuyến: Chưa vào vòng xuyến thì ưu tiên xe bên phải; đã vào vòng xuyến ưu tiên xe từ bên trái tới.\n- Xe xuống dốc phải nhường đường cho xe đang lên dốc</string>
+    <!-- Daily Reminder Messages -->
+    <string name="reminder_title_daily">Ôn thi lái xe A1 ⏰</string>
+    <string name="reminder_message_1">Đừng quên ôn tập lý thuyết hôm nay! 🚗</string>
+    <string name="reminder_message_2">Làm đề thi thử để kiểm tra kiến thức nào! 📝</string>
+    <string name="reminder_message_3">Học 15 phút mỗi ngày, thi là đậu ngay! 💪</string>
+    <string name="reminder_message_4">Ôn lại biển báo đường bộ chưa? 🛑</string>
+    <string name="reminder_message_5">Chỉ còn vài câu nữa là hoàn thành lý thuyết! 🎯</string>
 
+    <!-- Settings -->
+    <string name="setting_daily_reminder">Nhắc nhở học tập hàng ngày</string>
+    <string name="setting_reminder_time">Thời gian nhắc nhở</string>
+    <string name="setting_reminder_enabled">Đã bật nhắc nhở lúc 8:00</string>
+    <string name="setting_reminder_disabled">Nhắc nhở đã tắt</string>
 </resources>

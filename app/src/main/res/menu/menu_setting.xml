@@ -9,4 +9,8 @@
         android:id="@+id/item_license_A2"
         android:title="@string/license_a2" />
 
+    <item
+        android:id="@+id/item_daily_reminder"
+        android:title="@string/setting_daily_reminder" />
+
 </menu>

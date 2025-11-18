@@ -1,96 +1,96 @@
-.
-├── AndroidManifest.xml
-├── assets
-│   └── lottie
-│       └── loading.json
-├── java
-│   └── com
-│       └── example
-│           └── drivinglicence
-│               ├── app
-│               │   ├── activites
-│               │   ├── adapter
-│               │   ├── connection
-│               │   ├── entity
-│               │   ├── fragment
-│               │   └── viewmodel
-│               ├── component
-│               │   ├── activity
-│               │   ├── adapter
-│               │   ├── dialog
-│               │   ├── fragment
-│               │   ├── navigator
-│               │   ├── viewmodel
-│               │   └── widgets
-│               ├── pref
-│               │   ├── BindingReflex.kt
-│               │   ├── KeyBoardUtils.kt
-│               │   ├── LocalCache.kt
-│               │   ├── SpUtils.kt
-│               │   ├── SpX.kt
-│               │   └── ToastUtils.kt
-│               └── utils
-│                   ├── AppContants.kt
-│                   └── DataUtils.kt
-└── res
-    ├── anim
-    │  
-    ├── layout
-    │   ├── activity_common_mistakes.xml
-    │   ├── activity_learning_theory.xml
-    │   ├── activity_lesson_count_down.xml
-    │   ├── activity_lesson_view_pager.xml
-    │   ├── activity_main.xml
-    │   ├── activity_road_traffic_signs.xml
-    │   ├── activity_search_law.xml
-    │   ├── activity_test_license.xml
-    │   ├── activity_tips.xml
-    │   ├── dialog_alert_message_app.xml
-    │   ├── fragment_lesson.xml
-    │   ├── fragment_road_traffic_ban.xml
-    │   ├── information_lesson_bottom_sheet.xml
-    │   ├── item_action_home.xml
-    │   ├── item_answer.xml
-    │   ├── item_common_mistake.xml
-    │   ├── item_exam.xml
-    │   ├── item_learning.xml
-    │   ├── item_list_question_bottom.xml
-    │   ├── item_road_traffic.xml
-    │   ├── item_tips.xml
-    │   ├── layout_question_answer.xml
-    │   ├── list_question_bottom_dialog.xml
-    │   ├── loading_dialog.xml
-    │   ├── splash.xml
-    │   └── toolbar_app.xml
-    ├── menu
-    │   └── menu_setting.xml
-    ├── mipmap-anydpi-v26
-    │   ├── ic_launcher_round.xml
-    │   └── ic_launcher.xml
-    ├── mipmap-hdpi
-    │   ├── ic_launcher_round.webp
-    │   └── ic_launcher.webp
-    ├── mipmap-mdpi
-    │   ├── ic_launcher_round.webp
-    │   └── ic_launcher.webp
-    ├── mipmap-xhdpi
-    │   ├── ic_launcher_round.webp
-    │   └── ic_launcher.webp
-    ├── mipmap-xxhdpi
-    │   ├── ic_launcher_round.webp
-    │   └── ic_launcher.webp
-    ├── mipmap-xxxhdpi
-    │   ├── ic_launcher_round.webp
-    │   └── ic_launcher.webp
-    ├── values
-    │   ├── animation.xml
-    │   ├── attrs.xml
-    │   ├── colors.xml
-    │   ├── ids.xml
-    │   ├── strings.xml
-    │   ├── style.xml
-    │   └── themes.xml
-    ├── values-night
-    │   └── themes.xml
-    └── xml
-        └── network_security_config.xml
+    .
+    ├── AndroidManifest.xml
+    ├── assets
+    │   └── lottie
+    │       └── loading.json
+    ├── java
+    │   └── com
+    │       └── example
+    │           └── drivinglicence
+    │               ├── app
+    │               │   ├── activites
+    │               │   ├── adapter
+    │               │   ├── connection
+    │               │   ├── entity
+    │               │   ├── fragment
+    │               │   └── viewmodel
+    │               ├── component
+    │               │   ├── activity
+    │               │   ├── adapter
+    │               │   ├── dialog
+    │               │   ├── fragment
+    │               │   ├── navigator
+    │               │   ├── viewmodel
+    │               │   └── widgets
+    │               ├── pref
+    │               │   ├── BindingReflex.kt
+    │               │   ├── KeyBoardUtils.kt
+    │               │   ├── LocalCache.kt
+    │               │   ├── SpUtils.kt
+    │               │   ├── SpX.kt
+    │               │   └── ToastUtils.kt
+    │               └── utils
+    │                   ├── AppContants.kt
+    │                   └── DataUtils.kt
+    └── res
+        ├── anim
+        │  
+        ├── layout
+        │   ├── activity_common_mistakes.xml
+        │   ├── activity_learning_theory.xml
+        │   ├── activity_lesson_count_down.xml
+        │   ├── activity_lesson_view_pager.xml
+        │   ├── activity_main.xml
+        │   ├── activity_road_traffic_signs.xml
+        │   ├── activity_search_law.xml
+        │   ├── activity_test_license.xml
+        │   ├── activity_tips.xml
+        │   ├── dialog_alert_message_app.xml
+        │   ├── fragment_lesson.xml
+        │   ├── fragment_road_traffic_ban.xml
+        │   ├── information_lesson_bottom_sheet.xml
+        │   ├── item_action_home.xml
+        │   ├── item_answer.xml
+        │   ├── item_common_mistake.xml
+        │   ├── item_exam.xml
+        │   ├── item_learning.xml
+        │   ├── item_list_question_bottom.xml
+        │   ├── item_road_traffic.xml
+        │   ├── item_tips.xml
+        │   ├── layout_question_answer.xml
+        │   ├── list_question_bottom_dialog.xml
+        │   ├── loading_dialog.xml
+        │   ├── splash.xml
+        │   └── toolbar_app.xml
+        ├── menu
+        │   └── menu_setting.xml
+        ├── mipmap-anydpi-v26
+        │   ├── ic_launcher_round.xml
+        │   └── ic_launcher.xml
+        ├── mipmap-hdpi
+        │   ├── ic_launcher_round.webp
+        │   └── ic_launcher.webp
+        ├── mipmap-mdpi
+        │   ├── ic_launcher_round.webp
+        │   └── ic_launcher.webp
+        ├── mipmap-xhdpi
+        │   ├── ic_launcher_round.webp
+        │   └── ic_launcher.webp
+        ├── mipmap-xxhdpi
+        │   ├── ic_launcher_round.webp
+        │   └── ic_launcher.webp
+        ├── mipmap-xxxhdpi
+        │   ├── ic_launcher_round.webp
+        │   └── ic_launcher.webp
+        ├── values
+        │   ├── animation.xml
+        │   ├── attrs.xml
+        │   ├── colors.xml
+        │   ├── ids.xml
+        │   ├── strings.xml
+        │   ├── style.xml
+        │   └── themes.xml
+        ├── values-night
+        │   └── themes.xml
+        └── xml
+            └── network_security_config.xml

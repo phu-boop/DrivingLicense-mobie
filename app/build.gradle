@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-parcelize'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -16,10 +17,23 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // FIX MULTIDEX
         multiDexEnabled true
+
+        // FIX RESOURCE Firebase (giữ 2 ngôn ngữ cần thiết)
+        resConfigs "en", "vi"
+
+        // Vector drawable hỗ trợ backward
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {
+        debug {
+            // Tắt Crashlytics + Analytics trong debug để tránh lỗi resource Firebase
+            ext.enableCrashlytics = false
+            ext.alwaysUpdateBuildId = false
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
@@ -41,7 +55,7 @@ android {
 }
 
 dependencies {
-    // AndroidX & Material
+    // AndroidX
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.10.0'
@@ -51,7 +65,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:1.6.2"
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    // Kotlin Coroutines
+    // Kotlin
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
     implementation 'androidx.collection:collection-ktx:1.2.0'
@@ -80,8 +94,20 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
 
-    // Animations
+    // Lottie
     implementation 'com.airbnb.android:lottie:3.7.2'
+
+    // Firebase BoM (TP: tự đồng bộ version)
+    implementation platform('com.google.firebase:firebase-bom:32.3.1')
+
+    // Firebase Messaging (FCM)
+    implementation 'com.google.firebase:firebase-messaging-ktx'
+
+    // Firebase Analytics – optional (bật/tắt được)
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+
+    // Một số lỗi Firebase cần lib này
+    implementation 'com.google.firebase:protolite-well-known-types:18.0.1'
 
     // Test
     testImplementation 'junit:junit:4.13.2'
