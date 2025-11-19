@@ -26,7 +26,7 @@ class DailyReminderReceiver : BroadcastReceiver() {
             showDailyReminderNotification(context)
 
             // Đặt lại lịch cho ngày tiếp theo
-            val (hour, minute) = DailyReminderManager.getReminderTime()
+            val (hour, minute) = DailyReminderManager.getReminderTime(context)
             DailyReminderManager.enableDailyReminder(context, hour, minute)
 
             Log.d("ReminderReceiver", "✅ Đã đặt lại lịch cho ngày tiếp theo lúc $hour:$minute")
@@ -39,7 +39,7 @@ class DailyReminderReceiver : BroadcastReceiver() {
     private fun showDailyReminderNotification(context: Context) {
         try {
             val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val channelId = "daily_study_reminder"
+            val channelId = "daily_reminder_channel_v2"
 
             // Tạo/tái tạo channel
             createNotificationChannel(notificationManager, channelId)

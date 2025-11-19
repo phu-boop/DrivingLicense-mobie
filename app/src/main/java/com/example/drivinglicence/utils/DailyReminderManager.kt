@@ -6,137 +6,45 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import com.example.drivinglicence.pref.LocalCache
 import com.example.drivinglicence.receiver.DailyReminderReceiver
+import com.tencent.mmkv.MMKV
 import java.util.Calendar
-import java.util.Date
 
 object DailyReminderManager {
 
-    private const val DAILY_REMINDER_REQUEST_CODE = 1001
-    private const val PREF_DAILY_REMINDER_ENABLED = "daily_reminder_enabled"
-    private const val PREF_REMINDER_HOUR = "reminder_hour"
-    private const val PREF_REMINDER_MINUTE = "reminder_minute"
+    private const val REMINDER_REQUEST_CODE = 1001
+    private const val KEY_REMINDER_ENABLED = "daily_reminder_enabled"
+    private const val KEY_HOUR = "reminder_hour"
+    private const val KEY_MINUTE = "reminder_minute"
 
     /**
-     * ⭐ KÍCH HOẠT NHẮC NHỞ HÀNG NGÀY THEO GIỜ NGƯỜI DÙNG CHỌN
-     */
-    fun enableDailyReminder(context: Context, hour: Int, minute: Int) {
-        try {
-            Log.d("ReminderManager", "🟡 Bật nhắc nhở hàng ngày lúc $hour:$minute")
-
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-            // Kiểm tra quyền exact alarm cho Android 12+
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                if (!alarmManager.canScheduleExactAlarms()) {
-                    Log.w("ReminderManager", "❌ Không có quyền exact alarm")
-                    // Có thể thông báo cho user ở đây
-                    return
-                }
-            }
-
-            val intent = Intent(context, DailyReminderReceiver::class.java).apply {
-                action = "DAILY_REMINDER_ACTION"
-            }
-
-            val pendingIntent = PendingIntent.getBroadcast(
-                context,
-                DAILY_REMINDER_REQUEST_CODE,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-
-            // Thiết lập thời gian
-            val calendar = Calendar.getInstance().apply {
-                timeInMillis = System.currentTimeMillis()
-                set(Calendar.HOUR_OF_DAY, hour)
-                set(Calendar.MINUTE, minute)
-                set(Calendar.SECOND, 0)
-
-                // Nếu thời gian đã qua trong ngày hôm nay, đặt cho ngày mai
-                if (timeInMillis <= System.currentTimeMillis()) {
-                    add(Calendar.DAY_OF_YEAR, 1)
-                }
-            }
-
-            Log.d("ReminderManager", "🟡 Đặt lịch nhắc nhở cho: ${Date(calendar.timeInMillis)}")
-
-            try {
-                // Sử dụng setExactAndAllowWhileIdle để đảm bảo hoạt động trên Android 6+
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    alarmManager.setExactAndAllowWhileIdle(
-                        AlarmManager.RTC_WAKEUP,
-                        calendar.timeInMillis,
-                        pendingIntent
-                    )
-                } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    alarmManager.setExact(
-                        AlarmManager.RTC_WAKEUP,
-                        calendar.timeInMillis,
-                        pendingIntent
-                    )
-                } else {
-                    alarmManager.set(
-                        AlarmManager.RTC_WAKEUP,
-                        calendar.timeInMillis,
-                        pendingIntent
-                    )
-                }
-
-                saveReminderSettings(true, hour, minute)
-                Log.d("ReminderManager", "✅ Đã bật nhắc nhở hàng ngày lúc $hour:$minute")
-
-            } catch (securityException: SecurityException) {
-                Log.e("ReminderManager", "❌ Lỗi bảo mật khi đặt alarm", securityException)
-            }
-
-        } catch (e: Exception) {
-            Log.e("ReminderManager", "❌ Lỗi khi bật nhắc nhở", e)
-        }
-    }
-
-    /**
-     * TẮT NHẮC NHỞ HÀNG NGÀY
-     */
-    fun disableDailyReminder(context: Context) {
-        try {
-            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val intent = Intent(context, DailyReminderReceiver::class.java)
-            val pendingIntent = PendingIntent.getBroadcast(
-                context,
-                DAILY_REMINDER_REQUEST_CODE,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-            )
-
-            alarmManager.cancel(pendingIntent)
-            saveReminderSettings(false, getReminderTime().first, getReminderTime().second)
-            Log.d("ReminderManager", "✅ Đã tắt nhắc nhở hàng ngày")
-
-        } catch (e: Exception) {
-            Log.e("ReminderManager", "❌ Lỗi khi tắt nhắc nhở", e)
-        }
-    }
-
-    /**
-     * KIỂM TRA XEM NHẮC NHỞ CÓ ĐANG BẬT KHÔNG
+     * 1. Hàm kiểm tra trạng thái đang bật hay tắt (Đây là hàm bạn đang thiếu)
      */
     fun isDailyReminderEnabled(): Boolean {
-        return LocalCache.getInstance().getBoolean(PREF_DAILY_REMINDER_ENABLED) ?: false
+        // Mặc định là false nếu chưa đặt
+        return MMKV.defaultMMKV().decodeBool(KEY_REMINDER_ENABLED, false)
     }
 
     /**
-     * LẤY THỜI GIAN NHẮC NHỞ ĐÃ ĐẶT
+     * 2. Hàm lấy thời gian đã lưu (Trả về Pair giờ, phút)
+     * Lưu ý: Đã thêm tham số Context để khớp với cách gọi bên Activity,
+     * dù MMKV không bắt buộc cần context nhưng giữ nguyên để tránh sửa nhiều code cũ.
      */
-    fun getReminderTime(): Pair<Int, Int> {
-        val hour = LocalCache.getInstance().getInt(PREF_REMINDER_HOUR) ?: 8
-        val minute = LocalCache.getInstance().getInt(PREF_REMINDER_MINUTE) ?: 0
+    fun getReminderTime(context: Context? = null): Pair<Int, Int> {
+        val hour = MMKV.defaultMMKV().decodeInt(KEY_HOUR, 20) // Mặc định 20h
+        val minute = MMKV.defaultMMKV().decodeInt(KEY_MINUTE, 0) // Mặc định 00p
         return Pair(hour, minute)
     }
 
     /**
-     * KIỂM TRA QUYỀN EXACT ALARM (Android 12+)
+     * 3. Hàm định dạng giờ hiển thị (VD: 08:05)
+     */
+    fun formatTime(hour: Int, minute: Int): String {
+        return String.format("%02d:%02d", hour, minute)
+    }
+
+    /**
+     * 4. Hàm kiểm tra quyền đặt báo thức chính xác (Android 12+)
      */
     fun canScheduleExactAlarms(context: Context): Boolean {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -147,37 +55,97 @@ object DailyReminderManager {
         }
     }
 
-    private fun saveReminderSettings(enabled: Boolean, hour: Int, minute: Int) {
-        LocalCache.getInstance().apply {
-            put(PREF_DAILY_REMINDER_ENABLED, enabled)
-            put(PREF_REMINDER_HOUR, hour)
-            put(PREF_REMINDER_MINUTE, minute)
+    /**
+     * 5. Hàm bật nhắc nhở
+     */
+    fun enableDailyReminder(context: Context, hour: Int, minute: Int) {
+        try {
+            // Lưu trạng thái vào MMKV
+            MMKV.defaultMMKV().encode(KEY_REMINDER_ENABLED, true)
+            MMKV.defaultMMKV().encode(KEY_HOUR, hour)
+            MMKV.defaultMMKV().encode(KEY_MINUTE, minute)
+
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intent = Intent(context, DailyReminderReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(
+                context,
+                REMINDER_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val calendar = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, hour)
+                set(Calendar.MINUTE, minute)
+                set(Calendar.SECOND, 0)
+                set(Calendar.MILLISECOND, 0)
+            }
+
+            if (calendar.timeInMillis <= System.currentTimeMillis()) {
+                calendar.add(Calendar.DAY_OF_YEAR, 1)
+            }
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (alarmManager.canScheduleExactAlarms()) {
+                    alarmManager.setExactAndAllowWhileIdle(
+                        AlarmManager.RTC_WAKEUP,
+                        calendar.timeInMillis,
+                        pendingIntent
+                    )
+                } else {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.timeInMillis, pendingIntent)
+                }
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                alarmManager.setExactAndAllowWhileIdle(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    pendingIntent
+                )
+            } else {
+                alarmManager.setExact(
+                    AlarmManager.RTC_WAKEUP,
+                    calendar.timeInMillis,
+                    pendingIntent
+                )
+            }
+            Log.d("DailyReminder", "✅ Đã bật nhắc nhở lúc ${formatTime(hour, minute)}")
+        } catch (e: Exception) {
+            Log.e("DailyReminder", "❌ Lỗi bật nhắc nhở", e)
         }
     }
 
     /**
-     * TẠO NỘI DUNG THÔNG BÁO NHẮC NHỞ NGẪU NHIÊN
+     * 6. Hàm tắt nhắc nhở
      */
-    fun getRandomReminderMessage(): String {
-        val messages = listOf(
-            "Đừng quên ôn tập lý thuyết hôm nay! 🚗",
-            "Làm đề thi thử để kiểm tra kiến thức nào! 📝",
-            "Học 15 phút mỗi ngày, thi là đậu ngay! 💪",
-            "Ôn lại biển báo đường bộ chưa? 🛑",
-            "Chỉ còn vài câu nữa là hoàn thành lý thuyết! 🎯",
-            "Thử sức với đề thi mới nào! 🚀",
-            "Đừng để đến phút cuối mới ôn thi nhé! ⏰",
-            "Mỗi ngày một ít, kết quả sẽ bất ngờ! ✨",
-            "Cùng ôn tập để thi đậu nào! 🎓",
-            "Kiến thức lý thuyết là nền tảng quan trọng! 📚"
-        )
-        return messages.random()
+    fun disableDailyReminder(context: Context) {
+        try {
+            // Lưu trạng thái tắt
+            MMKV.defaultMMKV().encode(KEY_REMINDER_ENABLED, false)
+
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intent = Intent(context, DailyReminderReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(
+                context,
+                REMINDER_REQUEST_CODE,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            alarmManager.cancel(pendingIntent)
+            Log.d("DailyReminder", "🔕 Đã tắt nhắc nhở")
+        } catch (e: Exception) {
+            Log.e("DailyReminder", "❌ Lỗi tắt nhắc nhở", e)
+        }
     }
 
-    /**
-     * ĐỊNH DẠNG THỜI GIAN ĐẸP ĐỂ HIỂN THỊ
-     */
-    fun formatTime(hour: Int, minute: Int): String {
-        return String.format("%02d:%02d", hour, minute)
+    fun getRandomReminderMessage(): String {
+        val messages = listOf(
+            "🚗 Đã đến giờ ôn thi lái xe rồi!",
+            "📚 Học một chút luật giao thông để thi đậu nào!",
+            "🛑 Biển báo này nghĩa là gì? Vào ôn tập ngay!",
+            "⏳ Kiên trì ôn luyện, bằng lái trong tầm tay!",
+            "🚦 Dành 15 phút ôn tập để tự tin khi thi nhé!"
+        )
+        return messages.random()
     }
 }

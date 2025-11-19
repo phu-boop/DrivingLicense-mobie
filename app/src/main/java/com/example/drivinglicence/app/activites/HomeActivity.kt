@@ -4,8 +4,10 @@ import android.app.TimePickerDialog
 import android.content.Context
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.Typeface
+import android.Manifest
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Handler
@@ -25,6 +27,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
@@ -323,6 +326,19 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
 
     override fun initListener() {
         try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                if (ContextCompat.checkSelfPermission(
+                        this,
+                        Manifest.permission.POST_NOTIFICATIONS
+                    ) != PackageManager.PERMISSION_GRANTED
+                ) {
+                    ActivityCompat.requestPermissions(
+                        this,
+                        arrayOf(Manifest.permission.POST_NOTIFICATIONS),
+                        101
+                    )
+                }
+            }
             actionAdapter.onCLickItem = { position ->
                 when (listAction[position].title) {
                     getString(R.string.text_exam) -> {
@@ -355,15 +371,20 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                 }
             }
 
-            // ⭐ THAY THẾ NÚT TEST BẰNG NÚT QUẢN LÝ NHẮC NHỞ
-            binding.btnEdit.setOnClickListener {
-                showReminderManagementDialog()
-            }
-
+            // Click ngắn để mở Chatbot
             binding.btnEdit.setOnClickListener {
                 isChatVisible = !isChatVisible
                 binding.chatbotWebView.visibility = if (isChatVisible) View.VISIBLE else View.GONE
             }
+
+            // Click giữ lâu để mở Quản lý nhắc nhở (Giải pháp tạm thời nếu không muốn thêm nút)
+            binding.btnEdit.setOnLongClickListener {
+                showReminderManagementDialog()
+                true
+            }
+
+            // HOẶC: Nếu trong giao diện bạn có menu option, hãy dùng menu (bạn đã làm trong onOptionsItemSelected rồi)
+
         } catch (e: Exception) {
             Log.e("HomeActivity", "❌ Lỗi trong initListener", e)
         }
@@ -398,7 +419,8 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
      */
     private fun showReminderManagementDialog() {
         val isEnabled = DailyReminderManager.isDailyReminderEnabled()
-        val (hour, minute) = DailyReminderManager.getReminderTime()
+        // Truyền 'this' vào hàm getReminderTime để an toàn
+        val (hour, minute) = DailyReminderManager.getReminderTime(this)
 
         val options = arrayOf(
             "🕐 Đặt giờ nhắc nhở (Hiện tại: ${DailyReminderManager.formatTime(hour, minute)})",
@@ -423,7 +445,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
      * ⭐ HIỂN THỊ BỘ CHỌN GIỜ
      */
     private fun showTimePickerDialog() {
-        val (currentHour, currentMinute) = DailyReminderManager.getReminderTime()
+        val (currentHour, currentMinute) = DailyReminderManager.getReminderTime(this)
 
         val timePickerDialog = TimePickerDialog(
             this,
@@ -434,10 +456,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                     showMessage(
                         this,
                         "✅ Đã đặt nhắc nhở lúc ${
-                            DailyReminderManager.formatTime(
-                                hourOfDay,
-                                minute
-                            )
+                            DailyReminderManager.formatTime(hourOfDay, minute)
                         } hàng ngày"
                     )
                     updateReminderStatus()
@@ -465,10 +484,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
             .setTitle("✅ Đã đặt nhắc nhở")
             .setMessage(
                 "Bạn sẽ nhận được thông báo ôn tập mỗi ngày lúc ${
-                    DailyReminderManager.formatTime(
-                        hour,
-                        minute
-                    )
+                    DailyReminderManager.formatTime(hour, minute)
                 }\n\n" +
                         "Thông báo sẽ hiển thị ngay cả khi app đang chạy nền hoặc đã đóng."
             )
@@ -481,7 +497,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
      */
     private fun showReminderStatus() {
         val isEnabled = DailyReminderManager.isDailyReminderEnabled()
-        val (hour, minute) = DailyReminderManager.getReminderTime()
+        val (hour, minute) = DailyReminderManager.getReminderTime(this)
 
         val statusMessage = if (isEnabled) {
             "📊 TRẠNG THÁI: ĐANG BẬT\n\n" +
@@ -514,25 +530,20 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
                 showMessage(this, "✅ Đã tắt nhắc nhở hàng ngày")
             } else {
                 // BẬT nhắc nhở với thời gian hiện tại
-                val (hour, minute) = DailyReminderManager.getReminderTime()
+                val (hour, minute) = DailyReminderManager.getReminderTime(this)
                 if (DailyReminderManager.canScheduleExactAlarms(this)) {
                     DailyReminderManager.enableDailyReminder(this, hour, minute)
                     showMessage(
                         this,
                         "✅ Đã bật nhắc nhở lúc ${
-                            DailyReminderManager.formatTime(
-                                hour,
-                                minute
-                            )
+                            DailyReminderManager.formatTime(hour, minute)
                         } hàng ngày"
                     )
                 } else {
                     showMessage(this, "❌ Cần cấp quyền exact alarm cho nhắc nhở chính xác")
                 }
             }
-
             updateReminderStatus()
-
         } catch (e: Exception) {
             Log.e("HomeActivity", "❌ Lỗi khi bật/tắt nhắc nhở", e)
             showMessage(this, "❌ Lỗi: ${e.message}")
@@ -553,6 +564,9 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
             Log.e("HomeActivity", "❌ Lỗi hiển thị loading", e)
         }
     }
+
+
+
 
     private fun updateLearningProgress() {
         try {
