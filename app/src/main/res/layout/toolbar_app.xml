@@ -28,7 +28,7 @@
         android:singleLine="true"
         android:text="Title"
         android:textColor="@color/black"
-        android:textSize="24sp"
+        android:textSize="28sp"
         android:textStyle="bold" />
 
     <TextView

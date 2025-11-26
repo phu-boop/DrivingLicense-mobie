@@ -53,7 +53,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
     private var isChatVisible = false
     private val actionAdapter by lazy { ActionAdapter() }
     private lateinit var listAction: MutableList<ItemAction>
-    private var customFont: Typeface? = null // Sửa: Cho phép null
+    private var customFont: Typeface? = null
     private val mainHandler = Handler(Looper.getMainLooper())
 
     override fun onResume() {
@@ -226,9 +226,9 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
     private fun setupRecyclerView() {
         try {
             val rcvItem = binding.rcvItem
-            val spacingInPixels =
-                resources.getDimensionPixelSize(R.dimen.recycler_view_item_spacing)
-            rcvItem.addItemDecoration(SpacingItemDecoration(spacingInPixels))
+//            val spacingInPixels =
+//                resources.getDimensionPixelSize(R.dimen.recycler_view_item_spacing)
+//            rcvItem.addItemDecoration(SpacingItemDecoration(spacingInPixels))
             RecyclerUtils.setGridManager(this, rcvItem, 2, actionAdapter)
         } catch (e: Exception) {
             Log.e("HomeActivity", "❌ Lỗi thiết lập RecyclerView", e)
@@ -245,7 +245,6 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
             val imageSpan = ImageSpan(drawable, ImageSpan.ALIGN_BOTTOM)
             spannableString.setSpan(imageSpan, 0, 1, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
 
-            // Sửa: Sử dụng safe call với let
             customFont?.let { font ->
                 spannableString.setSpan(
                     CustomTypefaceSpan(font),
@@ -325,69 +324,45 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
     }
 
     override fun initListener() {
-        try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                if (ContextCompat.checkSelfPermission(
-                        this,
-                        Manifest.permission.POST_NOTIFICATIONS
-                    ) != PackageManager.PERMISSION_GRANTED
-                ) {
-                    ActivityCompat.requestPermissions(
-                        this,
-                        arrayOf(Manifest.permission.POST_NOTIFICATIONS),
-                        101
-                    )
-                }
+        // 1. Xin quyền thông báo (Android 13+)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.POST_NOTIFICATIONS), 101)
             }
-            actionAdapter.onCLickItem = { position ->
-                when (listAction[position].title) {
-                    getString(R.string.text_exam) -> {
-                        showQuickLoading()
-                        openActivity(TestLicenseActivity::class.java, false)
-                    }
-
-                    getString(R.string.text_learning_theory) -> openActivity(
-                        LearningTheoryActivity::class.java,
-                        false
-                    )
-
-                    getString(R.string.text_road_signs) -> openActivity(
-                        RoadTrafficSignsActivity::class.java,
-                        false
-                    )
-
-                    getString(R.string.text_tips) -> openActivity(TipsActivity::class.java, false)
-                    getString(R.string.text_search_law) -> openActivity(
-                        SearchLawActivity::class.java,
-                        false
-                    )
-
-                    getString(R.string.text_sometime_error) -> openActivity(
-                        CommonMistakesActivity::class.java,
-                        false
-                    )
-
-                    else -> showDialogDevelopment(this)
-                }
-            }
-
-            // Click ngắn để mở Chatbot
-            binding.btnEdit.setOnClickListener {
-                isChatVisible = !isChatVisible
-                binding.chatbotWebView.visibility = if (isChatVisible) View.VISIBLE else View.GONE
-            }
-
-            // Click giữ lâu để mở Quản lý nhắc nhở (Giải pháp tạm thời nếu không muốn thêm nút)
-            binding.btnEdit.setOnLongClickListener {
-                showReminderManagementDialog()
-                true
-            }
-
-            // HOẶC: Nếu trong giao diện bạn có menu option, hãy dùng menu (bạn đã làm trong onOptionsItemSelected rồi)
-
-        } catch (e: Exception) {
-            Log.e("HomeActivity", "❌ Lỗi trong initListener", e)
         }
+
+        binding.btnEdit.setOnClickListener {
+            binding.overlayDim.visibility = View.VISIBLE
+            binding.cardChatbot.visibility = View.VISIBLE
+            binding.btnEdit.hide()
+        }
+
+        binding.btnCloseChat.setOnClickListener {
+            closeChatBot()
+        }
+
+
+        binding.overlayDim.setOnClickListener {
+            closeChatBot()
+        }
+
+        actionAdapter.onCLickItem = { position ->
+
+            when (listAction[position].title) {
+                getString(R.string.text_exam) -> openActivity(TestLicenseActivity::class.java, false)
+                getString(R.string.text_learning_theory) -> openActivity(LearningTheoryActivity::class.java, false)
+                getString(R.string.text_road_signs) -> openActivity(RoadTrafficSignsActivity::class.java, false)
+                getString(R.string.text_tips) -> openActivity(TipsActivity::class.java, false)
+                getString(R.string.text_search_law) -> openActivity(SearchLawActivity::class.java, false)
+                getString(R.string.text_sometime_error) -> openActivity(CommonMistakesActivity::class.java, false)
+            }
+        }
+    }
+
+    private fun closeChatBot() {
+        binding.overlayDim.visibility = View.GONE
+        binding.cardChatbot.visibility = View.GONE
+        binding.btnEdit.show()
     }
 
     /**

@@ -1,100 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple_200"
+    android:background="#F5F7FA"
     tools:context=".app.activites.HomeActivity">
 
-
-    <WebView
-        android:id="@+id/chatbotWebView"
-        android:layout_width="350dp"
-        android:layout_height="400dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="70dp"
-        android:background="@android:color/transparent"
-        android:elevation="10dp"
-        android:padding="80dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- ======================= THAY ĐỔI Ở ĐÂY ======================= -->
-    <!-- Đặt lại Guideline về 30% để tạo không gian cho phần header màu tím -->
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/horizontal_1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.0" />
-    <!-- =============================================================== -->
+    <View
+        android:id="@+id/viewHeaderBg"
+        android:layout_width="415dp"
+        android:layout_height="100dp"
+        android:background="@color/primary"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
-    <!-- Nội dung chính có thể cuộn -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/content_scroll_view"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@drawable/bg_round_white_top_bottom"
+        android:layout_marginTop="5dp"
         android:fillViewport="true"
-        app:layout_constraintBottom_toTopOf="@id/slide"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/horizontal_1">
+        android:clipToPadding="false"
+        android:paddingBottom="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp">
 
-            <!-- 1. Danh sách 6 nút chức năng -->
-
-            <!-- 2. Mục tiến độ học tập (nằm dưới 6 nút) -->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rcv_item"
+            <!-- 1. SLIDE ẢNH -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                tools:itemCount="3"
-                tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                tools:listitem="@layout/item_action_home"
-                tools:spanCount="2" />
+                android:layout_height="180dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"
+                app:cardBackgroundColor="@android:color/white">
 
+                <ViewFlipper
+                    android:id="@+id/slide"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:autoStart="true"
+                    android:flipInterval="4000"
+                    android:inAnimation="@android:anim/fade_in"
+                    android:outAnimation="@android:anim/fade_out" />
+            </androidx.cardview.widget.CardView>
+
+            <!-- 2. TIẾN ĐỘ HỌC TẬP -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/layoutProgress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                android:layout_marginBottom="16dp"
-                android:visibility="gone"
-                app:cardBackgroundColor="#F3E5F5"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="0dp"
-                tools:visibility="visible">
+                android:layout_marginBottom="20dp"
+                android:visibility="visible"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="4dp"
+                app:strokeWidth="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
-                    <!-- Title -->
                     <TextView
                         android:id="@+id/tv_progress_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tiến độ học tập và ôn thi"
-                        android:textColor="@android:color/black"
+                        android:text="Tổng quan tiến độ"
+                        android:textColor="#333333"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <!-- Biểu đồ tròn tiến độ -->
+                    <!-- Biểu đồ tròn -->
                     <com.google.android.material.progressindicator.CircularProgressIndicator
                         android:id="@+id/progress_circular"
                         android:layout_width="wrap_content"
@@ -102,146 +89,203 @@
                         android:layout_marginTop="16dp"
                         android:progress="75"
                         app:indicatorColor="#4CAF50"
-                        app:indicatorSize="80dp"
+                        app:indicatorSize="70dp"
+                        app:trackColor="#F0F0F0"
+                        app:trackCornerRadius="4dp"
+                        app:trackThickness="6dp"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_progress_title"
-                        app:trackColor="#E1BEE7"
-                        app:trackCornerRadius="5dp"
-                        app:trackThickness="8dp" />
+                        app:layout_constraintTop_toBottomOf="@id/tv_progress_title" />
 
-                    <!-- Văn bản % bên trong biểu đồ -->
                     <TextView
                         android:id="@+id/tv_progress_percentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp"
+                        tools:text="75%"
+                        android:textSize="14sp"
                         android:textStyle="bold"
-                        app:layout_constraintBottom_toTopOf="@id/tv_progress_subtitle"
-                        app:layout_constraintEnd_toEndOf="@id/progress_circular"
+                        android:textColor="#333333"
                         app:layout_constraintStart_toStartOf="@id/progress_circular"
+                        app:layout_constraintEnd_toEndOf="@id/progress_circular"
                         app:layout_constraintTop_toTopOf="@id/progress_circular"
-                        app:layout_constraintVertical_chainStyle="packed"
-                        tools:text="75%" />
+                        app:layout_constraintBottom_toBottomOf="@id/progress_circular"/>
 
-                    <TextView
-                        android:id="@+id/tv_progress_subtitle"
+                    <!-- Chi tiết bên phải -->
+                    <LinearLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Lý thuyết"
-                        android:textSize="10sp"
-                        app:layout_constraintBottom_toBottomOf="@id/progress_circular"
-                        app:layout_constraintEnd_toEndOf="@id/progress_circular"
-                        app:layout_constraintStart_toStartOf="@id/progress_circular"
-                        app:layout_constraintTop_toBottomOf="@id/tv_progress_percentage"
-                        tools:ignore="SmallSp" />
-
-                    <!-- Text "Đã làm:" -->
-                    <TextView
-                        android:id="@+id/tv_questions_done_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="16dp"
-                        android:text="Đã làm:"
-                        android:textSize="12sp"
+                        android:orientation="vertical"
+                        android:layout_marginStart="20dp"
                         app:layout_constraintStart_toEndOf="@id/progress_circular"
-                        app:layout_constraintTop_toTopOf="@id/progress_circular" />
-
-                    <!-- Giá trị "127/200 câu" -->
-                    <TextView
-                        android:id="@+id/tv_questions_done_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_questions_done_label"
-                        app:layout_constraintStart_toEndOf="@id/tv_questions_done_label"
-                        app:layout_constraintTop_toTopOf="@id/tv_questions_done_label"
-                        tools:text="127/200 câu" />
-
-                    <!-- ProgressBar cho số câu đã làm -->
-                    <ProgressBar
-                        android:id="@+id/progress_bar_questions"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="0dp"
-                        android:layout_height="6dp"
-                        android:layout_marginTop="4dp"
-                        android:progressDrawable="@drawable/custom_progress_bar"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/tv_questions_done_label"
-                        app:layout_constraintTop_toBottomOf="@id/tv_questions_done_value"
-                        tools:progress="60" />
+                        app:layout_constraintTop_toTopOf="@id/progress_circular"
+                        app:layout_constraintBottom_toBottomOf="@id/progress_circular">
 
-                    <!-- Text "Tỉ lệ đúng:" -->
-                    <TextView
-                        android:id="@+id/tv_correct_rate_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Tỉ lệ đúng:"
-                        android:textSize="12sp"
-                        app:layout_constraintStart_toStartOf="@id/tv_questions_done_label"
-                        app:layout_constraintTop_toBottomOf="@id/progress_bar_questions" />
+                        <TextView
+                            android:text="Số câu đã học"
+                            android:textSize="12sp"
+                            android:textColor="#757575"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="8dp">
+                            <ProgressBar
+                                android:id="@+id/progress_bar_questions"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="6dp"
+                                android:progressDrawable="@drawable/custom_progress_bar"
+                                tools:progress="60"/>
+                            <TextView
+                                android:id="@+id/tv_questions_done_value"
+                                tools:text="127/200"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:textColor="#333333"
+                                android:layout_marginStart="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
 
-                    <!-- Giá trị "85%" -->
-                    <TextView
-                        android:id="@+id/tv_correct_rate_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="4dp"
-                        android:textColor="@android:color/black"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        app:layout_constraintBottom_toBottomOf="@id/tv_correct_rate_label"
-                        app:layout_constraintStart_toEndOf="@id/tv_correct_rate_label"
-                        app:layout_constraintTop_toTopOf="@id/tv_correct_rate_label"
-                        tools:text="85%" />
-
-                    <!-- ProgressBar cho tỉ lệ đúng -->
-                    <ProgressBar
-                        android:id="@+id/progress_bar_correct_rate"
-                        style="?android:attr/progressBarStyleHorizontal"
-                        android:layout_width="0dp"
-                        android:layout_height="6dp"
-                        android:layout_marginTop="4dp"
-                        android:progressDrawable="@drawable/custom_progress_bar"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/tv_correct_rate_label"
-                        app:layout_constraintTop_toBottomOf="@id/tv_correct_rate_value"
-                        tools:progress="85" />
+                        <TextView
+                            android:text="Tỉ lệ làm đúng"
+                            android:textSize="12sp"
+                            android:textColor="#757575"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical">
+                            <ProgressBar
+                                android:id="@+id/progress_bar_correct_rate"
+                                style="?android:attr/progressBarStyleHorizontal"
+                                android:layout_width="0dp"
+                                android:layout_weight="1"
+                                android:layout_height="6dp"
+                                android:progressDrawable="@drawable/custom_progress_bar"
+                                tools:progress="85"/>
+                            <TextView
+                                android:id="@+id/tv_correct_rate_value"
+                                tools:text="85%"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:textColor="#333333"
+                                android:layout_marginStart="8dp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+                        </LinearLayout>
+                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </com.google.android.material.card.MaterialCardView>
 
-        </LinearLayout>
+            <!-- Tiêu đề Menu -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chức năng chính"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#333333"
+                android:layout_marginBottom="12dp"/>
 
+            <!-- 3. DANH SÁCH MENU -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rcv_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false"
+                tools:itemCount="4"
+                tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                tools:spanCount="2" />
+
+        </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
+    <!-- Chatbot Components (Giữ nguyên) -->
+    <View
+        android:id="@+id/overlay_dim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone"
+        android:elevation="19dp"
+        android:clickable="true"
+        android:focusable="true"/>
 
-    <ViewFlipper
-        android:id="@+id/slide"
-        android:layout_width="0dp"
-        android:layout_height="182dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardChatbot"
+        android:layout_width="match_parent"
+        android:layout_height="550dp"
+        android:visibility="gone"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <ImageButton
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/headerChat"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/primary"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="16dp"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Trợ lý AI Lái Xe"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:textSize="16sp"/>
+
+                <ImageView
+                    android:id="@+id/btnCloseChat"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@android:drawable/ic_menu_close_clear_cancel"
+                    app:tint="#FFFFFF"
+                    android:padding="4dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"/>
+            </LinearLayout>
+
+            <WebView
+                android:id="@+id/chatbotWebView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toBottomOf="@id/headerChat"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/btnEdit"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_margin="16dp"
-        android:background="@drawable/bg_icon_border"
-        android:backgroundTint="@color/teal_200"
-        android:contentDescription="Mở chatbot"
-        android:src="@drawable/ic_chatbot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="Hỏi AI"
+        android:textColor="@android:color/white"
+        android:backgroundTint="@color/primary"
+        app:icon="@drawable/ic_chatbot"
+        app:iconTint="@android:color/white"
+        app:elevation="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
