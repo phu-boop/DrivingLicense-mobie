@@ -583,6 +583,7 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
         } catch (e: Exception) {
             Log.e("HomeActivity", "❌ Lỗi cập nhật tiến độ", e)
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

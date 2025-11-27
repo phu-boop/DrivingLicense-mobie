@@ -534,3 +534,51 @@ class MapDataViewModel : BaseViewModel() {
         listSatFigure = mutableListOf()
     }
 }
+
+/**
+ * Hàm này lưu kết quả vào bộ nhớ máy để HomeActivity đọc được
+ * Gọi hàm này mỗi khi người dùng chọn đáp án đúng/sai
+ */
+fun saveProgressForHome(questionId: Int, isCorrect: Boolean) {
+    try {
+        val mmkv = com.tencent.mmkv.MMKV.defaultMMKV()
+
+        // 1. Lưu danh sách câu ĐÃ LÀM (Key: VIEWED_QUESTIONS_SET)
+        // HomeActivity sẽ đếm số lượng phần tử trong set này để hiện "Số câu đã học"
+        val viewedSet = mmkv.decodeStringSet("VIEWED_QUESTIONS_SET", HashSet())?.toMutableSet() ?: HashSet()
+        viewedSet.add(questionId.toString())
+        mmkv.encode("VIEWED_QUESTIONS_SET", viewedSet)
+
+        // 2. Lưu danh sách câu làm ĐÚNG (Key: CORRECT_ANSWERS_SET)
+        // HomeActivity sẽ dùng cái này để tính tỉ lệ đúng
+        val correctSet = mmkv.decodeStringSet("CORRECT_ANSWERS_SET", HashSet())?.toMutableSet() ?: HashSet()
+
+        if (isCorrect) {
+            correctSet.add(questionId.toString())
+        } else {
+            // Nếu làm sai thì xóa khỏi danh sách đúng (để cập nhật lại trạng thái thực tế)
+            if (correctSet.contains(questionId.toString())) {
+                correctSet.remove(questionId.toString())
+            }
+        }
+        mmkv.encode("CORRECT_ANSWERS_SET", correctSet)
+
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+}
+/**
+ * Lưu lại ID đáp án người dùng đã chọn cho câu hỏi này     */
+fun saveUserChoice(questionId: Int, selectedAnswerId: Int) {
+    val mmkv = com.tencent.mmkv.MMKV.defaultMMKV()
+    // Key ví dụ: "USER_CHOICE_142" (Lưu đáp án đã chọn của câu 142)
+    mmkv.encode("USER_CHOICE_$questionId", selectedAnswerId)
+}
+
+/**
+ * Lấy lại ID đáp án người dùng đã chọn trước đó
+ */
+fun getUserChoice(questionId: Int): Int {
+    val mmkv = com.tencent.mmkv.MMKV.defaultMMKV()
+    return mmkv.decodeInt("USER_CHOICE_$questionId", -1) // -1 là chưa chọn gì
+}

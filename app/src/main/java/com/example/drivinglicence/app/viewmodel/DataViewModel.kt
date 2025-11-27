@@ -98,4 +98,15 @@ class DataViewModel : BaseViewModel() {
         getAllTrafficLaw(context)
         getAllDescriptionLicense(context)
     }
+    // Thêm vào trong class DataViewModel
+    fun saveUserChoice(questionId: Int, selectedAnswerId: Int) {
+        val mmkv = com.tencent.mmkv.MMKV.defaultMMKV()
+        mmkv.encode("USER_CHOICE_$questionId", selectedAnswerId)
+    }
+
+    fun getUserChoice(questionId: Int): Int {
+        val mmkv = com.tencent.mmkv.MMKV.defaultMMKV()
+        return mmkv.decodeInt("USER_CHOICE_$questionId", -1)
+    }
+
 }

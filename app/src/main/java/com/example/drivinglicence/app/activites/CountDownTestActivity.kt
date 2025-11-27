@@ -32,7 +32,7 @@ class CountDownTestActivity : BaseVMActivity<ActivityLessonViewPagerBinding, Map
 
     var timeCount: Long = 0
     var isFinish = false
-    var timer = object : CountDownTimer(1000 * 20 * 60, 1000) {
+    var timer = object : CountDownTimer(1000 * 19 * 60, 1000) {
         override fun onTick(millisUntilFinished: Long) {
             val ms = millisUntilFinished / 1000
             timeCount = ms

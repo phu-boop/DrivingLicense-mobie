@@ -32,7 +32,7 @@
     <string name="text_creating_random_exam">Đang tạo đề thi ngẫu nhiên.</string>
     <string name="text_tutorial_exam">Hướng dẫn làm bài</string>
     <string name="text_quantity_time">25 câu/19 phút</string>
-    <string name="text_information_exam">Mỗi đề thi đều có câu hỏi điểm liệt, nếu thí sinh chỉ cần trả lời sai câu hỏi điểm liệt coi như bị rớt. Đề thi bằng lái hạng B1 gồm 30 câu hỏi làm bài trong 20 phút.\n\nĐể vượt qua bài thi, thí sinh cần trả lời đúng 27/30 câu hỏi và không sai câu điểm liệt nào.</string>
+    <string name="text_information_exam">Mỗi đề thi đều có câu hỏi điểm liệt, nếu thí sinh chỉ cần trả lời sai câu hỏi điểm liệt coi như bị rớt. Đề thi bằng lái hạng A1 gồm 25 câu hỏi làm bài trong 20 phút.\n\nĐể vượt qua bài thi, thí sinh cần trả lời đúng 21/25 câu hỏi và không sai câu điểm liệt nào.</string>
     <string name="text_confirm_exit">Bạn có chắc muốn thoát khỏi đề đang làm?</string>
     <string name="text_time_remaining">Thời gian còn lại</string>
     <string name="text_quantity_answer_correct">Số câu đúng</string>
@@ -44,10 +44,10 @@
     <string name="text_question_not_choose">Số câu chưa làm</string>
     <string name="text_sometime_error">Các câu hay sai</string>
     <string name="text_content_information_A1_license">
-        Đề thi bằng lái hạng A1 gồm 30 câu hỏi làm bài trong thời gian 20 phút.\n\nĐể vượt qua bài thi, bạn cần trả lời đúng 27/30 câu hỏi và không sai câu điểm liệt nào.
+        Đề thi bằng lái hạng A1 gồm 25 câu hỏi làm bài trong thời gian 19 phút.\n\nĐể vượt qua bài thi, bạn cần trả lời đúng 21/25 câu hỏi và không sai câu điểm liệt nào.
     </string>
     <string name="text_content_information_A2_license">
-        Class A1 driver\'s license exam consists of 30 questions to work on in 20 minutes.\n\nTo pass the test, you need to answer 27/30 questions correctly and not get any wrong points.
+        Đề thi bằng lái hạng A1 gồm 25 câu hỏi làm bài trong thời gian 19 phút.\n\nĐể vượt qua bài thi, bạn cần trả lời đúng 23/25 câu hỏi và không sai câu điểm liệt nào.
     </string>
     <string name="text_end">Kết thúc</string>
     <string name="text_pass_exam">Chúc mừng bạn vượt qua đề thi!</string>
