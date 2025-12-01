@@ -105,6 +105,7 @@ dependencies {
 
     // Firebase Analytics – optional (bật/tắt được)
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
 
     // Một số lỗi Firebase cần lib này
     implementation 'com.google.firebase:protolite-well-known-types:18.0.1'
@@ -113,4 +114,5 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
 }

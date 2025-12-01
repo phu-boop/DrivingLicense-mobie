@@ -397,10 +397,11 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
         // Truyền 'this' vào hàm getReminderTime để an toàn
         val (hour, minute) = DailyReminderManager.getReminderTime(this)
 
+        // Icon có màu sắc và phong cách đồng nhất
         val options = arrayOf(
-            "🕐 Đặt giờ nhắc nhở (Hiện tại: ${DailyReminderManager.formatTime(hour, minute)})",
-            "📊 Xem trạng thái nhắc nhở",
-            if (isEnabled) "❌ Tắt nhắc nhở" else "✅ Bật nhắc nhở"
+            "🕰️ Đặt giờ nhắc nhở (Hiện tại: ${DailyReminderManager.formatTime(hour, minute)})",
+            "📈 Xem trạng thái nhắc nhở",
+            if (isEnabled) "🔇 Tắt nhắc nhở" else "🔊 Bật nhắc nhở"
         )
 
         AlertDialog.Builder(this)

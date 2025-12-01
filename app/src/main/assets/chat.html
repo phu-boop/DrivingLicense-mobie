@@ -20,10 +20,13 @@
             --border: #dadce0;
             --shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
             --shadow-hover: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+            --error: #ea4335;
         }
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
@@ -93,6 +96,12 @@
             border: 1px solid var(--border);
             border-bottom-left-radius: 4px;
             box-shadow: var(--shadow);
+        }
+
+        .error {
+            background-color: #ffebee;
+            border-color: var(--error);
+            color: var(--error);
         }
 
         #input-area {
@@ -288,7 +297,6 @@
 </div>
 
 <div class="quick-buttons" id="quickButtons">
-<!--    <div class="quick-btn" onclick="quickSend('Các loại bằng lái xe máy')">Các loại bằng</div>-->
     <div class="quick-btn" onclick="quickSend('Câu hỏi lý thuyết')">Lý thuyết</div>
     <div class="quick-btn" onclick="quickSend('Biển báo cấm là hình gì?')">Biển báo</div>
     <div class="quick-btn" onclick="quickSend('Mẹo làm bài thi sát hạch')">Mẹo thi</div>
@@ -305,23 +313,31 @@
 </div>
 
 <script>
-    // API KEY MỚI CỦA BẠN (đã test OK lúc 01:15 ngày 19/11/2025)
-    const API_KEY = 'AIzaSyA_ItgUGz6GR_IezcX7OAwsIwctJFDyj8A';
-    const MODEL = 'gemini-2.5-flash';
+    // API KEY và cấu hình
+    const API_KEY = 'AIzaSyAOVt2y879HZt9gyq5fwkYRrsTTKzx0Wcw';
+    const MODEL = 'gemini-2.0-flash';
     const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${API_KEY}`;
 
-    // Tự động thêm prompt hệ thống để chatbot hiểu mình là chuyên gia bằng lái xe
+    // Prompt hệ thống
     const SYSTEM_PROMPT = `Bạn là trợ lý AI chuyên về bằng lái xe máy tại Việt Nam.
-    Trả lời ngắn gọn, dễ hiểu, bằng tiếng Việt, có ví dụ nếu cần.
-    Hãy trả lời thân thiện, nhiệt tình như một thầy dạy lái xe giỏi.`;
+Trả lời ngắn gọn, dễ hiểu, bằng tiếng Việt, có ví dụ nếu cần.
+Hãy trả lời thân thiện, nhiệt tình như một thầy dạy lái xe giỏi.`;
+
+    // DOM Elements
+    const chat = document.getElementById('chat');
+    const userInput = document.getElementById('userInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const quickButtons = document.getElementById('quickButtons');
 
     function hideQuickButtons() {
-        const quickButtons = document.getElementById('quickButtons');
         quickButtons.classList.add('hidden');
     }
 
+    function showQuickButtons() {
+        quickButtons.classList.remove('hidden');
+    }
+
     function addMessage(text, sender, isError = false) {
-        const chat = document.getElementById('chat');
         const div = document.createElement('div');
         div.className = `message ${sender} ${isError ? 'error' : ''}`;
         div.innerHTML = text.replace(/\n/g, '<br>');
@@ -330,11 +346,10 @@
     }
 
     function showTypingIndicator() {
-        const chat = document.getElementById('chat');
         const div = document.createElement('div');
         div.className = 'message bot typing';
         div.id = 'typing-indicator';
-        div.innerHTML = '<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>';
+        div.innerHTML = '<div class="typing-indicator">Đang trả lời<span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
         chat.appendChild(div);
         chat.scrollTop = chat.scrollHeight;
     }
@@ -347,25 +362,24 @@
     }
 
     function quickSend(text) {
-        hideQuickButtons();
-        document.getElementById('userInput').value = text;
+        userInput.value = text;
         sendMessage();
     }
 
     async function sendMessage() {
-        const input = document.getElementById('userInput');
-        const message = input.value.trim();
+        const message = userInput.value.trim();
         if (!message) return;
 
+        // Ẩn quick buttons tạm thời trong lúc đang xử lý
         hideQuickButtons();
         addMessage(message, 'user');
-        input.value = '';
-        document.getElementById('sendBtn').disabled = true;
+        userInput.value = '';
+        sendBtn.disabled = true;
 
         showTypingIndicator();
 
         try {
-            // Tạo nội dung request đúng định dạng Gemini API
+            // Tạo nội dung request
             const requestBody = {
                 contents: [{
                     parts: [{
@@ -380,30 +394,29 @@
                 }
             };
 
-            console.log("Gửi request:", requestBody); // Debug log
-
             const response = await fetch(API_URL, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
                 body: JSON.stringify(requestBody)
             });
 
             if (!response.ok) {
-                const errorData = await response.json();
-                console.error("API Error:", errorData);
-                throw new Error(`Lỗi ${response.status}: ${errorData.error?.message || 'Không rõ nguyên nhân'}`);
+                const errorText = await response.text();
+                console.error("API Error:", errorText);
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
             }
 
             const data = await response.json();
-            console.log("API Response:", data); // Debug log
 
-            // Kiểm tra cấu trúc phản hồi để tránh lỗi
+            // Kiểm tra cấu trúc phản hồi
             if (!data.candidates ||
                 !data.candidates[0] ||
                 !data.candidates[0].content ||
                 !data.candidates[0].content.parts ||
                 !data.candidates[0].content.parts[0]) {
-                console.error("Cấu trúc phản hồi không đúng:", data);
                 throw new Error("Phản hồi từ API không đúng định dạng");
             }
 
@@ -411,35 +424,61 @@
 
             removeTypingIndicator();
             addMessage(reply, 'bot');
+
         } catch (error) {
             removeTypingIndicator();
-            console.error("Error details:", error);
+            console.error("Error:", error);
 
-            let errorMessage = "Đã xảy ra lỗi khi kết nối với server. ";
+            let errorMessage = "Xin lỗi, đã có lỗi xảy ra. ";
 
             if (error.message.includes("Failed to fetch")) {
-                errorMessage += "Vui lòng kiểm tra kết nối internet và thử lại.";
+                errorMessage += "Vui lòng kiểm tra kết nối internet.";
             } else if (error.message.includes("quota")) {
-                errorMessage += "API key đã hết hạn hoặc vượt quá hạn mức sử dụng.";
+                errorMessage += "API key đã hết hạn mức sử dụng.";
             } else {
-                errorMessage += `Chi tiết: ${error.message}`;
+                errorMessage += "Vui lòng thử lại sau.";
             }
 
             addMessage(errorMessage, 'bot', true);
         } finally {
-            document.getElementById('sendBtn').disabled = false;
-            input.focus();
+            sendBtn.disabled = false;
+            userInput.focus();
+
+            // QUAN TRỌNG: LUÔN HIỂN THỊ LẠI QUICK BUTTONS SAU KHI XONG
+            showQuickButtons();
         }
     }
 
-    // Gửi khi nhấn Enter hoặc nút
-    document.getElementById('userInput').addEventListener('keypress', e => {
-        if (e.key === 'Enter') sendMessage();
+    // Event Listeners
+    userInput.addEventListener('keypress', e => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            sendMessage();
+        }
     });
-    document.getElementById('sendBtn').addEventListener('click', sendMessage);
 
-    // Focus vào ô nhập ngay khi mở
-    window.onload = () => document.getElementById('userInput').focus();
+    sendBtn.addEventListener('click', sendMessage);
+
+    // Focus vào input khi trang load
+    window.addEventListener('load', () => {
+        userInput.focus();
+    });
+
+    // Ẩn quick buttons khi người dùng bắt đầu nhập, hiện lại khi input trống
+    userInput.addEventListener('input', () => {
+        if (userInput.value.trim() === '') {
+            showQuickButtons();
+        } else {
+            hideQuickButtons();
+        }
+    });
+
+    // Hiển thị quick buttons khi click vào input rỗng
+    userInput.addEventListener('focus', () => {
+        if (userInput.value.trim() === '') {
+            showQuickButtons();
+        }
+    });
 </script>
 </body>
 </html>
