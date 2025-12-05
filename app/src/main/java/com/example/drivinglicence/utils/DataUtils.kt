@@ -596,6 +596,30 @@ fun initListConceptAndRule(context: Context) {
         Answer(95, context.getString(R.string.answer_important_34_2), false, 70),
         Answer(96, context.getString(R.string.answer_important_34_3), false, 70)
     )
+    val listConceptAndRule31 = mutableListOf(
+        Answer(108, context.getString(R.string.answer_concepts_and_rules_31_1), true, 71, context.getString(R.string.text_explain_answer_concepts_and_rules_31)),
+        Answer(109, context.getString(R.string.answer_concepts_and_rules_31_2), false, 71)
+    )
+
+    val listConceptAndRule32 = mutableListOf(
+        Answer(110, context.getString(R.string.answer_concepts_and_rules_32_1), true, 72, context.getString(R.string.text_explain_answer_concepts_and_rules_32)),
+        Answer(111, context.getString(R.string.answer_concepts_and_rules_32_2), false, 72)
+    )
+
+    val listConceptAndRule33 = mutableListOf(
+        Answer(112, context.getString(R.string.answer_concepts_and_rules_33_1), true, 73, context.getString(R.string.text_explain_answer_concepts_and_rules_33)),
+        Answer(113, context.getString(R.string.answer_concepts_and_rules_33_2), false, 73)
+    )
+
+    val listConceptAndRule34 = mutableListOf(
+        Answer(114, context.getString(R.string.answer_concepts_and_rules_34_1), true, 74, context.getString(R.string.text_explain_answer_concepts_and_rules_34)),
+        Answer(115, context.getString(R.string.answer_concepts_and_rules_34_2), false, 74)
+    )
+
+    val listConceptAndRule35 = mutableListOf(
+        Answer(116, context.getString(R.string.answer_concepts_and_rules_35_1), true, 75, context.getString(R.string.text_explain_answer_concepts_and_rules_35)),
+        Answer(117, context.getString(R.string.answer_concepts_and_rules_35_2), false, 75)
+    )
 
     listAnswerConceptAndRule = mutableListOf(
         listConceptAndRule1, listConceptAndRule2, listConceptAndRule3, listConceptAndRule4,
@@ -605,7 +629,8 @@ fun initListConceptAndRule(context: Context) {
         listConceptAndRule17, listConceptAndRule18, listConceptAndRule19, listConceptAndRule20,
         listConceptAndRule21, listConceptAndRule22, listConceptAndRule23, listConceptAndRule24,
         listConceptAndRule25, listConceptAndRule26, listConceptAndRule27, listConceptAndRule28,
-        listConceptAndRule29, listConceptAndRule30
+        listConceptAndRule29, listConceptAndRule30 ,listConceptAndRule31, listConceptAndRule32,
+        listConceptAndRule33, listConceptAndRule34, listConceptAndRule35
     )
 }
 
@@ -794,16 +819,58 @@ fun initListDrivingUnique(context: Context) {
         ),
         Answer(35, context.getString(R.string.answer_important_35_3), false, 102)
     )
+    val listDrivingUnique13 = mutableListOf(
+        Answer(100, context.getString(R.string.answer_driving_unique_13_1), true, 103, context.getString(R.string.text_explain_answer_driving_unique_13)),
+        Answer(101, context.getString(R.string.answer_driving_unique_13_2), false, 103)
+    )
+
+    val listDrivingUnique14 = mutableListOf(
+        Answer(102, context.getString(R.string.answer_driving_unique_14_1), true, 104, context.getString(R.string.text_explain_answer_driving_unique_14)),
+        Answer(103, context.getString(R.string.answer_driving_unique_14_2), false, 104)
+    )
+
+    val listDrivingUnique15 = mutableListOf(
+        Answer(104, context.getString(R.string.answer_driving_unique_15_1), true, 105, context.getString(R.string.text_explain_answer_driving_unique_15)),
+        Answer(105, context.getString(R.string.answer_driving_unique_15_2), false, 105)
+    )
+
+    val listDrivingUnique16 = mutableListOf(
+        Answer(106, context.getString(R.string.answer_driving_unique_16_1), true, 106, context.getString(R.string.text_explain_answer_driving_unique_16)),
+        Answer(107, context.getString(R.string.answer_driving_unique_16_2), false, 106)
+    )
+
+    val listDrivingUnique17 = mutableListOf(
+        Answer(108, context.getString(R.string.answer_driving_unique_17_1), true, 107, context.getString(R.string.text_explain_answer_driving_unique_17)),
+        Answer(109, context.getString(R.string.answer_driving_unique_17_2), false, 107)
+    )
+    val listDrivingUnique18 = mutableListOf(
+        Answer(110, context.getString(R.string.answer_driving_unique_18_1), true, 108, context.getString(R.string.text_explain_answer_driving_unique_18)),
+        Answer(111, context.getString(R.string.answer_driving_unique_18_2), false, 108)
+    )
+
+    val listDrivingUnique19 = mutableListOf(
+        Answer(112, context.getString(R.string.answer_driving_unique_19_1), true, 109, context.getString(R.string.text_explain_answer_driving_unique_19)),
+        Answer(113, context.getString(R.string.answer_driving_unique_19_2), false, 109)
+    )
+
+    val listDrivingUnique20 = mutableListOf(
+        Answer(114, context.getString(R.string.answer_driving_unique_20_1), true, 110, context.getString(R.string.text_explain_answer_driving_unique_20)),
+        Answer(115, context.getString(R.string.answer_driving_unique_20_2), false, 110)
+    )
+
 
     listAnswerDrivingUnique = mutableListOf(
         listDrivingUnique1, listDrivingUnique2, listDrivingUnique3, listDrivingUnique4,
         listDrivingUnique5, listDrivingUnique6, listDrivingUnique7, listDrivingUnique8,
-        listDrivingUnique9, listDrivingUnique10, listDrivingUnique11, listDrivingUnique12
+        listDrivingUnique9, listDrivingUnique10, listDrivingUnique11, listDrivingUnique12 ,
+        listDrivingUnique13, listDrivingUnique14, listDrivingUnique15, listDrivingUnique16,
+        listDrivingUnique17, listDrivingUnique18, listDrivingUnique19, listDrivingUnique20
     )
+
 }
 
 fun initListRoadSign(context: Context) {
-    /**Biển báo đường bộ 111 -> 130*/ //20
+    /**Biển báo đường bộ 111 -> 135*/ //20
     val listRoadSign1 = mutableListOf(
         Answer(1, context.getString(R.string.answer_road_sign_1_1), false, 111),
         Answer(2, context.getString(R.string.answer_road_sign_1_2), false, 111),
@@ -967,14 +1034,60 @@ fun initListRoadSign(context: Context) {
         ),
         Answer(63, context.getString(R.string.answer_road_sign_20_3), false, 130)
     )
+    val listRoadSign21 = mutableListOf(
+        Answer(64, context.getString(R.string.answer_road_sign_21_1), false, 131),
+        Answer(
+            65, context.getString(R.string.answer_road_sign_21_2), true, 131,
+            context.getString(R.string.text_explain_answer_road_sign_21)
+        ),
+        Answer(66, context.getString(R.string.answer_road_sign_21_3), false, 131),
+        Answer(67, context.getString(R.string.answer_road_sign_21_4), false, 131)
 
+    )
+    val listRoadSign22 = mutableListOf(
+        Answer(68, context.getString(R.string.answer_road_sign_22_1), false, 132),
+        Answer(69, context.getString(R.string.answer_road_sign_22_2), false, 132),
+        Answer(
+            70, context.getString(R.string.answer_road_sign_22_3), true, 132,
+            context.getString(R.string.text_explain_answer_road_sign_22)
+        ),
+        Answer(71, context.getString(R.string.answer_road_sign_22_4), false, 132)
+    )
+    val listRoadSign23 = mutableListOf(
+        Answer(
+            72, context.getString(R.string.answer_road_sign_23_1), true, 133,
+            context.getString(R.string.text_explain_answer_road_sign_23)
+        ),
+        Answer(73, context.getString(R.string.answer_road_sign_23_2), false, 133),
+        Answer(74, context.getString(R.string.answer_road_sign_23_3), false, 133),
+        Answer(75, context.getString(R.string.answer_road_sign_23_4), false, 133)
+    )
+    val listRoadSign24 = mutableListOf(
+        Answer(
+            76, context.getString(R.string.answer_road_sign_24_1), true, 134,
+            context.getString(R.string.text_explain_answer_road_sign_24)
+        ),
+        Answer(77, context.getString(R.string.answer_road_sign_24_2), false, 134),
+        Answer(78, context.getString(R.string.answer_road_sign_24_3), false, 134),
+        Answer(79, context.getString(R.string.answer_road_sign_24_4), false, 134)
+    )
+    val listRoadSign25 = mutableListOf(
+        Answer(80, context.getString(R.string.answer_road_sign_25_1), false, 135),
+        Answer(
+            81, context.getString(R.string.answer_road_sign_25_2), true, 135,
+            context.getString(R.string.text_explain_answer_road_sign_25)
+        ),
+        Answer(82, context.getString(R.string.answer_road_sign_25_3), false, 135)
+    )
     listAnswerRoadSign = mutableListOf(
         listRoadSign1, listRoadSign2, listRoadSign3, listRoadSign4, listRoadSign5,
         listRoadSign6, listRoadSign7, listRoadSign8, listRoadSign9, listRoadSign10,
         listRoadSign11, listRoadSign12, listRoadSign13, listRoadSign14, listRoadSign15,
-        listRoadSign16, listRoadSign17, listRoadSign18, listRoadSign19, listRoadSign20
+        listRoadSign16, listRoadSign17, listRoadSign18, listRoadSign19, listRoadSign20,
+        listRoadSign21, listRoadSign22, listRoadSign23, listRoadSign24, listRoadSign25
     )
 }
+
 
 fun initListSatFigure(context: Context) {
     /**Biển báo đường bộ 141 -> 165*/ //25
@@ -1183,13 +1296,49 @@ fun initListSatFigure(context: Context) {
         ),
         Answer(77, context.getString(R.string.answer_sat_figure_25_3), false, 165)
     )
-
-    listAnswerSatFigure = mutableListOf(
+    val listSatFigure26 = mutableListOf(
+        Answer(78, context.getString(R.string.answer_sat_figure_26_1), false, 166),
+        Answer(79, context.getString(R.string.answer_sat_figure_26_2), false, 166),
+        Answer(80, context.getString(R.string.answer_sat_figure_26_3), true, 166,
+        context.getString(R.string.text_explain_sat_figure_26)
+        ),
+        Answer(81, context.getString(R.string.answer_sat_figure_26_4), false, 166),
+    )
+    val listSatFigure27 = mutableListOf(
+        Answer(82, context.getString(R.string.answer_sat_figure_27_1), false, 167),
+        Answer(83, context.getString(R.string.answer_sat_figure_27_2), true,167,
+            context.getString(R.string.text_explain_sat_figure_27)
+        ),
+        Answer(84, context.getString(R.string.answer_sat_figure_27_3), false, 167),
+    )
+    val listSatFigure28 = mutableListOf(
+        Answer(85, context.getString(R.string.answer_sat_figure_28_1), false, 168),
+        Answer(86, context.getString(R.string.answer_sat_figure_28_2), true, 168,
+            context.getString(R.string.text_explain_sat_figure_28)
+        ),
+        Answer(87, context.getString(R.string.answer_sat_figure_28_3), false, 168),
+    )
+    val listSatFigure29 = mutableListOf(
+        Answer(88, context.getString(R.string.answer_sat_figure_29_1), true, 169,
+            context.getString(R.string.text_explain_sat_figure_29)
+        ),
+        Answer(89, context.getString(R.string.answer_sat_figure_29_2), false, 169),
+        Answer(90, context.getString(R.string.answer_sat_figure_29_3), false, 169),
+    )
+    val listSatFigure30 = mutableListOf(
+        Answer(91, context.getString(R.string.answer_sat_figure_30_1), false, 170),
+        Answer(92, context.getString(R.string.answer_sat_figure_30_2), false, 170),
+        Answer(93, context.getString(R.string.answer_sat_figure_30_3),true, 170,
+            context.getString(R.string.text_explain_sat_figure_30)
+        ),
+    )
+        listAnswerSatFigure = mutableListOf(
         listSatFigure1, listSatFigure2, listSatFigure3, listSatFigure4, listSatFigure5,
         listSatFigure6, listSatFigure7, listSatFigure8, listSatFigure9, listSatFigure10,
         listSatFigure11, listSatFigure12, listSatFigure13, listSatFigure14, listSatFigure15,
         listSatFigure16, listSatFigure17, listSatFigure18, listSatFigure19, listSatFigure20 ,
-        listSatFigure21 ,listSatFigure22,listSatFigure23,listSatFigure24,listSatFigure25
+        listSatFigure21 ,listSatFigure22,listSatFigure23,listSatFigure24,listSatFigure25 ,
+        listSatFigure26, listSatFigure27, listSatFigure28, listSatFigure29, listSatFigure30
     )
 }
 var listAllTheoryQuestions: MutableList<Question> = mutableListOf()

@@ -13,6 +13,23 @@ class AnswerAdapter : BaseRecyclerViewAdapter<Answer, ItemAnswerBinding>() {
     @SuppressLint("SetTextI18n")
     override fun bindData(binding: ItemAnswerBinding, item: Answer, position: Int) {
         binding.textAnswerCount.text = "${position + 1}"
+        if (item.imageAnswerResId != 0) {
+            binding.imageAnswerContent.visibility = View.VISIBLE
+            binding.imageAnswerContent.setImageResource(item.imageAnswerResId)
+
+            // Nếu không có chữ thì ẩn TextView đi cho gọn
+            if (item.answerContent.isEmpty()) {
+                binding.textAnswerContent.visibility = View.GONE
+            } else {
+                binding.textAnswerContent.visibility = View.VISIBLE
+                binding.textAnswerContent.text = item.answerContent
+            }
+        } else {
+            // Trường hợp bình thường (chỉ có chữ)
+            binding.imageAnswerContent.visibility = View.GONE
+            binding.textAnswerContent.visibility = View.VISIBLE
+            binding.textAnswerContent.text = item.answerContent
+        }
         binding.textAnswerContent.text = item.answerContent
         binding.textAnswerContent.setTextColor(Color.rgb(0, 0, 0))
         binding.textAnswerCount.setTextColor(Color.rgb(0, 0, 0))

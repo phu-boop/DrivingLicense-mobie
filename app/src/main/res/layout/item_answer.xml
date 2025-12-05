@@ -13,8 +13,12 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingVertical="8dp">
 
+        <!-- Số thứ tự câu (1, 2, 3...) -->
         <TextView
             android:id="@+id/text_answer_count"
             android:layout_width="25dp"
@@ -26,16 +30,39 @@
             android:textColor="@color/black"
             android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/text_answer_content"
-            android:layout_width="match_parent"
+        <!-- KHU VỰC CHỨA NỘI DUNG (CHỮ HOẶC ẢNH) -->
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:paddingHorizontal="10dp"
-            android:paddingVertical="7dp"
-            android:textSize="18sp"
-            tools:text="@string/text_explain_answer_important_2" />
+            android:orientation="vertical"
+            android:paddingHorizontal="10dp">
 
+            <!-- TextView hiện chữ (như cũ) -->
+            <TextView
+                android:id="@+id/text_answer_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:visibility="visible"
+                tools:text="Nội dung đáp án dạng chữ" />
+
+            <!-- 🔥 ImageView mới để hiện ảnh biển báo -->
+            <ImageView
+                android:id="@+id/image_answer_content"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:layout_gravity="start"
+                android:layout_marginTop="5dp"
+                android:adjustViewBounds="true"
+                android:scaleType="fitStart"
+                android:visibility="gone"
+                tools:src="@drawable/ic_launcher_background"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+        <!-- Icon check đúng/sai -->
         <ImageView
             android:id="@+id/image_status"
             android:layout_width="25dp"

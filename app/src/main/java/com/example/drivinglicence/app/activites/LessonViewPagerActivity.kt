@@ -19,6 +19,14 @@ import com.example.drivinglicence.utils.*
 import com.tencent.mmkv.MMKV
 
 class LessonViewPagerActivity : BaseVMActivity<ActivityLessonViewPagerBinding, MapDataViewModel>() {
+    companion object {
+        const val FLAG = "FLAG"
+        const val QUESTION = "QUESTION"
+        const val ANSWERS = "ANSWERS"
+        const val QUESTIONS = "QUESTIONS"
+        const val POSITION = "POSITION"
+    }
+    // ----------------------------------------------------
     private val viewpagerAdapter by lazy {
         ViewPagerAdapter(supportFragmentManager)
     }
@@ -114,10 +122,10 @@ class LessonViewPagerActivity : BaseVMActivity<ActivityLessonViewPagerBinding, M
                 /**30 Câu hỏi khái niệm và quy tắc*/
                 listQuestion = viewModel.getListQuestionConceptsAndRules(this)
                 listQuestion = listQuestion.shuffled() as MutableList<Question>
-                for (i in 1..30) {
+                for (i in 1..35) {
                     listAnswer.add(viewModel.mapAnswerConceptsAndRules[i + 40] ?: mutableListOf())
                 }
-                for (i in 1..30) {
+                for (i in 1..35) {
                     val question = listQuestion[i - 1]
                     val answers =
                         viewModel.mapAnswerConceptsAndRules[question.questionId] as ArrayList<Answer>
@@ -149,12 +157,12 @@ class LessonViewPagerActivity : BaseVMActivity<ActivityLessonViewPagerBinding, M
             }
             4 -> {
                 binding.toolbar.setTitle(getString(R.string.text_driving_technique))
-                /**12 câu kỹ thuật lái xe*/
+                /**20 câu kỹ thuật lái xe*/
                 listQuestion = viewModel.getListQuestionDrivingUnique(this)
-                for (i in 1..12) {
+                for (i in 1..25) {
                     listAnswer.add(viewModel.mapAnswerDrivingUnique[i + 90] ?: mutableListOf())
                 }
-                for (i in 1..12) {
+                for (i in 1..25) {
                     val question = listQuestion[i - 1]
                     val answers = listAnswer[i - 1] as ArrayList<Answer>
                     mListFragment.add(LessonFragment().apply {
@@ -169,10 +177,10 @@ class LessonViewPagerActivity : BaseVMActivity<ActivityLessonViewPagerBinding, M
                 binding.toolbar.setTitle(getString(R.string.text_road_signs))
                 /**20 câu biển báo đường bộ*/
                 listQuestion = viewModel.getListQuestionRoadSign(this)
-                for (i in 1..20) {
+                for (i in 1..25) {
                     listAnswer.add(viewModel.mapAnswerRoadSign[i + 110] ?: mutableListOf())
                 }
-                for (i in 1..20) {
+                for (i in 1..25) {
                     val question = listQuestion[i - 1]
                     val answers = listAnswer[i - 1] as ArrayList<Answer>
                     mListFragment.add(LessonFragment().apply {
@@ -185,12 +193,12 @@ class LessonViewPagerActivity : BaseVMActivity<ActivityLessonViewPagerBinding, M
             }
             6 -> {
                 binding.toolbar.setTitle(getString(R.string.text_sat_figure))
-                /**20 câu sa hình*/
+                /**30 câu sa hình*/
                 listQuestion = viewModel.getListQuestionSatFigure(this)
-                for (i in 1..25) {
+                for (i in 1..30) {
                     listAnswer.add(viewModel.mapAnswerSatFigure[i + 140] ?: mutableListOf())
                 }
-                for (i in 1..25) {
+                for (i in 1..30) {
                     val question = listQuestion[i - 1]
                     val answers = listAnswer[i - 1] as ArrayList<Answer>
                     mListFragment.add(LessonFragment().apply {

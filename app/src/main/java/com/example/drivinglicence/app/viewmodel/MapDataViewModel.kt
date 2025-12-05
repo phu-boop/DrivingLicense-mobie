@@ -57,7 +57,7 @@ class MapDataViewModel : BaseViewModel() {
 
     /** 30 question  concepts and rules 41 -> 70 */
     private fun getAnswerWithQuestionConcepts() {
-        for (i in 1..30) {
+        for (i in 1..35) {
             mapAnswerConceptsAndRules[i + 40] = listAnswerConceptAndRule[i - 1]
         }
     }
@@ -94,6 +94,19 @@ class MapDataViewModel : BaseViewModel() {
         list.add(Question(68, null, context.getString(R.string.question_important_28), null, true))
         list.add(Question(69, null, context.getString(R.string.question_important_29), null, true))
         list.add(Question(70, null, context.getString(R.string.question_important_34), null, true))
+        for (i in 30..35) {
+            val id =
+                context.resources.getIdentifier(
+                    "question_concepts_and_rules_$i",
+                    "string",
+                    context.packageName
+                )
+            if (id > 0) {
+                list.add(
+                    Question(i + 40, null, context.getString(id), null, false)
+                )
+            }
+        }
         getAnswerWithQuestionConcepts()
         return list
     }
@@ -126,7 +139,7 @@ class MapDataViewModel : BaseViewModel() {
 
     /** 12 question driving unique 91 -> 102 */
     private fun getAnswerWithQuestionDrivingUnique() {
-        for (i in 1..12) {
+        for (i in 1..20) {
             mapAnswerDrivingUnique[i + 90] = listAnswerDrivingUnique[i - 1]
         }
     }
@@ -148,13 +161,26 @@ class MapDataViewModel : BaseViewModel() {
         }
         list.add(Question(101, null, context.getString(R.string.question_important_34), null, true))
         list.add(Question(102, null, context.getString(R.string.question_important_35), null, true))
+        for (i in 13..20) {
+            val id =
+                context.resources.getIdentifier(
+                    "question_driving_unique_$i",
+                    "string",
+                    context.packageName
+                )
+            if (id > 0) {
+                list.add(
+                    Question(i + 90, null, context.getString(id), null, false)
+                )
+            }
+        }
         getAnswerWithQuestionDrivingUnique()
         return list
     }
 
     /** 20 question road sign 111 -> 130 */
     private fun getAnswerWithQuestionRoadSign() {
-        for (i in 1..20) {
+        for (i in 1..25) {
             mapAnswerRoadSign[i + 110] = listAnswerRoadSign[i - 1]
         }
     }
@@ -167,10 +193,13 @@ class MapDataViewModel : BaseViewModel() {
             R.drawable.road_sign_9, R.drawable.road_sign_11, R.drawable.road_sign_12,
             R.drawable.road_sign_12, R.drawable.road_sign_14, R.drawable.road_sign_15,
             R.drawable.road_sign_16, R.drawable.road_sign_16, R.drawable.road_sign_18,
-            R.drawable.road_sign_19, R.drawable.road_sign_20
+            R.drawable.road_sign_19, R.drawable.road_sign_20 ,R.drawable.road_sign_21,
+            R.drawable.road_sign_22, R.drawable.road_sign_23 ,R.drawable.road_sign_24,
+            R.drawable.road_sign_25,
+
         )
         val list = mutableListOf<Question>()
-        for (i in 1..20) {
+        for (i in 1..25) {
             val id =
                 context.resources.getIdentifier(
                     "question_road_sign_$i",
@@ -189,14 +218,14 @@ class MapDataViewModel : BaseViewModel() {
 
     /** 20 question sat figure 141 -> 160 */
     private fun getAnswerWithQuestionSatFigure() {
-        for (i in 1..25) {
+        for (i in 1..30) {
             mapAnswerSatFigure[i + 140] = listAnswerSatFigure[i - 1]
         }
     }
 
     fun getListQuestionSatFigure(context: Context): MutableList<Question> {
         // Nếu danh sách đã được tải rồi thì không cần tải lại
-        if (listSatFigure.isNotEmpty() && listSatFigure.size >= 25) {
+        if (listSatFigure.isNotEmpty() && listSatFigure.size >= 30) {
             return listSatFigure
         }
 
@@ -209,10 +238,11 @@ class MapDataViewModel : BaseViewModel() {
             R.drawable.sat_figure_16, R.drawable.sat_figure_17, R.drawable.sat_figure_18,
             R.drawable.sat_figure_19, R.drawable.sat_figure_20, R.drawable.sat_figure_21,
             R.drawable.sat_figure_22, R.drawable.sat_figure_23, R.drawable.sat_figure_24,
-            R.drawable.sat_figure_25
+            R.drawable.sat_figure_25, R.drawable.sat_figure_26, R.drawable.sat_figure_27,
+            R.drawable.sat_figure_28, R.drawable.sat_figure_29, R.drawable.sat_figure_30,
         )
-        val newList = mutableListOf<Question>()
-        for (i in 1..25) { // Vòng lặp tới 25
+        val list = mutableListOf<Question>()
+        for (i in 1..30) {
             val id =
                 context.resources.getIdentifier(
                     "question_sat_figure_$i",
@@ -220,26 +250,14 @@ class MapDataViewModel : BaseViewModel() {
                     context.packageName
                 )
             if (id > 0) {
-                // Kiểm tra để tránh lỗi nếu số lượng ảnh không khớp
-                if (i - 1 < imageList.size) {
-                    newList.add(
-                        Question(i + 140, null, context.getString(id), imageList[i - 1], false)
-                    )
-                } else {
-                    newList.add(
-                        Question(i + 140, null, context.getString(id), null, false)
-                    )
-                }
+                list.add(
+                    Question(i + 140, null, context.getString(id), imageList[i - 1], false)
+                )
             }
         }
-
-
-        listSatFigure = newList
-
         getAnswerWithQuestionSatFigure()
-        return listSatFigure
+        return list
     }
-
 
     fun getQuestionTest(position: Int): MutableList<Question> {
         /**25 question in 1 exam
@@ -452,19 +470,19 @@ class MapDataViewModel : BaseViewModel() {
                 in 1..35 -> {
                     mapping[index] = mapAnswerImportant[question.questionId]!!
                 }
-                in 41..70 -> {
+                in 41..75 -> {
                     mapping[index] = mapAnswerConceptsAndRules[question.questionId]!!
                 }
                 in 81..85 -> {
                     mapping[index] = mapAnswerCulturesAndEthics[question.questionId]!!
                 }
-                in 91..102 -> {
+                in 91..110 -> {
                     mapping[index] = mapAnswerDrivingUnique[question.questionId]!!
                 }
-                in 111..130 -> {
+                in 111..135 -> {
                     mapping[index] = mapAnswerRoadSign[question.questionId]!!
                 }
-                in 141..165 -> {
+                in 141..170 -> {
                     mapping[index] = mapAnswerSatFigure[question.questionId]!!
                 }
             }

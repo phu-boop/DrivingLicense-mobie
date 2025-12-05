@@ -373,7 +373,6 @@ class HomeActivity : BaseCoreActivity<ActivityMainBinding>() {
             val isEnabled = DailyReminderManager.isDailyReminderEnabled()
             val (hour, minute) = DailyReminderManager.getReminderTime()
 
-            // Sửa: Đơn giản hóa - chỉ log trạng thái
             Log.d(
                 "ReminderStatus",
                 "🔄 Trạng thái nhắc nhở: ${if (isEnabled) "BẬT" else "TẮT"} - ${

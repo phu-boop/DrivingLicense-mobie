@@ -17,14 +17,14 @@
     <string name="text_question_important"><![CDATA[<font color="#FFA900"> (Câu điểm liệt)</font>]]></string>
     <string name="text_35_question_important">35 câu hỏi điểm liệt</string>
     <string name="text_concepts_and_rules">Khái niệm và quy tắc</string>
-    <string name="text_about_30">Gồm 30 câu hỏi (16 câu điểm liệt)</string>
+    <string name="text_about_30">Gồm 35 câu hỏi (16 câu điểm liệt)</string>
     <string name="text_culture_and_ethic">Văn hóa và đạo đức lái xe</string>
     <string name="text_about_5">Gồm 5 câu hỏi</string>
-    <string name="text_about_20">Gồm 20 câu hỏi</string>
-    <string name="text_about_25">Gồm 25 câu hỏi</string>
+    <string name="text_about_20">Gồm 25 câu hỏi</string>
+    <string name="text_about_25">Gồm 30 câu hỏi</string>
     <string name="text_about_35">Gồm 35 câu hỏi</string>
     <string name="text_driving_technique">Kỹ thuật lái xe</string>
-    <string name="text_about_12">Gồm 12 câu hỏi (2 câu điểm liệt)</string>
+    <string name="text_about_12">Gồm 20 câu hỏi (2 câu điểm liệt)</string>
     <string name="text_sat_figure">Sa hình</string>
     <string name="text_exam_number">Đề số</string>
     <string name="text_start_exam">Bắt đầu làm bài</string>
@@ -116,6 +116,12 @@
     <string name="text_explain_answer_concept_and_rule_12">Người điều khiển giao thông là người hướng dẫn, điều khiển, phân luồng,… giúp giao thông thông suốt và an toàn. Đáp án 2 đúng.</string>
     <string name="text_explain_answer_concept_and_rule_13">Dừng xe là đứng yên tạm thời và trong một khoảng thời gian cần thiết. Đáp án đúng: 2.</string>
     <string name="text_explain_answer_concept_and_rule_14">Đỗ xe là đứng yên và không giới hạn thời gian. Đáp án đúng: 2.</string>
+    <string name="text_explain_answer_concepts_and_rules_31">Gồm 5 nhóm chính như đáp án 1: Biển cấm, biển nguy hiểm, biển hiệu lệnh, biển chỉ dẫn, biển phụ.</string>
+    <string name="text_explain_answer_concepts_and_rules_32">Khi CSGT giơ tay thẳng đứng: Trừ xe đã vào giao lộ được đi tiếp, còn lại tất cả các hướng phải dừng lại.</string>
+    <string name="text_explain_answer_concepts_and_rules_33">Quy tắc nhường đường tại nơi giao nhau: Không có vòng xuyến nhường phải; Có vòng xuyến nhường trái.</string>
+    <string name="text_explain_answer_concepts_and_rules_34">Đáp án 1 đúng. Được chở 3 người trong trường hợp: Chở người bệnh đi cấp cứu, áp giải người phạm pháp, trẻ em dưới 14 tuổi.</string>
+    <string name="text_explain_answer_concepts_and_rules_35">Ban đêm khi gặp xe ngược chiều, phải chuyển từ đèn chiếu xa (pha) sang đèn chiếu gần (cos) để tránh làm chói mắt người đối diện.</string>
+
     <!--5 câu hỏi Văn hóa và đạo đức lái xe-->
     <string name="text_explain_answer_culture_and_ethic_5">Tất cả các hành vi trên đều thể hiện sự thiếu văn hóa khi tham gia giao thông.\nĐáp án đúng: 4.</string>
     <string name="text_explain_answer_culture_and_ethic_1">Văn hóa giao thông được hiểu tất cả các ý trên\nĐáp án đúng: 1 và 2.</string>
@@ -133,6 +139,15 @@
     <string name="text_explain_answer_driving_unique_8">Gương chiếu hậu có tác dụng để quan sát an toàn phía sau cả bên trái và bên phải trước khi chuyển hướng. Luôn nhớ quan sát gương chiếu hậu trước khi rẽ để đảm bảo an toàn bạn nhé. Đáp án 3 đúng.</string>
     <string name="text_explain_answer_driving_unique_9">Tăng ga từ từ để đảm bảo bạn kiểm soát tốc độ xe máy trong tầm kiểm soát của bạn. Giảm ga thật nhanh để đảm bảo quá trình dừng xe khi gặp chướng ngại vật hoặc cần phanh xe để đảm bảo an toàn. Đáp án 3 đúng.</string>
     <string name="text_explain_answer_driving_unique_10">Khi đi trên đường gồ ghề, đường xóc, nếu người lái ngồi yên trên xe để đi như bình thường thì xe nẩy lên do đường xóc có thể làm cho người lái chóng mệt mỏi và rất khó điều khiển xe. Đáp án 1 đúng.</string>
+    <string name="text_explain_answer_driving_unique_13">Khi quay đầu phải quan sát biển báo, địa hình và chọn nơi được phép quay đầu để đảm bảo an toàn.</string>
+    <string name="text_explain_answer_driving_unique_14">Buồn ngủ là kẻ thù của lái xe. Nếu buồn ngủ phải dừng xe nghỉ ngơi, tuyệt đối không cố lái tiếp.</string>
+    <string name="text_explain_answer_driving_unique_15">Trên đường trơn trượt, ma sát giảm, phanh gấp dễ gây trượt ngã (xòe xe). Cần giữ vững tay lái và giảm tốc độ từ từ.</string>
+    <string name="text_explain_answer_driving_unique_16">Để phanh hiệu quả nhất, cần phối hợp nhịp nhàng cả phanh trước và phanh sau.</string>
+    <string name="text_explain_answer_driving_unique_17">Tuyệt đối không sử dụng điện thoại khi xe đang chạy. Phải dừng xe nơi an toàn rồi mới sử dụng.</string>
+    <string name="text_explain_answer_driving_unique_18">Tay ga dùng để điều khiển xe chạy về phía trước và điều tiết công suất động cơ (nhanh/chậm). Xe máy không có số lùi.</string>
+    <string name="text_explain_answer_driving_unique_19">Gương chiếu hậu dùng để quan sát phía sau (cả trái và phải) để đảm bảo an toàn khi chuyển hướng.</string>
+    <string name="text_explain_answer_driving_unique_20">Kỹ thuật phanh khẩn cấp: Giữ thẳng tay lái, bóp phanh dứt khoát nhưng không bóp cứng (tránh khóa bánh gây trượt).</string>
+
     <!--Biển báo đường bô-->
     <string name="text_explain_answer_road_sign_1">Biển 1 "Cấm mô tô", không cấm xe gắn máy\nBiển 2 "Cấm ô tô" không cấm xe gắn máy (không phải mô tô).\nNên cả 2 biển đều cho phép xe gắn máy đi vào. Đáp án 3 đúng.</string>
     <string name="text_explain_answer_road_sign_2">Biển 1 là cấm mô tô 2 bánh đi vào.\nBiển 2 là cấm ô tô.\nBiển 3 là cấm máy kéo.\nĐáp án đúng: 1. (Biển 1)</string>
@@ -154,6 +169,12 @@
     <string name="text_explain_answer_road_sign_18">Biển báo tốc độ tối đi khi tham gia giao thông vào ban đêm trong khoảng thời gian 22h đến 5h.\nĐáp án 1 đúng.</string>
     <string name="text_explain_answer_road_sign_19">Biển phụ là biến S.501 "Phạm vi tác dụng của biến" xác định chiều dài áp dụng biển chính từ nơi đặt biển.</string>
     <string name="text_explain_answer_road_sign_20">Biển chính là "Đường cấm", có biển phụ thì áp dụng cấm theo biển phụ. Nên Biển 1 và Biển 3 không áp dụng với xe mô tô là câu trả lời đúng.</string>
+    <string name="text_explain_answer_road_sign_21">Cả 3 biển đều là biển báo nguy hiểm. Nhưng chỉ có biển 2 và 3 là báo sắp đến chỗ giao nhau</string>
+    <string name="text_explain_answer_road_sign_22">.</string>
+    <string name="text_explain_answer_road_sign_23">Biển số 3 chỉ dành cho người đi bộ, các loại xe không được vào nên không có nhường.</string>
+    <string name="text_explain_answer_road_sign_24">.</string>
+    <string name="text_explain_answer_road_sign_25">.</string>
+
     <!--Sa hình-->
     <string name="text_explain_sat_figure_1">Đáp án: 2.\nGiải thích: Theo thứ tự:\n1.Không có xe vào giao lộ.\n2. Không có xe ưu tiên.\n3. Theo đường ưu tiên: Xe tải và xe mô tô nằm trên đường ưu tiên nên được đi trước. Trong đó, xe tải đi thẳng nên được đi trước, còn lại là xe mô tô. Tương tự: xe lam và xe con cùng nằm trên đường không ưu tiên, tuy nhiên xe lam đi thẳng nên được đi trước, xe con rẽ trái đi sau cùng.</string>
     <string name="text_explain_sat_figure_2">Đáp án: 3.\nGiải thích: Theo thứ tự:\n1.Không có xe đã vào giao lộ\n2.Không có xe ưu tiên.\n3.Không có biển báo hiệu đường ưu tiên.\n4.Vậy các xe cùng cấp: Xe bên phải trống được đi trước: vậy là xe mô tô đi trước, sau khi mô tô đi rồi thì bên phải xe lam trống nên xe lam đi tiếp theo, cuối cùng là xe tải.</string>
@@ -179,7 +200,12 @@
     <string name="text_explain_sat_figure_22">Đáp án: 2.\nGiải thích: Thứ tự ưu tiên: Xe ưu tiên - Đường ưu tiên - Bên phải trống - Rẽ phải - Đi thẳng - Rẽ trái.</string>
     <string name="text_explain_sat_figure_23">Đáp án: 1.\nGiải thích: Xe mô tô C chạy vào làn dành riêng xe ô tô: Vi phạm; Xe con E chạy vào làn dành riêng xe máy: Vi phạm.</string>
     <string name="text_explain_sat_figure_24">Đáp án: 4.\nGiải thích: Biển số R.301a chỉ cho phép các phương tiện đi thẳng trong khi cả hai xe đều có tín hiệu xi nhan rẽ sang hướng khác nên cả 2 xe đều vi phạm quy tắc giao thông.</string>
-    <string name="text_explain_sat_figure_25">Đáp án: 2.\nGiải thích: : Thứ tự ưu tiên: Xe ưu tiên - Đường ưu tiên - Đường cùng cấp: Bên phải trống, rẽ phải, đi thẳng, rẽ trái. \n1. Xe con: Rẽ phải; 2. Xe của bạn: Đi thẳng; 3. Mô tô: Rẽ trái.</string>
+    <string name="text_explain_sat_figure_25">Đáp án: 2.\nGiải thích: Thứ tự ưu tiên: Xe ưu tiên - Đường ưu tiên - Đường cùng cấp: Bên phải trống, rẽ phải, đi thẳng, rẽ trái. \n1. Xe con: Rẽ phải; 2. Xe của bạn: Đi thẳng; 3. Mô tô: Rẽ trái.</string>
+    <string name="text_explain_sat_figure_26">Đáp án: 3.\nGiải thích: Xe con (E) đi trong làn đường dành cho xe mô tô nên vi phạm.\nXe mô tô (D) đi trong làn đường dành cho xe khách nên vi phạm.</string>
+    <string name="text_explain_sat_figure_27">Đáp án: 2.\nGiải thích: Luật giao thông đường bộ quy định trong khi chuyển hướng phải giảm tốc độ, nhường đường cho xe đạp đang đi trên phần đường của họ. Ở tình huống giao thông này xe tải đã đi vào đường giao nhau. Vì vậy, xe của bạn phải giảm tốc độ, rẽ phải sau xe tải và xe đạp.</string>
+    <string name="text_explain_sat_figure_28">Đáp án: 2.\nGiải thích: Dừng lại trước rào chắn một khoảng cách an toàn.</string>
+    <string name="text_explain_sat_figure_29">Đáp án: 1.\nGiải thích:Tại nơi giao nhau với đường sắt, khi đèn tín hiệu màu đỏ, các xe phải dừng lại trước vạch dừng.\n– Xe mô tô dừng sau vạch dừng, vi phạm.\n– Xe con dừng trước vạch dừng là đúng quy định</string>
+    <string name="text_explain_sat_figure_30">Đáp án: 3.\nGiải thích:Nơi đường giao nhau có đặt biển “Giao nhau với đường ưu tiên” và biển phụ “Hướng đường ưu tiên”. Thứ tự các xe đi như sau:\n1. Mô tô đi trên đường ưu tiên.\n2. Xe con đi thẳng trên đường không ưu tiên.\n3. Xe của bạn đi trên đường không ưu tiên, phải nhường cho xe con bên phải.</string>
 
     <!--======================================== End giải thích đáp án ========================================-->
 
@@ -352,6 +378,12 @@
     <string name="question_concepts_and_rules_12">Khái niệm "người điều khiển giao thông" đọc hiểu như thế nào là đúng?</string>
     <string name="question_concepts_and_rules_13">Trong các khái niệm dưới đây, khái niệm "dừng xe" được hiểu như thế nào là đúng?</string>
     <string name="question_concepts_and_rules_14">Khái niệm "đỗ xe" được hiểu như thế nào là đúng quy tắc giao thông?</string>
+    <string name="question_concepts_and_rules_31">Biển báo hiệu đường bộ gồm những nhóm nào?</string>
+    <string name="question_concepts_and_rules_32">Khi cảnh sát giao thông giơ tay thẳng đứng thì xử lý thế nào?</string>
+    <string name="question_concepts_and_rules_33">Tại nơi giao nhau không có báo hiệu đi theo vòng xuyến, phải nhường đường thế nào?</string>
+    <string name="question_concepts_and_rules_34">Người điều khiển xe mô tô hai bánh được phép chở tối đa 2 người trong trường hợp nào?</string>
+    <string name="question_concepts_and_rules_35">Đêm tối, xe cơ giới đi ngược chiều gặp nhau phải xử lý đèn thế nào?</string>
+
     <!-- ========================================Câu trả lời khái niệm và quy tắc ========================================-->
     <string name="answer_concepts_and_rules_1_1">Phần mặt đường và lề đường.</string>
     <string name="answer_concepts_and_rules_1_2">Phần đường xe chạy.</string>
@@ -394,6 +426,17 @@
     <string name="answer_concepts_and_rules_13_3">Là trạng thái đứng yên của phương tiện giao thông không giới hạn thời gian giữ 02 lần vận chuyển hàng hóa hoặc hành khách.</string>
     <string name="answer_concepts_and_rules_14_1">Là trạng thái đứng yên của phương tiện giao thông có giới hạn trong một khoảng thời gian cần thiết đủ để cho người lên, xuống phương tiện đó, xếp dỡ hàng hóa hoặc thực hiện công việc khác.</string>
     <string name="answer_concepts_and_rules_14_2">Là trạng thái đứng yên của phương tiện giao thông không giới hạn thời gian.</string>
+    <string name="answer_concepts_and_rules_31_1">Biển cấm, biển nguy hiểm, biển hiệu lệnh, biển chỉ dẫn, biển phụ.</string>
+    <string name="answer_concepts_and_rules_31_2">Chỉ có biển cấm và biển chỉ dẫn.</string>
+    <string name="answer_concepts_and_rules_32_1">Người tham gia giao thông ở các hướng phải dừng lại.</string>
+    <string name="answer_concepts_and_rules_32_2">Được phép tăng tốc độ.</string>
+    <string name="answer_concepts_and_rules_33_1">Nhường đường cho xe đi đến từ bên phải.</string>
+    <string name="answer_concepts_and_rules_33_2">Nhường đường cho xe đi đến từ bên trái.</string>
+    <string name="answer_concepts_and_rules_34_1">Chở người bệnh đi cấp cứu; Áp giải người có hành vi vi phạm pháp luật; Trẻ em dưới 14 tuổi.</string>
+    <string name="answer_concepts_and_rules_34_2">Chở bạn bè đi chơi.</string>
+    <string name="answer_concepts_and_rules_35_1">Chuyển từ đèn chiếu xa (pha) sang đèn chiếu gần (cos).</string>
+    <string name="answer_concepts_and_rules_35_2">Bật đèn pha sáng hết mức.</string>
+
     <!-- ========================================Câu hỏi Văn hóa và đạo đức lái xe ========================================-->
     <string name="question_culture_and_ethics_1">Khái niệm về văn hóa giao thông được hiểu như thế nào là đúng</string>
     <string name="question_culture_and_ethics_2">Trong các hành vi dưới đây, người lái xe mô tô có văn hóa giao thông phải ứng xử như thế nào?</string>
@@ -428,6 +471,14 @@
     <string name="question_driving_unique_8">Gương chiếu hậu của xe mô tô hai bánh, có tác dụng gì trong các trường hợp dưới đây?</string>
     <string name="question_driving_unique_10">Kỹ thuật cơ bản để giữ thăng bằng khi điều khiển xe mô tô đi trên đường gồ ghề như thế nào trong các trường hợp dưới đây?</string>
     <string name="question_driving_unique_9">Để đảm bảo an toàn khi tham gia giao thông, người lái xe mô tô hai bánh cần điều khiển tay ga như thế nào trong các trường hợp dưới đây?</string>
+    <string name="question_driving_unique_13">Khi quay đầu xe, người lái xe cần quan sát như thế nào?</string>    <string name="question_driving_unique_14">Khi lái xe trên đường vắng, cảm thấy buồn ngủ, người lái xe nên làm gì?</string>
+    <string name="question_driving_unique_15">Khi điều khiển xe trên đường trơn trượt cần lưu ý gì?</string>
+    <string name="question_driving_unique_16">Để đạt hiệu quả phanh cao nhất, người lái xe mô tô phải thực hiện thao tác như thế nào?</string>
+    <string name="question_driving_unique_17">Khi đang lái xe mô tô và ô tô, nếu có nhu cầu sử dụng điện thoại nhắn tin thì làm gì?</string>
+    <string name="question_driving_unique_18">Tay ga trên xe mô tô hai bánh có tác dụng gì?</string>
+    <string name="question_driving_unique_19">Gương chiếu hậu của xe mô tô hai bánh có tác dụng gì?</string>
+    <string name="question_driving_unique_20">Kỹ thuật phanh xe khẩn cấp?</string>
+
     <!-- ========================================Câu trả lời Kỹ thuật lái xe ========================================-->
     <string name="answer_driving_unique_1_2">Quan sát biển báo hiệu để biết nơi được phép quay đầu; quan sát kỹ địa hình nơi chọn để quay đầu; lựa chọn quỹ đạo quay đầu xe; quay đầu xe với tốc độ tối đa; thường xuyên báo tín hiệu để người, các phương tiện xung quanh được biết; nếu quay đầu xe ở nơi nguy hiểm thì đưa đuôi xe về phía nguy hiểm và đầu xe về phía an toàn.</string>
     <string name="answer_driving_unique_1_1">Quan sát biển báo hiệu để biết nơi được phép quay đầu; quan sát kỹ địa hình nơi chọn để quay đầu; lựa chọn quỹ đạo quay đầu xe cho thích hợp; quay đầu xe với tốc độ thấp; thường xuyên báo tín hiệu để người; nếu quay đầu xe ở nơi nguy hiểm thì đưa đầu xe về phía nguy hiểm đưa đuôi xe về phía an toàn.</string>
@@ -462,6 +513,23 @@
     <string name="answer_driving_unique_10_1">Đứng thẳng trên giá gác chân lái sau đó hơi gập đầu gối và khuỷu tay, đi chậm để không nẩy quá mạnh.</string>
     <string name="answer_driving_unique_10_2">Ngồi lùi lại phía sau, tăng ga vượt nhanh qua đoạn đường xóc.</string>
     <string name="answer_driving_unique_10_3">Ngồi lệch sang bên trái hoặc bên phải để lấy thăng bằng qua đoạn đường gồ ghề.</string>
+    <string name="answer_driving_unique_13_1">Quan sát biển báo, địa hình, chọn nơi được phép quay đầu.</string>
+    <string name="answer_driving_unique_13_2">Cứ thế quay đầu không cần nhìn.</string>
+    <string name="answer_driving_unique_14_1">Dừng xe, nghỉ ngơi cho đến khi tỉnh táo.</string>
+    <string name="answer_driving_unique_14_2">Tăng tốc độ để về nhanh hơn.</string>
+    <string name="answer_driving_unique_15_1">Giữ vững tay lái, không phanh gấp, không đánh lái ngoặt.</string>
+    <string name="answer_driving_unique_15_2">Phanh thật mạnh để dừng xe.</string>
+    <string name="answer_driving_unique_16_1">Sử dụng đồng thời cả phanh trước và phanh sau.</string>
+    <string name="answer_driving_unique_16_2">Chỉ sử dụng phanh trước.</string>
+    <string name="answer_driving_unique_17_1">Giảm tốc độ để dừng xe ở nơi cho phép dừng, sau đó sử dụng.</string>
+    <string name="answer_driving_unique_17_2">Vừa lái vừa nhắn tin.</string>
+    <string name="answer_driving_unique_18_1">Điều khiển xe chạy về phía trước; Điều tiết công suất động cơ.</string>
+    <string name="answer_driving_unique_18_2">Để điều khiển xe chạy lùi.</string>
+    <string name="answer_driving_unique_19_1">Để quan sát an toàn phía sau, kể cả bên trái và bên phải.</string>
+    <string name="answer_driving_unique_19_2">Để quan sát phía trước.</string>
+    <string name="answer_driving_unique_20_1">Giữ chặt tay lái, bóp phanh dứt khoát, không bóp cứng (khóa bánh).</string>
+    <string name="answer_driving_unique_20_2">Buông tay lái.</string>
+
     <!-- ========================================Câu hỏi biến báo đường bộ========================================-->
     <string name="question_road_sign_1">Biển nào dưới đây xe gắn máy được phép đi vào?</string>
     <string name="question_road_sign_2">Biển nào báo hiệu cấm xe mô tô hai bánh đi vào?</string>
@@ -483,6 +551,11 @@
     <string name="question_road_sign_18">Biển báo này có ý nghĩa như thế nào?</string>
     <string name="question_road_sign_19">Chiều dài đoạn đường 500 m từ nơi đặt biển này, người lái xe có được phép bấm còi không?</string>
     <string name="question_road_sign_20">Biển nào xe mô tô hai bánh được đi vào?</string>
+    <string name="question_road_sign_21">Biển nào báo hiệu sắp đến chỗ giao nhau nguy hiểm ?</string>
+    <string name="question_road_sign_22">Biển nào chỉ đường dành cho người đi bộ, các loại xe không được đi vào khi gặp biển này ?</string>
+    <string name="question_road_sign_23">Gặp biển nào người lái xe phải nhường đường cho người đi bộ ?</string>
+    <string name="question_road_sign_24">Biển nào báo hiệu giao nhau với đường không ưu tiên ?</string>
+    <string name="question_road_sign_25">Biển nào báo hiệu giao nhau với đường ưu tiên ?</string>
     <!-- ========================================Câu trả lời biến báo đường bộ========================================-->
     <string name="answer_road_sign_1_1">Biển 1.</string>
     <string name="answer_road_sign_1_2">Biển 2.</string>
@@ -547,6 +620,26 @@
     <string name="answer_road_sign_20_1">Biển 1 và 2.</string>
     <string name="answer_road_sign_20_2">Biển 1 và 3.</string>
     <string name="answer_road_sign_20_3">Biển 2 và 3.</string>
+    <string name="answer_road_sign_21_1">Biển 1 và 2.</string>
+    <string name="answer_road_sign_21_2">Biển 2 và 3.</string>
+    <string name="answer_road_sign_21_3">Biển 1.</string>
+    <string name="answer_road_sign_21_4">Cả 3 biển.</string>
+    <string name="answer_road_sign_22_1">Biển 1.</string>
+    <string name="answer_road_sign_22_2">Biển 1 và 3.</string>
+    <string name="answer_road_sign_22_3">Biển 3.</string>
+    <string name="answer_road_sign_22_4">Cả 3 biển.</string>
+    <string name="answer_road_sign_23_1">Biển 1.</string>
+    <string name="answer_road_sign_23_2">Biển 3.</string>
+    <string name="answer_road_sign_23_3">Biển 2.</string>
+    <string name="answer_road_sign_23_4">Biển 1 và 3.</string>
+    <string name="answer_road_sign_24_1">Biển 1.</string>
+    <string name="answer_road_sign_24_2">Biển 2 và 3.</string>
+    <string name="answer_road_sign_24_3">Biển 2.</string>
+    <string name="answer_road_sign_24_4">Biển 3.</string>
+    <string name="answer_road_sign_25_1">Biển 1 và 3.</string>
+    <string name="answer_road_sign_25_2">Biển 2.</string>
+    <string name="answer_road_sign_25_3">Biển 3.</string>
+
     <!-- ========================================Câu hỏi sa hình========================================-->
     <string name="question_sat_figure_1">Thứ tự các xe đi như thế nào là đúng quy tắc giao thông?</string>
     <string name="question_sat_figure_2">Thứ tự các xe đi như thế nào là đúng quy tắc giao thông?</string>
@@ -573,6 +666,12 @@
     <string name="question_sat_figure_23">Trong hình dưới, những xe nào vi phạm quy tắc giao thông?</string>
     <string name="question_sat_figure_24">Theo tín hiệu đèn của xe cơ giới, xe nào vi phạm quy tắc giao thông?</string>
     <string name="question_sat_figure_25">Các xe đi theo thứ tự nào là đúng quy tắc giao thông đường bộ?</string>
+    <string name="question_sat_figure_26">Trong hình dưới, những xe nào vi phạm quy tắc giao thông?</string>
+    <string name="question_sat_figure_27">Bạn xử lý thế nào trong trường hợp này?</string>
+    <string name="question_sat_figure_28">Xe của bạn đang di chuyển gần đến khu vực giao cắt với đường sắt, khi rào chắn đang dịch chuyển, bạn điều khiển xe như thế nào là đúng quy tắt giao thông?</string>
+    <string name="question_sat_figure_29">Xe nào dừng đúng theo quy tắc giao thông?</string>
+    <string name="question_sat_figure_30">Các xe đi theo thứ tự nào là đúng quy tắc giao thông đường bộ?</string>
+
     <!-- ========================================Câu trả lời sa hình========================================-->
     <string name="answer_sat_figure_1_1">Xe tải, xe lam, xe con, mô tô.</string>
     <string name="answer_sat_figure_1_2">Xe tải, mô tô, xe lam, xe con.</string>
@@ -654,6 +753,24 @@
     <string name="answer_sat_figure_25_1">Xe của bạn, xe mô tô, xe con.</string>
     <string name="answer_sat_figure_25_2">Xe con, xe của bạn, xe mô tô.</string>
     <string name="answer_sat_figure_25_3">Xe mô tô, xe con, xe của bạn.</string>
+    <string name="answer_sat_figure_26_1">Xe con (B), mô tô (C).</string>
+    <string name="answer_sat_figure_26_2">Xe con (A), mô tô (C).</string>
+    <string name="answer_sat_figure_26_3">Xe con (E), mô tô (D).</string>
+    <string name="answer_sat_figure_26_4">Tất cả các loại xe trên.</string>
+    <string name="answer_sat_figure_27_1">Tăng tốc độ, rẽ phải trước xe tải và xe đạp.</string>
+    <string name="answer_sat_figure_27_2">Giảm tốc độ, rẽ phải sau xe tải và xe đạp.</string>
+    <string name="answer_sat_figure_27_3">Tăng tốc độ, rẽ phải sau xe đạp.</string>
+    <string name="answer_sat_figure_28_1">Quan sát nếu thấy không có tàu thì tăng tốc cho xe vượt qua đường sắt.</string>
+    <string name="answer_sat_figure_28_2">Dừng lại trước rào chắn một khoảng cách an toàn.</string>
+    <string name="answer_sat_figure_28_3">Ra tín hiệu, yêu cầu người gác chắn tàu kéo chậm Barie để xe bạn qua.</string>
+    <string name="answer_sat_figure_29_1">Xe con.</string>
+    <string name="answer_sat_figure_29_2">Xe mô tô.</string>
+    <string name="answer_sat_figure_29_3">Cả hai xe đều đúng.</string>
+    <string name="answer_sat_figure_30_1">Xe của bạn, mô tô, xe con.</string>
+    <string name="answer_sat_figure_30_2">Xe con, xe của bạn, mô tô.</string>
+    <string name="answer_sat_figure_30_3">Mô tô, xe con, xe của bạn.</string>
+
+
     <!-- ========================================Mẹo thi lý thuyết ========================================-->
     <string name="text_tip_1">Cấp phép</string>
     <string name="text_tip_2">Nồng độ cồn</string>

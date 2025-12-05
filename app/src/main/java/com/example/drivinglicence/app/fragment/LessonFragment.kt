@@ -44,11 +44,7 @@ class LessonFragment :
                 answer.flag = 3
             }
 
-            // ==============================================================
-            // == LƯU KẾT QUẢ TRẢ LỜI (ĐÚNG/SAI) VÀO MMKV NGAY TẠI ĐÂY ==
-            // ==============================================================
             saveAnswerResult(answer)
-            // ==============================================================
 
             answerAdapter.notifyDataSetChanged()
         }
@@ -95,7 +91,6 @@ class LessonFragment :
         val question: Question? = arguments?.getParcelable(QUESTION)
         val listAnswer: MutableList<Answer>? = arguments?.getParcelableArrayList(ANSWERS)
 
-        // 1. Hiển thị nội dung câu hỏi (Giữ nguyên logic cũ)
         question?.let { q ->
             if (q.isImportant) {
                 binding.textQuestionContent.text = Html.fromHtml(
@@ -109,7 +104,6 @@ class LessonFragment :
                 binding.imageQuestion.setImageResource(thumb)
             }
 
-            // 2. LOGIC MỚI: KIỂM TRA ĐÃ HỌC CHƯA ĐỂ KHÔI PHỤC TRẠNG THÁI
             restoreOldState(q.questionId, listAnswer)
         }
 
@@ -139,15 +133,13 @@ class LessonFragment :
             if (selectedAnswer != null && correctAnswer != null) {
 
                 if (selectedAnswer.isCorrect) {
-                    // TRƯỜNG HỢP 1: TRƯỚC ĐÓ LÀM ĐÚNG
-                    selectedAnswer.flag = 2 // Tô xanh đáp án đã chọn
+                    selectedAnswer.flag = 2
                 } else {
-                    // TRƯỜNG HỢP 2: TRƯỚC ĐÓ LÀM SAI
-                    selectedAnswer.flag = 3 // Tô đỏ đáp án đã chọn (để biết mình sai cái nào)
-                    correctAnswer.flag = 2  // Tô xanh đáp án đúng (để học)
+
+                    selectedAnswer.flag = 3
+                    correctAnswer.flag = 2
                 }
 
-                // Hiển thị giải thích
                 binding.layoutEx.visibility = View.VISIBLE
                 binding.layoutExplainAnswer.visibility = View.VISIBLE
                 binding.textExplainAnswer.text = correctAnswer.answerExplain
